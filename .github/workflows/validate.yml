@@ -1,0 +1,25 @@
+name: validate
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Manifest parses and names the plugin
+        run: jq -e '.name == "recursive-spine" and (.description | length > 0)' .claude-plugin/plugin.json
+      - name: Every skill has name + description frontmatter
+        run: |
+          shopt -s nullglob
+          fail=0
+          for f in skills/*/SKILL.md; do
+            head -20 "$f" | grep -q '^name:' || { echo "missing name: $f"; fail=1; }
+            head -20 "$f" | grep -q '^description:' || { echo "missing description: $f"; fail=1; }
+          done
+          exit $fail
+      - name: No overstated maturity in README
+        run: |
+          ! grep -inE 'battle-tested|production-ready' README.md
