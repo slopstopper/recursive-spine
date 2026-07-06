@@ -32,6 +32,15 @@ closes; branches and PRs cite the record.
 Claude Code plugin: `skills/` + `.claude-plugin/plugin.json`. Start with the
 `method` skill; run `bootstrap` when you're ready to stamp a repo.
 
+## Tracking (recursive-spine convention)
+
+Work state lives in GitHub issues and milestones, not in prose files.
+- What's in flight: `gh issue list --assignee @me`
+- Deferred work: `gh issue list --label deferred`
+- Branches: `<prefix>/<issue>-<slug>`; PRs say `Closes #N`.
+- Deferral requires a filed issue. Handover files its debts before closing.
+Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dialect.md)
+
 ## Kin
 
 - [plumb-line](https://github.com/effythealien/plumb-line) — whether claims
