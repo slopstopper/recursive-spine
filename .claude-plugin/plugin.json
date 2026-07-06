@@ -1,6 +1,6 @@
 {
   "name": "recursive-spine",
   "description": "GitHub issues+milestones tracking convention: method, bootstrap, migrate, digest. State lives where it's queryable, not where it merges.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": { "name": "Aoife Okonedo Martin" }
 }
