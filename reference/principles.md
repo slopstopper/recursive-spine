@@ -1,7 +1,9 @@
 # The recursive-spine convention
 
-**Status:** current — extracted from live practice in two repos (plumb-line,
-Veska Index). Nothing here is speculative; everything here is in use.
+**Status:** current (the principles; the plugin tooling around them is
+tracked in the repo's issues) — extracted from live practice in two repos
+(plumb-line, Veska Index). Nothing here is speculative; everything here is
+in use.
 
 ## The recursion doctrine
 

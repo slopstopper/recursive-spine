@@ -10,8 +10,11 @@ conforming repo for aging deferrals and stalled work (`digest`).
 
 **Status: partial.** Extracted from live practice in two repos (plumb-line,
 Veska Index). This is a practice report, not a benchmark. Currently shipped:
-the principles (reference/principles.md). Planned (tracked in this repo's
-own issues — that's the point): method, bootstrap, migrate, digest skills.
+the principles (reference/principles.md) and all four skills — method,
+bootstrap, migrate, digest. Still planned (tracked in this repo's own issues
+— that's the point): the Spine cross-project board (pending `gh project`
+scope, #14), scheduled digest activation (deferred to the Veska cutover
+plan), and the public visibility flip (#10).
 
 ## The recursion
 
@@ -45,7 +48,8 @@ Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dial
 
 - [plumb-line](https://github.com/effythealien/plumb-line) — whether claims
   are honest (provenance, epistemic enforcement).
-- tokenomics — which model does the work (session economics, lanes).
+- tokenomics — which model does the work (session economics, lanes) (not
+  yet published).
 - recursive-spine — where tracked state lives.
 
 MIT.
