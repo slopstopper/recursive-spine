@@ -29,6 +29,9 @@ vocabulary as-is (no repo-specific renaming of "issue", "milestone", etc.).
 
 ## Spine board
 
+**Board owner:** `effythealien` — this installation's designated board
+owner, recorded here (data) so the skills stay owner-neutral (text).
+
 **Status: not created.** `gh project create --owner effythealien --title
 "Spine"` failed:
 

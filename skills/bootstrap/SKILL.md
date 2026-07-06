@@ -53,10 +53,15 @@ seen the convention before, offer the `method` skill before stamping.
   show the diff, get approval before writing.
 - Dialect note: write the interview answers to
   `docs/tracking-dialect.md` (or the repo's docs convention).
-- Board: `gh project item-add <SPINE_BOARD_NUMBER> --owner effythealien
-  --url <repo issue URL>` is per-item; for whole-repo aggregation prefer the
-  board's built-in auto-add workflow — open the board settings URL for the
-  user and confirm they enabled it for this repo.
+- Board: read the board owner and `SPINE_BOARD_NUMBER` from the target repo's
+  `docs/tracking-dialect.md` (or equivalent dialect note) if present. If this
+  is the first repo being stamped and no dialect note yet records a board
+  owner, ask the user which account/org owns their cross-project board and
+  record the answer in the dialect note before proceeding. With owner and
+  number known, `gh project item-add <SPINE_BOARD_NUMBER> --owner
+  <BOARD_OWNER> --url <repo issue URL>` is per-item; for whole-repo
+  aggregation prefer the board's built-in auto-add workflow — open the board
+  settings URL for the user and confirm they enabled it for this repo.
 
 ## 4. Report
 
