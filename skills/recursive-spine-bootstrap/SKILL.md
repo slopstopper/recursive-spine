@@ -1,5 +1,5 @@
 ---
-name: bootstrap
+name: recursive-spine-bootstrap
 description: Use when installing the recursive-spine tracking convention onto a repo — interviews for modules and dialect, then stamps labels, issue/PR templates, a CLAUDE.md/AGENTS.md tracking section, and cross-project board membership. Idempotent; degrades loudly on missing gh scopes; offers (never forces) plumb-line and tokenomics wiring.
 ---
 
@@ -23,6 +23,10 @@ seen the convention before, offer the `method` skill before stamping.
 
 1. Which modules? Deferral is mandatory (offer alias naming, default
    `deferred`). Offer gap / debt / lane with one-line failure-mode pitches.
+   If lane is chosen: ask the builder to NAME their own tiers — offering the
+   tier names found in the repo's tokenomics playbook when one exists. Ship
+   no default lane names — tokenomics' rule; the tiers are the builder's own
+   words.
 2. Dialect: what does this repo call a unit of work? Any existing label
    conventions to respect?
 3. Board: add this repo to the user-level "Spine" Projects board? (Needs the
@@ -41,8 +45,12 @@ seen the convention before, offer the `method` skill before stamping.
   - if gap module: `gap`, `B60205`, "Finding from an assessment".
   - if debt module: `inherited-debt`, `FBCA04`,
     "Known-incomplete edge handed over from a closed unit".
-  - if lane module: `lane:fable` `1D76DB`, `lane:mid` `5319E7`,
-    `lane:small` `C5DEF5`, desc "Model-routing lane".
+  - if lane module: `lane:<tier>` for exactly the tier names the builder
+    named in the interview (never shipped defaults). Color by rank: top
+    tier `1D76DB`, mid tier(s) `5319E7`, smallest tier `C5DEF5` — desc
+    "Model-routing lane". If more than three tiers, note the extra tiers'
+    colors sensibly (e.g. reuse `5319E7` for all middle tiers) rather than
+    inventing new hex values ad hoc.
 - Copy templates from `${CLAUDE_PLUGIN_ROOT}/reference/templates/`:
   `work-item.md` and `deferral.md` → `.github/ISSUE_TEMPLATE/` (substitute
   the chosen deferral label into deferral.md's `labels:` line);

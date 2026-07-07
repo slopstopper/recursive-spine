@@ -1,5 +1,5 @@
 ---
-name: method
+name: recursive-spine-method
 description: Use when a builder wants to learn or be reminded of the recursive-spine tracking convention — where work state lives (GitHub issues+milestones, never prose ledgers), the five principles, the module system, and how to design a repo's dialect. Pure knowledge; takes no actions.
 ---
 
@@ -33,8 +33,17 @@ Each repo keeps its own vocabulary ON TOP of the principles. Guide the user:
   renamed to fit.
 Record the answers as a short dialect note the repo keeps in its docs.
 
+## Vocabulary seams
+
+Same words, different plugins — don't conflate: spine "handover" = a closing
+unit filing its debt issues (principle 4). tokenomics "handoff" = a down-tier
+work spec crossing model tiers. plumb-line "handoff" = a skill-to-skill baton
+pass within one session. plumb-line's internal "spine" (null-result
+expressibility) is unrelated to this plugin's name.
+
 ## What this skill never does
 
 No writes, no `gh` calls, no repo changes. If the user wants the convention
-installed, name `recursive-spine:bootstrap`. If they have an existing prose
-ledger, name `recursive-spine:migrate`. Suggest; never auto-invoke.
+installed, name `recursive-spine:recursive-spine-bootstrap`. If they have an
+existing prose ledger, name `recursive-spine:recursive-spine-migrate`.
+Suggest; never auto-invoke.

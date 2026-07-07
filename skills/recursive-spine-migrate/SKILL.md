@@ -1,5 +1,5 @@
 ---
-name: migrate
+name: recursive-spine-migrate
 description: Use when converting a repo's existing prose work-ledgers (status files, queue tables, gap/debt registers, follow-up files, deferral tails) into GitHub issues and milestones under the recursive-spine convention. Dry-run by default — inventories and proposes, writes nothing. Live mode files issues with back-links and produces a retirement checklist; never deletes history, never migrates closed work.
 ---
 
