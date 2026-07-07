@@ -45,7 +45,7 @@ The active `gh` token has scopes `gist, read:org, repo, workflow` — no
 browser/device-code confirmation this automation session could not
 complete. This gap is recorded, not silently skipped, per the bootstrap
 skill's preflight step: see issue
-[#14](https://github.com/effythealien/recursive-spine/issues/14) ("spine:
+[#14](https://github.com/slopstopper/recursive-spine/issues/14) ("spine:
 board membership pending (missing gh project scope)").
 
 **To unblock:** run `gh auth refresh -s project,read:project` interactively,

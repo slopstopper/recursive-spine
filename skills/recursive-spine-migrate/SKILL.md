@@ -31,7 +31,7 @@ and only after they have reviewed a dry-run report.
 ## Live mode
 
 Preconditions: dry-run report reviewed by the user; repo already stamped by
-`bootstrap` (labels exist).
+`recursive-spine-bootstrap` (labels exist).
 
 1. File each approved mapping row via `gh issue create` / `gh api` for
    milestones. Every issue body starts with

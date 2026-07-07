@@ -44,6 +44,5 @@ expressibility) is unrelated to this plugin's name.
 ## What this skill never does
 
 No writes, no `gh` calls, no repo changes. If the user wants the convention
-installed, name `recursive-spine:recursive-spine-bootstrap`. If they have an
-existing prose ledger, name `recursive-spine:recursive-spine-migrate`.
-Suggest; never auto-invoke.
+installed, name `recursive-spine-bootstrap`. If they have an existing prose
+ledger, name `recursive-spine-migrate`. Suggest; never auto-invoke.

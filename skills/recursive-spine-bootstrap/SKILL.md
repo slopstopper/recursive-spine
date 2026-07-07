@@ -7,7 +7,8 @@ description: Use when installing the recursive-spine tracking convention onto a 
 
 Stamp the convention onto the current repo. Read
 `${CLAUDE_PLUGIN_ROOT}/reference/principles.md` first. If the user hasn't
-seen the convention before, offer the `method` skill before stamping.
+seen the convention before, offer the `recursive-spine-method` skill before
+stamping.
 
 ## 1. Preflight (fail loud, not silent)
 
