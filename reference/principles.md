@@ -50,8 +50,10 @@ The bootstrap stamps the mandatory module and offers the rest; repos choose.
   issues cite the gaps they close.
 - **Debt module** — `inherited-debt` label; handover debts are filed against
   the *next* unit's milestone.
-- **Lane module** — `lane:fable` / `lane:mid` / `lane:small` labels carrying
-  model-routing economics (see the tokenomics project).
+- **Lane module** — `lane:<tier>` labels carrying model-routing economics
+  (see the tokenomics project). Tier names come from the builder's own
+  interview answers (or their repo's tokenomics playbook, when one exists) —
+  never shipped defaults.
 - **Dialect note** — a short in-repo doc naming the repo's local vocabulary
   and how it maps to these principles.
 

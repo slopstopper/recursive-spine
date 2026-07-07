@@ -1,0 +1,11 @@
+{
+  "name": "recursive-spine",
+  "owner": { "name": "Aoife Okonedo Martin" },
+  "plugins": [
+    {
+      "name": "recursive-spine",
+      "source": "./",
+      "description": "GitHub issues+milestones tracking convention — four skills (recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate, recursive-spine-digest). State lives where it's queryable, not where it merges. Get oriented: run recursive-spine-method first."
+    }
+  ]
+}

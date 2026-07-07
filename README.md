@@ -4,14 +4,16 @@ A tracking convention that survives being applied to itself.
 
 Work state lives in GitHub issues and milestones — queryable, conflict-free —
 never in prose ledger files that merge as text and lose rows. This plugin
-teaches the convention (`method`), stamps it onto repos (`bootstrap`),
-converts existing prose ledgers to it (`migrate`), and sweeps every
-conforming repo for aging deferrals and stalled work (`digest`).
+teaches the convention (`recursive-spine-method`), stamps it onto repos
+(`recursive-spine-bootstrap`), converts existing prose ledgers to it
+(`recursive-spine-migrate`), and sweeps every conforming repo for aging
+deferrals and stalled work (`recursive-spine-digest`).
 
 **Status: partial.** Extracted from live practice in two repos (plumb-line,
 Veska Index). This is a practice report, not a benchmark. Currently shipped:
-the principles (reference/principles.md) and all four skills — method,
-bootstrap, migrate, digest. Still planned (tracked in this repo's own issues
+the principles (reference/principles.md) and all four skills —
+recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate,
+recursive-spine-digest. Still planned (tracked in this repo's own issues
 — that's the point): the Spine cross-project board (pending `gh project`
 scope, #14), scheduled digest activation (deferred to the Veska cutover
 plan), and the public visibility flip (#10).
@@ -32,8 +34,22 @@ closes; branches and PRs cite the record.
 
 ## Install
 
-Claude Code plugin: `skills/` + `.claude-plugin/plugin.json`. Start with the
-`method` skill; run `bootstrap` when you're ready to stamp a repo.
+**As a Claude Code plugin (recommended).** The repository is its own
+plugin marketplace. From inside Claude Code:
+
+```
+/plugin marketplace add slopstopper/recursive-spine
+/plugin install recursive-spine@recursive-spine
+```
+
+The first command registers the repo as a marketplace; the second installs
+the four skills. Updates come through `/plugin`. Start with the
+`recursive-spine-method` skill; run `recursive-spine-bootstrap` when you're
+ready to stamp a repo.
+
+**Manually.** Clone the repository and point Claude Code at the plugin
+directory (`skills/` + `.claude-plugin/plugin.json`), or add it under
+`plugins` in your `.claude/settings.json`.
 
 ## Tracking (recursive-spine convention)
 
@@ -46,10 +62,10 @@ Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dial
 
 ## Kin
 
-- [plumb-line](https://github.com/effythealien/plumb-line) — whether claims
+- [plumb-line](https://github.com/slopstopper/plumb-line) — whether claims
   are honest (provenance, epistemic enforcement).
-- tokenomics — which model does the work (session economics, lanes) (not
-  yet published).
+- [tokenomics](https://github.com/slopstopper/tokenomics) — which model does
+  the work (session economics, lanes).
 - recursive-spine — where tracked state lives.
 
 MIT.

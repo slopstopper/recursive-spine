@@ -1,5 +1,5 @@
 ---
-name: digest
+name: recursive-spine-digest
 description: Use when sweeping all recursive-spine-conforming repos for tracking health — aging deferrals (oldest first), stalled milestones, in-flight by lane, assigned-but-untouched issues, and debts named in closing comments but never filed. Reports honest denominators; includes the recursive-spine repo itself in every sweep.
 ---
 
