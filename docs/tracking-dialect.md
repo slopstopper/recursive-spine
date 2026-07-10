@@ -84,3 +84,19 @@ Not configured. Views (by repo, by lane, by deferral age) are UI-only
 configuration on the Projects v2 board itself and cannot be created via
 `gh` CLI. Same for the board's auto-add workflow (workflows → auto-add per
 repo) — also UI-only. Both remain to be done by hand once the board exists.
+
+## pollinate: hives (this installation)
+
+Recorded per the pollinate skill's interview (recursion: this repo
+configures itself first).
+
+- **Public hive:** `slopstopper/recursive-spine` (this repo, `pollen/`) —
+  pollen whose proof is public (plumb-line, tokenomics, this repo).
+  Must stay self-contained: no references readers can't resolve.
+- **Private hive:** not yet created — tracked as
+  [#40](https://github.com/slopstopper/recursive-spine/issues/40). Until
+  it exists, capture of private-proof pollen degrades loudly: draft
+  locally, do not file into this repo.
+
+Routing rule: pollen inherits the visibility of its proof.
+Declassification into the public hive is a deliberate, scrubbed act.
