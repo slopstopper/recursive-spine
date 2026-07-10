@@ -21,13 +21,26 @@ tracking convention into a recursive system.
 - **Capture is layered.** Three capture points, all producing the same
   record type: in-flow on noticing (primary), at handover/close (safety
   net, extends principle 4), and retrospective sweep (backstop).
-- **The hive is configuration, not a constant.** Per the house rule that
-  killed hardcoded owners and lanes (#19, #22), the pollinate skill asks
-  for the builder's hive repo on first use and remembers it in the dialect
-  note — it never ships a default. *This builder's* hive is
-  recursive-spine, where graduated skills also ship through the
-  marketplace this repo already is; another installer's hive is whatever
-  repo they name. Pollen inherits the hive repo's visibility.
+- **Hives are configuration, and plural.** Per the house rule that killed
+  hardcoded owners and lanes (#19, #22), the pollinate skill asks for the
+  builder's hive repo(s) on first use and remembers them in the dialect
+  note — it never ships a default. A hive list keeps public and private
+  work from conflating:
+  - **Capture routes by the visibility of the proof.** Pollen proven in a
+    private repo files into a private hive (its provenance link would leak
+    the project otherwise); pollen proven in a public repo files into the
+    public hive. A public hive must be self-contained — no dangling
+    references to repos its readers cannot see.
+  - **Pull reads every configured hive**, so cross-pollination spans the
+    builder's whole ecosystem even though storage is split.
+  - **Declassification is a deliberate act:** a private pollen may be
+    re-filed into a public hive with scrubbed/abstracted provenance
+    ("proven in a private production app"), akin to graduation.
+  - *This builder's* hives: recursive-spine (public-scope pollen; graduated
+    skills also ship through the marketplace this repo already is) and a
+    private personal hive repo for private-scope pollen and personal
+    cross-project state. A fresh installer configures one hive of their
+    own and is never exposed to anyone else's.
 - **Distribution is pull-on-demand.** Push (sweep-proposed transplants in
   target repos) is deferred: #38.
 - **Structured registry from day one.** Records carry machine-readable
@@ -125,8 +138,13 @@ siblings.
 2. #34 identity rewrite.
 3. Vertebra 2 (scaffold), consuming pollen at bootstrap from day one.
 4. Vertebra 3 (connective tissue), carrying the capture prompt.
-5. Ops debts (#35 board workflows, #21 digest schedule, #10 visibility) —
-   owner-paced, independent.
+5. Two-hive separation: stand up the private personal hive; personal-scope
+   state (private-repo board membership, digest sweep of private repos,
+   private-proof pollen) points there. Precondition for a clean #10 flip.
+6. Ops debts (#35 board workflows, #21 digest schedule, #10 visibility) —
+   owner-paced, independent. Flip-time residue for #10: existing issue
+   history mentions personal project *names* (never content); either
+   accept that or minimally edit those issue texts before flipping.
 
 ## Acceptance criteria (the recursion test)
 
