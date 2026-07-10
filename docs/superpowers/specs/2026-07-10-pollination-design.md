@@ -21,8 +21,13 @@ tracking convention into a recursive system.
 - **Capture is layered.** Three capture points, all producing the same
   record type: in-flow on noticing (primary), at handover/close (safety
   net, extends principle 4), and retrospective sweep (backstop).
-- **The hive is this repo.** Pollen records live in recursive-spine;
-  graduated skills ship through the marketplace this repo already is.
+- **The hive is configuration, not a constant.** Per the house rule that
+  killed hardcoded owners and lanes (#19, #22), the pollinate skill asks
+  for the builder's hive repo on first use and remembers it in the dialect
+  note — it never ships a default. *This builder's* hive is
+  recursive-spine, where graduated skills also ship through the
+  marketplace this repo already is; another installer's hive is whatever
+  repo they name. Pollen inherits the hive repo's visibility.
 - **Distribution is pull-on-demand.** Push (sweep-proposed transplants in
   target repos) is deferred: #38.
 - **Structured registry from day one.** Records carry machine-readable
