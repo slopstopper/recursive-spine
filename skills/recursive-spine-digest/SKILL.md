@@ -1,6 +1,6 @@
 ---
 name: recursive-spine-digest
-description: Use when sweeping all recursive-spine-conforming repos for tracking health — aging deferrals (oldest first), stalled milestones, in-flight by lane, assigned-but-untouched issues, and debts named in closing comments but never filed. Reports honest denominators; includes the recursive-spine repo itself in every sweep.
+description: Use when sweeping all recursive-spine-conforming repos for tracking health — aging deferrals (oldest first), stalled milestones, in-flight by lane, assigned-but-untouched issues, and debts named in closing comments but never filed, plus seedling pollen that never transplanted (hive repos). Reports honest denominators; includes the recursive-spine repo itself in every sweep.
 ---
 
 # recursive-spine: digest
@@ -32,6 +32,10 @@ sweep — a digest that exempts its own repo is lying about its coverage.
   comment contains "debt", "deferred", "follow-up", or "left behind" with no
   issue reference (#N) in the same comment. Flag for human eyes; do not
   auto-file.
+- **Seedling pollen (hive repos only):** open `pollen`-labeled issues whose
+  record still says `stage: seedling`, sorted oldest-first with age in
+  days — pollen that never transplanted is a signal, same as an aging
+  deferral. Omit the section for repos that are not a configured hive.
 
 ## The report
 

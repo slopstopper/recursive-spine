@@ -18,8 +18,9 @@ Do not paraphrase the principles loosely — state them exactly, then explain.
 3. Explain the recursion doctrine: the convention was built under itself
    (issues before code, self-bootstrap, self-digest) and any adopting repo
    can hold it to that standard.
-4. Walk the module system: deferral label mandatory, gap/debt/lane optional.
-   Ask which failure modes the user actually has before recommending modules.
+4. Walk the module system: deferral label mandatory; gap/debt/lane/
+   pollination optional. Ask which failure modes the user actually has
+   before recommending modules.
 
 ## Dialect design
 
@@ -31,6 +32,8 @@ Each repo keeps its own vocabulary ON TOP of the principles. Guide the user:
   module.
 - Do you route work across model tiers or people? If yes → lane module,
   renamed to fit.
+- Do elements that proved themselves in one project die there? If yes →
+  pollination module (`recursive-spine-pollinate`).
 Record the answers as a short dialect note the repo keeps in its docs.
 
 ## Vocabulary seams
@@ -45,4 +48,6 @@ expressibility) is unrelated to this plugin's name.
 
 No writes, no `gh` calls, no repo changes. If the user wants the convention
 installed, name `recursive-spine-bootstrap`. If they have an existing prose
-ledger, name `recursive-spine-migrate`. Suggest; never auto-invoke.
+ledger, name `recursive-spine-migrate`. If something just proved itself
+and should travel, name `recursive-spine-pollinate`. Suggest; never
+auto-invoke.
