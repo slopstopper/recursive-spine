@@ -9,6 +9,12 @@ text and silently lose rows. Around that core: scaffolded house
 conventions, drift-gated constraints, and a closing record posted on
 every unit of work.
 
+The name is literal. **Spine:** the plugin grows the backbone vertebra
+by vertebra — tracking, scaffold, connective tissue, pollination.
+**Recursive:** every vertebra was built under the convention it
+enforces, and the system feeds what its own use proves back into
+itself — self-applied became self-improving.
+
 The part you won't find elsewhere is **cross-project propagation**.
 When something proves itself in one project — a CI gate, a convention,
 a pattern — it usually dies there. Here it gets captured as **pollen**:
