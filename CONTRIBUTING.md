@@ -14,6 +14,20 @@ product. The short version:
 - **CI is the truth gate.** `.github/workflows/validate.yml` checks the
   manifest, skill frontmatter, README maturity claims, pollen schema,
   and constraints drift. Green is a merge precondition.
+
+This file carries a real, checked copy of the global constraints —
+proof the gate protects something, not just a documented format:
+
+<!-- constraints-copy: docs/constraints.md @ 3522737e47e37786a5e40830297efb3f38feac90 -->
+<!-- constraints:begin -->
+- Nothing invented ships: worked examples, pollen, and frames are structure-faithful abstractions of real use.
+- Kin wiring (plumb-line, tokenomics) is data in the dialect note, never skill text; offers, never requirements.
+- Every skill's `description:` frontmatter opens with its moment of use.
+- Skill names are self-prefixed: `recursive-spine-<name>`.
+- GitHub Actions checkout stays pinned to `actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5`.
+- README status claims carry honest denominators; the maturity gate bans "battle-tested" and "production-ready".
+<!-- constraints:end -->
+
 - **Nothing invented ships.** Pollen records and worked examples must
   abstract something that actually worked somewhere, with provenance.
   This is enforced culturally and in review, not just in CI.
