@@ -68,9 +68,13 @@ the proof source *is* this repo's own registry-in-progress — the
 recursion case the skill's dialect note already calls out ("this repo
 configures itself first"). `docs/tracking-dialect.md` labels this
 directory the installation's "public hive" (for pollen whose proof is
-public), which is itself a slight mismatch worth flagging honestly: the
-repo's GitHub visibility is PRIVATE, so "public hive" here means "the
-hive for pollen sourced from readable-in-context proof," not "a
-publicly-readable directory." Until the private hive (#40) exists, this
-self-referential capture is the only option, and it is recorded here
-rather than silently smoothed over.
+public), which read at first like a mismatch: the repo's GitHub
+visibility is PRIVATE while issue #10's flip is pending. That tension is
+now resolved by owner decision, codified in `docs/tracking-dialect.md`'s
+"pollinate: hives" section: the public hive is scoped to the slopstopper
+ecosystem (recursive-spine, plumb-line, tokenomics), not to this repo's
+current GitHub setting — "public" names the scope, not the visibility
+flag. This pollen's proof (slopstopper/recursive-spine#19) is
+slopstopper-scope, so it routes here correctly regardless of #10's
+status. The loud-degrade rule in that section applies only to
+personal/private-scope proofs (the #40 hive's scope), which this is not.
