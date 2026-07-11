@@ -45,6 +45,19 @@ sweep — a digest that exempts its own repo is lying about its coverage.
   record, which is what makes staleness measurable.) Omit for repos
   without the connective-tissue part.
 
+## Spine health (repos that carry the scripts)
+
+If the swept repo has `scripts/spine-audit.sh` (convention adherence:
+closed units without handover records, merged PRs citing no issue,
+branches off the naming convention) and/or `scripts/spine-doctor.sh`
+(installation integrity: labels vs the dialect note's record, board
+membership staleness, stamped parts still present and wired), run them
+from the repo root and fold their WARN/NOTE lines into that repo's
+section. Both are report-only and always exit 0 — findings are digest
+material, never CI failures. If the scripts are absent, say so:
+"installation predates the health scripts" is a line in the report, not
+a silent skip.
+
 ## The report
 
 One section per repo, then a cross-repo "oldest five deferrals anywhere"
