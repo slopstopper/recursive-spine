@@ -48,4 +48,6 @@ copies match their pinned canonical source.
 - something just proved itself → capture it (recursive-spine-pollinate)
 - closing a unit of work → recursive-spine-handover (files debts, asks the pollen question, posts the closing record)
 - "where does work stand?" → recursive-spine-digest
+- "has the spine itself drifted?" → scripts/spine-audit.sh +
+  scripts/spine-doctor.sh (report-only; the digest folds them in)
 - stamping a new repo → recursive-spine-bootstrap, then recursive-spine-scaffold
