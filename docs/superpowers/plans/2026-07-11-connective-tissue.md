@@ -107,7 +107,7 @@ git add -A && git commit -qm "canonical v2"
 
 echo "test 4: unreadable pin fails"
 cat > docs/bad.md <<'EOF'
-<!-- constraints-copy: docs/constraints.md @ <invalid> -->
+<!-- constraints-copy: docs/constraints.md @ 0000000 -->
 <!-- constraints:begin -->
 - rule one
 <!-- constraints:end -->

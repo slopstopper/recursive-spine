@@ -93,4 +93,20 @@ git add docs/detached.md
 out=$("$CHECKER" 2>&1) && { echo "FAIL: detached marker should fail"; exit 1; }
 printf '%s\n' "$out" | grep -q 'no constraints block immediately after marker' || { echo "FAIL: detached marker must print the adjacency error"; exit 1; }
 
-echo "all 6 tests passed"
+echo "test 7: fenced example with well-formed but unreadable pin is ignored"
+git rm -qf docs/detached.md
+cat > docs/example-doc.md <<'EOF'
+# a spec explaining the marker format
+
+```
+<!-- constraints-copy: docs/constraints.md @ 0000000 -->
+<!-- constraints:begin -->
+- rule one
+<!-- constraints:end -->
+```
+EOF
+git add docs/example-doc.md
+out=$("$CHECKER" 2>&1) || { echo "FAIL: fenced example must not fail the gate"; exit 1; }
+printf '%s\n' "$out" | grep -q 'DRIFT-GATE FAIL' && { echo "FAIL: fenced example must print no DRIFT-GATE FAIL"; exit 1; }
+
+echo "all 7 tests passed"

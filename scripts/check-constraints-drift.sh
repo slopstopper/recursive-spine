@@ -59,7 +59,11 @@ while IFS= read -r file; do
       diff <(printf '%s\n' "$canonical") <(printf '%s\n' "$copied") | sed 's/^/    /'
       echo 1 >> "$fail_file"
     fi
-  done < <(grep -n -e 'constraints-copy:' "$file")
+  # Fenced examples are documentation by construction: a well-formed
+  # constraints-copy marker inside a ``` or ~~~ fence is a worked example
+  # of the format, not a real provenance claim, so it is excluded from
+  # collection entirely (fences toggle state; both fence styles count).
+  done < <(awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f && /constraints-copy:/{print NR": "$0}' "$file")
 done < <(git grep -l -e 'constraints-copy:' -- ':!scripts/' ':!reference/templates/' 2>/dev/null)
 
 if [ -s "$fail_file" ]; then
