@@ -6,7 +6,7 @@ along the grain of what each part is for:
 | Scope | Licence | Why |
 | --- | --- | --- |
 | `skills/`, `docs/`, `reference/`, `pollen/`, `README.md`, and all other prose | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | The method and its propagation primitives. Take them anywhere, adapt them, use them commercially — the credit line travels with every copy. |
-| `scripts/`, `.github/` | [MIT](LICENSES/MIT.txt) | Plumbing. |
+| `scripts/`, `.github/` | [Apache-2.0](LICENSES/Apache-2.0.txt) | Plumbing. |
 
 **Attribution, in the manner we request (CC BY 4.0 §3(a)(1)):** one
 line, wherever your copy or adaptation lives —
