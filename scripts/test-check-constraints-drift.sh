@@ -75,4 +75,22 @@ git add docs/malformed.md
 out=$("$CHECKER" 2>&1) || { echo "FAIL: unparseable mention must not fail the gate"; exit 1; }
 printf '%s\n' "$out" | grep -q 'DRIFT-GATE NOTE' || { echo "FAIL: unparseable mention must print a NOTE"; exit 1; }
 
-echo "all 5 tests passed"
+echo "test 6: marker with no adjacent constraints block fails loudly"
+git rm -qf docs/malformed.md
+cat > docs/detached.md <<EOF
+# a doc
+<!-- constraints-copy: docs/constraints.md @ $sha -->
+
+some unrelated prose that pushes the block further down
+
+
+
+<!-- constraints:begin -->
+- rule one
+<!-- constraints:end -->
+EOF
+git add docs/detached.md
+out=$("$CHECKER" 2>&1) && { echo "FAIL: detached marker should fail"; exit 1; }
+printf '%s\n' "$out" | grep -q 'no constraints block immediately after marker' || { echo "FAIL: detached marker must print the adjacency error"; exit 1; }
+
+echo "all 6 tests passed"

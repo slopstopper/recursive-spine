@@ -23,7 +23,10 @@ first_block() {
 }
 
 fail=0
-for file in $(git grep -l -e 'constraints-copy:' -- ':!scripts/' ':!reference/templates/' 2>/dev/null); do
+fail_file=$(mktemp)
+trap 'rm -f "$fail_file"' EXIT
+
+while IFS= read -r file; do
   while IFS=: read -r ln _; do
     line=$(sed -n "${ln}p" "$file")
     src=$(printf '%s\n' "$line" | sed -nE 's/.*constraints-copy: *([^ ]+) @ ([0-9a-f]{7,40}) .*/\1/p')
@@ -35,18 +38,31 @@ for file in $(git grep -l -e 'constraints-copy:' -- ':!scripts/' ':!reference/te
       echo "DRIFT-GATE NOTE: $file:$ln — unparseable constraints-copy mention (documentation? a real marker must be: constraints-copy: <path> @ <hex sha>)"
       continue
     fi
+    # The copied block must begin within the next few lines of the marker
+    # (conventional layout allows one blank line); otherwise we would risk
+    # silently scanning past unrelated content to a later, unrelated block.
+    begin_offset=$(sed -n "$((ln + 1)),$((ln + 3))p" "$file" | grep -n -m1 -e '<!-- constraints:begin -->' | cut -d: -f1)
+    if [ -z "$begin_offset" ]; then
+      echo "DRIFT-GATE FAIL: $file:$ln — no constraints block immediately after marker"
+      echo 1 >> "$fail_file"
+      continue
+    fi
     canonical=$(git show "${sha}:${src}" 2>/dev/null | first_block)
     if [ -z "$canonical" ]; then
       echo "DRIFT-GATE FAIL: $file:$ln — cannot read $src @ $sha (bad sha, bad path, or shallow clone; CI needs fetch-depth: 0)"
-      fail=1
+      echo 1 >> "$fail_file"
       continue
     fi
-    copied=$(tail -n +"$ln" "$file" | first_block)
+    copied=$(tail -n +"$((ln + begin_offset))" "$file" | first_block)
     if [ "$copied" != "$canonical" ]; then
       echo "DRIFT-GATE FAIL: $file:$ln — copy drifted from $src @ $sha:"
       diff <(printf '%s\n' "$canonical") <(printf '%s\n' "$copied") | sed 's/^/    /'
-      fail=1
+      echo 1 >> "$fail_file"
     fi
   done < <(grep -n -e 'constraints-copy:' "$file")
-done
+done < <(git grep -l -e 'constraints-copy:' -- ':!scripts/' ':!reference/templates/' 2>/dev/null)
+
+if [ -s "$fail_file" ]; then
+  fail=1
+fi
 exit $fail
