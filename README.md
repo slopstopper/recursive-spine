@@ -1,24 +1,42 @@
 # recursive-spine
 
-A tracking convention that survives being applied to itself.
+A portable project spine, recursively self-applied.
 
-Work state lives in GitHub issues and milestones — queryable, conflict-free —
-never in prose ledger files that merge as text and lose rows. This plugin
-teaches the convention (`recursive-spine-method`), stamps it onto repos
+The name is literal. **Spine:** the plugin grows a backbone for a project,
+vertebra by vertebra — tracking, scaffold, connective tissue, pollination.
+**Recursive:** every vertebra is built under the convention it enforces,
+and since pollination shipped, the system feeds what its own use proves
+back into itself — self-applied became self-improving.
+
+The first vertebra is tracking: work state lives in GitHub issues and
+milestones — queryable, conflict-free — never in prose ledger files that
+merge as text and lose rows. This plugin teaches the convention
+(`recursive-spine-method`), stamps it onto repos
 (`recursive-spine-bootstrap`), converts existing prose ledgers to it
 (`recursive-spine-migrate`), and sweeps every conforming repo for aging
-deferrals and stalled work (`recursive-spine-digest`). A fifth skill,
-`recursive-spine-pollinate`, captures elements that proved themselves in
-one project and pulls them into others.
+deferrals and stalled work (`recursive-spine-digest`). The fourth vertebra
+is pollination: `recursive-spine-pollinate` captures elements that proved
+themselves in one project and pulls them into others.
 
-**Status: partial.** Extracted from live practice in two repos (plumb-line,
-Veska Index). This is a practice report, not a benchmark. Currently shipped:
-the principles (reference/principles.md) and all five skills —
-recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate,
-recursive-spine-digest, recursive-spine-pollinate. Still planned (tracked in this repo's own issues
-— that's the point): the Spine cross-project board (pending `gh project`
-scope, #14), scheduled digest activation (deferred to the Veska cutover
-plan), and the public visibility flip (#10).
+**Status, with an honest denominator: two of four vertebrae shipped.**
+
+- **Vertebra 1 — tracking: shipped.** The five principles
+  (reference/principles.md) and four of the five skills, extracted from
+  live practice in two repos (plumb-line, Veska Index). A practice report,
+  not a benchmark.
+- **Vertebra 4 — pollination: shipped** (built out of order, deliberately:
+  it captures learnings from building the other two). The pollinate skill,
+  the `pollen/` registry, and the graduation ladder.
+- **Vertebra 2 — scaffold: planned**, tracked as #32 — bootstrap stamps a
+  full project spine, not just tracking.
+- **Vertebra 3 — connective tissue: planned**, tracked as #33 — generated
+  spec/plan/handover docs, constraints from one canonical source.
+
+The remaining work is tracked in this repo's own issues — that's the
+point. Operational loose ends live in the open too: the Spine
+cross-project board exists (created 2026-07-08) but its auto-add is
+UI-only and pending (#35), the scheduled digest is deferred (#21), and
+the public visibility flip is pending (#10).
 
 ## The recursion
 

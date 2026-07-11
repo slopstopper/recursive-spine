@@ -5,6 +5,11 @@ tracked in the repo's issues) — extracted from live practice in two repos
 (plumb-line, Veska Index). Nothing here is speculative; everything here is
 in use.
 
+These principles govern the tracking vertebra — the first of four
+(tracking, scaffold, connective tissue, pollination) in the portable
+project spine this repo builds, and the one the others stand on. The
+full-spine mission and per-vertebra maturity live in the README.
+
 ## The recursion doctrine
 
 A tracking convention must survive being applied to the system that defines
