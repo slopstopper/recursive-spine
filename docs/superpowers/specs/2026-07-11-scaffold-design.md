@@ -84,6 +84,40 @@ is recorded through the pollinate skill's existing pull-mode procedure —
 comment on the pollen issue plus `transplants:` append. One canonical
 recording path; the scaffold implements no second one.
 
+## Surfacing: skills must appear when their moment arrives
+
+Owner requirement, added at design review: the more skills the plugin
+ships, the less likely anyone thinks to look for them — so invocation must
+be seamless, surfacing each skill when its purpose warrants rather than
+waiting to be remembered. Three mechanisms, all in scope for this
+vertebra:
+
+1. **Moment-tuned descriptions.** A skill's `description` frontmatter is
+   its only trigger surface — the model matches it against what is
+   happening in the session. Every description must name the *moment*
+   ("Use when closing a unit of work…", "Use when something just worked
+   well and would help another project…"), not just the feature. This
+   vertebra writes the scaffold's description that way and audits the
+   five existing descriptions against the same standard (retuning is
+   cheap; it is frontmatter text).
+2. **Cross-skill referral seams.** Each skill offers its neighbor at the
+   natural boundary, so one surfaced skill carries the builder to the
+   next: scaffold offers bootstrap when tracking is missing; bootstrap
+   already offers method; principle 4 already makes closing ask the
+   pollen question. The scaffold adds its own: after stamping, it names
+   the digest cadence and the capture moment once, in its report.
+3. **Stamped surfacing — the repo becomes self-surfacing.** The rules
+   codex frame carries a short **moments map**: one line per moment →
+   skill ("postponing something → file it with the deferral label
+   (recursive-spine-method); something proved itself → capture it
+   (recursive-spine-pollinate); sweeping for stalled work →
+   recursive-spine-digest"). A codex file is read at the start of every
+   agent session in that repo, so the right skill surfaces from the
+   repo's own walls — no one has to remember the plugin's catalogue.
+   The moments map is a frame section like any other: the interview fills
+   it with the skills and moments the builder actually uses, seeded with
+   the spine's own.
+
 ## Kin boundaries
 
 Same contract as bootstrap: plumb-line guard wiring and tokenomics
