@@ -14,8 +14,9 @@ repo's dialect note — `docs/tracking-dialect.md` or equivalent), then read
 the repo list from the Spine board (`gh project item-list <N> --owner
 <BOARD_OWNER>`), falling back to the repo set recorded in the dialect note
 of the repo you were invoked from; the author's founding set
-(recursive-spine, plumb-line, tokenomics, Veska_Index_App) is the documented
-default for this installation. recursive-spine ITSELF is always in the
+(recursive-spine, plumb-line, tokenomics) is the documented default for
+this installation, with private repos read from the private hive's
+dialect note rather than named here. recursive-spine ITSELF is always in the
 sweep — a digest that exempts its own repo is lying about its coverage.
 
 ## The sweep (per repo, via gh)

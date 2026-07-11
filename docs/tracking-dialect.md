@@ -15,8 +15,9 @@ All four modules stamped — this repo dogfoods everything the skill offers:
   model-agnostic so routing survives model changes — matching the
   tokenomics portable method, whose top tier is already named "Flagship"
   and whose CI bans model names in lane vocabulary. Labels renamed in
-  place on this repo and `effythealien/Veska_Index_App`, so existing
-  issues carried over automatically.)
+  place on this repo and the owner's private repos (recorded in the
+  private hive's dialect note), so existing issues carried over
+  automatically.)
 
 ## Dialect
 
@@ -65,16 +66,21 @@ interactively. Issue #14 (board pending) is closed.
 | --- | --- |
 | `slopstopper/recursive-spine` | 7 |
 | `slopstopper/plumb-line` | 32 |
-| `effythealien/Veska_Index_App` | 45 |
 | `slopstopper/tokenomics` | 0 — no open issues, so nothing to add |
+
+Personal-repo membership moved to the private hive's board
+(`effythealien/private-hive`, #40); this board is public-scope
+(slopstopper repos).
 
 Honest denominator: tokenomics contributes zero items because it has zero
 open issues, not because it was skipped. Membership is a point-in-time
 snapshot; see "Auto-add" below for why it does not stay current by itself.
 
-**Board visibility: private, and it must stay private.** The board
-aggregates issues from private repos (`Veska_Index_App`, and this repo
-until its #10 flip). A public board would expose their issue titles.
+**Board visibility: private for now.** The board no longer aggregates
+personal-repo issues — the split completed 2026-07-11 (#40): the 45
+personal-repo items were added to the private hive's board and then
+removed from this one. What keeps this board private today is this repo's
+own pending visibility flip ([#10](https://github.com/slopstopper/recursive-spine/issues/10)).
 Anyone making this board public must first confirm every member repo is
 public.
 
@@ -82,8 +88,9 @@ public.
 
 Previously recorded as an open question: whether a private repo's issues
 could be added to a Projects v2 board on this account's plan tier. **They
-can.** All 84 items, including those from the private `Veska_Index_App`
-and this private repo, were added without error on 2026-07-08. The
+can.** All 84 items, including those from the owner's private repos
+(recorded in the private hive's dialect note) and this private repo, were
+added without error on 2026-07-08. The
 question is settled; the answer is recorded rather than the question
 quietly deleted.
 
@@ -113,12 +120,12 @@ configures itself first).
   tokenomics route here even while this repo's own visibility flip is
   pending ([#10](https://github.com/slopstopper/recursive-spine/issues/10)) —
   "public" names the scope, not this repo's current GitHub setting.
-- **Private hive:** not yet created — tracked as
-  [#40](https://github.com/slopstopper/recursive-spine/issues/40). Until
-  it exists, capture of personal/private-scope pollen (the #40 hive's
-  scope) degrades loudly: draft locally, do not file into this repo.
-  This loud-degrade rule does not apply to slopstopper-scope proofs,
-  which route to the public hive per above regardless of #10's status.
+- **Private hive:** `effythealien/private-hive` (created 2026-07-11,
+  [#40](https://github.com/slopstopper/recursive-spine/issues/40)) —
+  pollen whose proof is personal/private-scope files there, never into
+  this repo. Its board, digest configuration for the owner's private
+  repos, and record schema live in that repo's own dialect note and
+  `pollen/README.md`.
 
 Routing rule: pollen inherits the visibility scope of its proof
 (slopstopper-scope → public hive; personal-scope → private hive #40).
