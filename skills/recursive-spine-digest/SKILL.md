@@ -36,6 +36,13 @@ sweep — a digest that exempts its own repo is lying about its coverage.
   record still says `stage: seedling`, sorted oldest-first with age in
   days — pollen that never transplanted is a signal, same as an aging
   deferral. Omit the section for repos that are not a configured hive.
+- **Stale constraints pins (repos with a constraints file):** docs whose
+  `constraints-copy:` provenance line pins a sha older than the current
+  head of `docs/constraints.md`, where the doc belongs to a still-open
+  issue — aged like deferrals. (Merged/closed docs stay green by design;
+  `recursive-spine-handover` pins the constraints sha in each closing
+  record, which is what makes staleness measurable.) Omit for repos
+  without the connective-tissue part.
 
 ## The report
 

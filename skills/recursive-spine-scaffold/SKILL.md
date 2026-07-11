@@ -1,6 +1,6 @@
 ---
 name: recursive-spine-scaffold
-description: Use when a repo has (or is getting) the tracking stamp and needs the rest of its spine — interviews for and stamps up to four parts, each optional: a rules codex with a moments map, an ADR directory, a CI gate skeleton, and a session-memory convention. Frames + the builder's answers + proven pollen from their hives; nothing invented ships. Offers recursive-spine-bootstrap first when tracking is missing; records every answer, including declines, in the dialect note.
+description: Use when a repo has (or is getting) the tracking stamp and needs the rest of its spine — interviews for and stamps up to five parts, each optional: a rules codex with a moments map, an ADR directory, a CI gate skeleton, a session-memory convention, and a constraints file with its sha-pinned drift gate. Frames + the builder's answers + proven pollen from their hives; nothing invented ships. Offers recursive-spine-bootstrap first when tracking is missing; records every answer, including declines, in the dialect note.
 ---
 
 # recursive-spine: scaffold
@@ -26,7 +26,7 @@ is not stamped.
   declined, proceed pollen-less and say so loudly in the report — never
   substitute a default hive.
 
-## 2. The four parts (interview one at a time, all optional)
+## 2. The five parts (interview one at a time, all optional)
 
 Each part runs the same cycle:
 **offer → interview → pollen check → stamp (diff first) → record.**
@@ -58,6 +58,20 @@ answer before moving on:
    `memory-convention-frame.md`. Pollen offer: `layered-session-memory`.
    This stamps a convention *doc*, never tooling — harness-specific
    tooling is out of scope by design.
+5. **Constraints file + drift gate** — "hand-copied constraints blocks
+   rot independently; drift is a measured vector, not a hypothetical."
+   Frame: `constraints-frame.md`. Interview: which exact-valued
+   constraints (version floors, naming/copy rules, platform
+   requirements, API contracts) must every downstream doc carry? Stamps
+   `docs/constraints.md`; copies
+   `${CLAUDE_PLUGIN_ROOT}/scripts/check-constraints-drift.sh` into the
+   repo's `scripts/` and adds one named CI step running it (checkout
+   needs `fetch-depth: 0` — pinned-sha reads fail on shallow clones).
+   Downstream docs copy the block verbatim under
+   `constraints-copy: docs/constraints.md @ <sha>`; the gate fails
+   drift, and stale pins are the digest's concern, not CI's. No CI
+   workflow accepted or present → stamp the file, state loudly that the
+   gate awaits a workflow.
 
 ## 3. Pollen consumption
 
@@ -93,7 +107,10 @@ Both are offers; both answers land in the dialect note.
 End with: parts stamped (files written), parts declined or already
 present (and why), pollen offered vs. accepted (transplants recorded),
 kin offers and answers, and the repo's next natural moments: "when
-something here proves itself, recursive-spine-pollinate captures it; recursive-spine-digest sweeps this repo on its cadence."
+something here proves itself, recursive-spine-pollinate captures it;
+when your first unit of work closes, recursive-spine-handover assembles
+the closing record; recursive-spine-digest sweeps this repo on its
+cadence."
 Honest denominator throughout — skipped means listed.
 
 ## Never

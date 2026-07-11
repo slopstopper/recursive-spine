@@ -5,7 +5,7 @@
     {
       "name": "recursive-spine",
       "source": "./",
-      "description": "GitHub issues+milestones tracking convention and project scaffold — six skills (recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate, recursive-spine-digest, recursive-spine-pollinate, recursive-spine-scaffold). State lives where it's queryable, not where it merges. Get oriented: run recursive-spine-method first."
+      "description": "GitHub issues+milestones tracking convention and project spine — seven skills (recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate, recursive-spine-digest, recursive-spine-pollinate, recursive-spine-scaffold, recursive-spine-handover). State lives where it's queryable, not where it merges. Get oriented: run recursive-spine-method first."
     }
   ]
 }

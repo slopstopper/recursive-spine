@@ -39,12 +39,13 @@ Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dial
 
 `.github/workflows/validate.yml` holds the repo's mechanical truth
 claims: manifest parses, skill frontmatter present, no overstated
-maturity in the README, pollen records carry the schema.
+maturity in the README, pollen records carry the schema, constraints
+copies match their pinned canonical source.
 
 ## Moments map
 
 - postponing something → file it with the deferral label (recursive-spine-method)
 - something just proved itself → capture it (recursive-spine-pollinate)
-- closing a unit of work → file debts + ask the pollen question (principle 4)
+- closing a unit of work → recursive-spine-handover (files debts, asks the pollen question, posts the closing record)
 - "where does work stand?" → recursive-spine-digest
 - stamping a new repo → recursive-spine-bootstrap, then recursive-spine-scaffold

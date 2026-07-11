@@ -8,47 +8,52 @@ vertebra by vertebra — tracking, scaffold, connective tissue, pollination.
 and since pollination shipped, the system feeds what its own use proves
 back into itself — self-applied became self-improving.
 
-The first vertebra is tracking: work state lives in GitHub issues and
-milestones — queryable, conflict-free — never in prose ledger files that
-merge as text and lose rows. This plugin teaches the convention
-(`recursive-spine-method`), stamps it onto repos
-(`recursive-spine-bootstrap`), converts existing prose ledgers to it
-(`recursive-spine-migrate`), and sweeps every conforming repo for aging
-deferrals and stalled work (`recursive-spine-digest`). The fourth vertebra
-is pollination: `recursive-spine-pollinate` captures elements that proved
-themselves in one project and pulls them into others.
+**Status, with an honest denominator: four of four vertebrae shipped.**
 
-The second vertebra is the scaffold: `recursive-spine-scaffold` stamps
-the rest — rules codex, ADR directory, CI gate skeleton, session-memory
-convention — from frames, the builder's interview, and proven pollen.
+- **Vertebra 1 — tracking:** work state lives in GitHub issues and
+  milestones — queryable, conflict-free — never in prose ledgers that
+  merge as text and lose rows. The five principles
+  (reference/principles.md) and the method, bootstrap, migrate, and
+  digest skills. A practice report, not a benchmark.
+- **Vertebra 2 — scaffold:** stamps the rest of a repo's spine from
+  frames + the builder's interview + proven pollen — rules codex with a
+  moments map, ADR directory, CI gate skeleton, session-memory
+  convention, constraints file.
+- **Vertebra 3 — connective tissue:** `docs/constraints.md` as the one
+  canonical source of global constraints, a sha-pinned drift gate in CI
+  (hand-copies were a measured drift vector), and the closing record
+  posted on each issue when a unit of work ends.
+- **Vertebra 4 — pollination:** captures elements that proved themselves
+  in one project and pulls them into others — the `pollen/` registry and
+  the graduation ladder (seedling → transplanted → graduated).
 
-**Status, with an honest denominator: three of four vertebrae shipped.**
+Build order was deliberately non-sequential (4 → 2 → 3: pollination
+first, so it could capture learnings from building the other two). The
+numbering is the spine's anatomy, not its history.
 
-- **Vertebra 1 — tracking: shipped.** The five principles
-  (reference/principles.md) and four of the six skills, extracted from
-  live practice in two repos (plumb-line, Veska Index). A practice report,
-  not a benchmark.
-- **Vertebra 4 — pollination: shipped** (built out of order, deliberately:
-  it captures learnings from building the other two). The pollinate skill,
-  the `pollen/` registry, and the graduation ladder.
-- **Vertebra 2 — scaffold: shipped.** `recursive-spine-scaffold` stamps
-  rules codex, ADRs, CI gates, and session memory from frames + the
-  builder's interview + proven pollen. Recursion test run against this
-  repo (see `docs/tracking-dialect.md`, "scaffold").
-- **Vertebra 3 — connective tissue: planned**, tracked as #33 — generated
-  spec/plan/handover docs, constraints from one canonical source.
+Seven skills, each surfacing at its moment:
+
+- Learning the convention → `recursive-spine-method`
+- Stamping tracking onto a repo → `recursive-spine-bootstrap`
+- Converting an existing prose ledger → `recursive-spine-migrate`
+- Growing the rest of the spine → `recursive-spine-scaffold`
+- Closing a unit of work → `recursive-spine-handover`
+- Something just proved itself → `recursive-spine-pollinate`
+- "Where does work stand?" → `recursive-spine-digest`
 
 The remaining work is tracked in this repo's own issues — that's the
-point. Operational loose ends live in the open too: the Spine
-cross-project board exists (created 2026-07-08) but its auto-add is
-UI-only and pending (#35), the scheduled digest is deferred (#21), and
-the public visibility flip is pending (#10).
+point. Operational loose ends live in the open too: the Spine board's
+auto-add is UI-only and pending (#35), the scheduled digest is deferred
+(#21), the public visibility flip is pending (#10), and the private-hive
+migration is in flight (#40).
 
 ## The recursion
 
 This repo's issues and milestones existed before its first commit. Its
-labels were stamped by its own bootstrap skill. Its deferrals age on its own
-digest. If the convention ever feels too heavy here, that is a bug in the
+labels were stamped by its own bootstrap skill. Its codex and ADR
+directory were stamped by its own scaffold skill. Its deferrals age on
+its own digest, and its constraints drift-gate runs on its own docs. If
+the convention ever feels too heavy here, that is a bug in the
 convention — filed as an issue, of course.
 
 ## The five principles
@@ -69,7 +74,7 @@ plugin marketplace. From inside Claude Code:
 ```
 
 The first command registers the repo as a marketplace; the second installs
-the six skills. Updates come through `/plugin`. Start with the
+the seven skills. Updates come through `/plugin`. Start with the
 `recursive-spine-method` skill; run `recursive-spine-bootstrap` when you're
 ready to stamp a repo.
 
