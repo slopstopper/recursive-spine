@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0 # drift gate reads canonical file at pinned shas
       - name: Manifest parses and names the plugin
         run: jq -e '.name == "recursive-spine" and (.description | length > 0)' .claude-plugin/plugin.json
       - name: Every skill has name + description frontmatter
@@ -36,3 +38,5 @@ jobs:
             head -20 "$f" | grep -qE '^stage: (seedling|transplanted|graduated)$' || { echo "bad stage enum: $f"; fail=1; }
           done
           exit $fail
+      - name: Constraints copies match their pinned canonical source
+        run: scripts/check-constraints-drift.sh
