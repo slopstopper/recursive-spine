@@ -34,6 +34,10 @@ Each repo keeps its own vocabulary ON TOP of the principles. Guide the user:
   renamed to fit.
 - Do elements that proved themselves in one project die there? If yes →
   pollination module (`recursive-spine-pollinate`).
+- Does the repo need the rest of its spine — rules codex with a moments
+  map, ADR directory, CI gate skeleton, session-memory convention? If
+  yes → `recursive-spine-scaffold` (frames + the builder's interview +
+  proven pollen; every part optional, declines recorded).
 Record the answers as a short dialect note the repo keeps in its docs.
 
 ## Vocabulary seams

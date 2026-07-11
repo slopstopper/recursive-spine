@@ -78,3 +78,7 @@ End with: modules stamped, labels created/updated (names), files written,
 board status (added / pending-scope issue #N), and the exact queries the
 repo now answers (`gh issue list --label <deferral>` etc.). List anything
 skipped and why — honest denominator.
+
+If the repo now wants the rest of its spine — rules codex, ADRs, CI
+gates, session memory — offer `recursive-spine-scaffold` as the natural
+next step (offer, not upsell: one line, their choice).

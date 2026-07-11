@@ -1,0 +1,20 @@
+name: gates
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      # One named step per gate, from the scaffold interview. A gate holds
+      # a MECHANICAL invariant (presence, count, enum, absence) that would
+      # be expensive to break silently. The step name states the claim.
+      # Pattern:
+      # - name: <claim that must stay true>
+      #   run: |
+      #     fail=0
+      #     <grep/jq check> || { echo "<what broke>"; fail=1; }
+      #     exit $fail

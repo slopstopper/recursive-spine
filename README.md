@@ -18,17 +18,23 @@ deferrals and stalled work (`recursive-spine-digest`). The fourth vertebra
 is pollination: `recursive-spine-pollinate` captures elements that proved
 themselves in one project and pulls them into others.
 
-**Status, with an honest denominator: two of four vertebrae shipped.**
+The second vertebra is the scaffold: `recursive-spine-scaffold` stamps
+the rest — rules codex, ADR directory, CI gate skeleton, session-memory
+convention — from frames, the builder's interview, and proven pollen.
+
+**Status, with an honest denominator: three of four vertebrae shipped.**
 
 - **Vertebra 1 — tracking: shipped.** The five principles
-  (reference/principles.md) and four of the five skills, extracted from
+  (reference/principles.md) and four of the six skills, extracted from
   live practice in two repos (plumb-line, Veska Index). A practice report,
   not a benchmark.
 - **Vertebra 4 — pollination: shipped** (built out of order, deliberately:
   it captures learnings from building the other two). The pollinate skill,
   the `pollen/` registry, and the graduation ladder.
-- **Vertebra 2 — scaffold: planned**, tracked as #32 — bootstrap stamps a
-  full project spine, not just tracking.
+- **Vertebra 2 — scaffold: shipped.** `recursive-spine-scaffold` stamps
+  rules codex, ADRs, CI gates, and session memory from frames + the
+  builder's interview + proven pollen. Recursion test run against this
+  repo (see `docs/tracking-dialect.md`, "scaffold").
 - **Vertebra 3 — connective tissue: planned**, tracked as #33 — generated
   spec/plan/handover docs, constraints from one canonical source.
 
@@ -63,7 +69,7 @@ plugin marketplace. From inside Claude Code:
 ```
 
 The first command registers the repo as a marketplace; the second installs
-the five skills. Updates come through `/plugin`. Start with the
+the six skills. Updates come through `/plugin`. Start with the
 `recursive-spine-method` skill; run `recursive-spine-bootstrap` when you're
 ready to stamp a repo.
 

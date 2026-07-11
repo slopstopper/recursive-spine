@@ -1,7 +1,7 @@
 {
   "name": "recursive-spine",
-  "description": "GitHub issues+milestones tracking convention: recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate, recursive-spine-digest, recursive-spine-pollinate. State lives where it's queryable, not where it merges — and what proves itself travels.",
-  "version": "0.4.0",
+  "description": "GitHub issues+milestones tracking convention and project scaffold: recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate, recursive-spine-digest, recursive-spine-pollinate, recursive-spine-scaffold. State lives where it's queryable, not where it merges — what proves itself travels, and the spine stamps the rest.",
+  "version": "0.5.0",
   "author": { "name": "Aoife Okonedo Martin" },
   "homepage": "https://github.com/slopstopper/recursive-spine",
   "repository": {
@@ -16,6 +16,8 @@
     "claude-code-plugin",
     "project-management",
     "pollination",
-    "cross-project"
+    "cross-project",
+    "scaffold",
+    "adr"
   ]
 }
