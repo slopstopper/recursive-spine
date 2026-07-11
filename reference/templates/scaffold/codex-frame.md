@@ -36,6 +36,6 @@
      Format: "<moment> → <skill or action>". Seeds offered:
      - postponing something → file it with the deferral label (recursive-spine-method)
      - something just proved itself → capture it (recursive-spine-pollinate)
-     - closing a unit of work → file debts + ask the pollen question (principle 4)
+     - closing a unit of work → recursive-spine-handover (files debts, asks the pollen question, posts the closing record)
      - "where does work stand?" → recursive-spine-digest
      - stamping a new repo → recursive-spine-bootstrap, then recursive-spine-scaffold -->

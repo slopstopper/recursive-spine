@@ -34,6 +34,9 @@ Each repo keeps its own vocabulary ON TOP of the principles. Guide the user:
   renamed to fit.
 - Do elements that proved themselves in one project die there? If yes →
   pollination module (`recursive-spine-pollinate`).
+- Does closing a unit need its record assembled — debts filed, the
+  pollen question asked, state pointers captured? If yes →
+  `recursive-spine-handover` posts the closing comment on the issue.
 - Does the repo need the rest of its spine — rules codex with a moments
   map, ADR directory, CI gate skeleton, session-memory convention? If
   yes → `recursive-spine-scaffold` (frames + the builder's interview +
@@ -53,5 +56,5 @@ expressibility) is unrelated to this plugin's name.
 No writes, no `gh` calls, no repo changes. If the user wants the convention
 installed, name `recursive-spine-bootstrap`. If they have an existing prose
 ledger, name `recursive-spine-migrate`. If something just proved itself
-and should travel, name `recursive-spine-pollinate`. Suggest; never
-auto-invoke.
+and should travel, name `recursive-spine-pollinate`. If a unit of work
+is closing, name `recursive-spine-handover`. Suggest; never auto-invoke.
