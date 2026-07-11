@@ -41,6 +41,8 @@ tracking convention into a recursive system.
     private personal hive repo for private-scope pollen and personal
     cross-project state. A fresh installer configures one hive of their
     own and is never exposed to anyone else's.
+  - (Amended at execution time: routing codified as scope-based for this
+    installation — see docs/tracking-dialect.md, 'pollinate: hives'.)
 - **Distribution is pull-on-demand.** Push (sweep-proposed transplants in
   target repos) is deferred: #38.
 - **Structured registry from day one.** Records carry machine-readable

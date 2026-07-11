@@ -38,13 +38,15 @@ Hive unreachable → report the error and stop; never guess.
 2. **Route by proof visibility:** `gh repo view <source-repo> --json
    visibility`. Private proof → a private hive; public proof → the public
    hive. If no hive of the required visibility is configured, say so and
-   offer to add one to the dialect note.
-3. **Dedup check:** search the target hive's registry
-   (`gh search code --repo <hive> --filename '*.md' <keywords>` or a raw
-   fetch of `pollen/`) and its `pollen`-labeled issues
-   (`gh issue list -R <hive> --label pollen --search <keywords>`). Near
-   match → offer "record a transplant on the existing pollen" instead of
-   filing a twin.
+   offer to add one to the dialect note. If the dialect note's pollinate
+   section records an explicit routing rule, that recorded rule takes
+   precedence over the raw visibility flag.
+3. **Dedup check:** a raw fetch (or clone) and read of the target hive's
+   `pollen/` directory is the primary, deterministic registry check; use
+   `gh search issues -R <hive> --label pollen --search <keywords>` to
+   also check `pollen`-labeled issues for the same ground. Near match →
+   offer "record a transplant on the existing pollen" instead of filing
+   a twin.
 4. **File the record:** branch + PR to the hive adding
    `pollen/<slug>.md` per the schema (stage `seedling`, `transplants: []`),
    plus artifact files under `pollen/<slug>/` when the pollen is a file.

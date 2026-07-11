@@ -58,8 +58,9 @@ of bug, which is what makes this a pattern rather than a one-off patch.
 
 Per the skill's capture-mode step 2, proof visibility should route the
 pollen to a hive of matching visibility: `gh repo view
-slopstopper/recursive-spine --json visibility` returns `PRIVATE` — this
-repo is private by owner decision (issue #10). Strictly followed, this
+slopstopper/recursive-spine --json visibility` returned `PRIVATE` as of
+2026-07-10 (pending the #10 flip) — this repo is private by owner
+decision (issue #10). Strictly followed, this
 pollen (private-proof) should go to a private hive, and none exists yet
 (tracked as [#40](https://github.com/slopstopper/recursive-spine/issues/40)).
 
