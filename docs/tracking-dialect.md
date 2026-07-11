@@ -29,61 +29,54 @@ vocabulary as-is (no repo-specific renaming of "issue", "milestone", etc.).
 
 ## Spine board
 
-**Board owner:** `effythealien` — this installation's designated board
-owner, recorded here (data) so the skills stay owner-neutral (text).
+**Board owner:** `slopstopper` (the org) — changed from `effythealien` when
+the three plugins moved into the org. Recorded here as data so the skills
+stay owner-neutral (text).
 
-**Status: not created.** `gh project create --owner effythealien --title
-"Spine"` failed:
+**`SPINE_BOARD_NUMBER`: 2** — <https://github.com/orgs/slopstopper/projects/2>
+Created 2026-07-08 once the owner ran `gh auth refresh -s project,read:project,admin:org`
+interactively. Issue #14 (board pending) is closed.
 
-```
-error: your authentication token is missing required scopes [project read:project]
-To request it, run:  gh auth refresh -s project,read:project
-```
+**Membership, as added:** 84 open issues, 84/84 `item-add` calls succeeded.
 
-The active `gh` token has scopes `gist, read:org, repo, workflow` — no
-`project` scope. `gh auth refresh -s project` requires an interactive
-browser/device-code confirmation this automation session could not
-complete. This gap is recorded, not silently skipped, per the bootstrap
-skill's preflight step: see issue
-[#14](https://github.com/slopstopper/recursive-spine/issues/14) ("spine:
-board membership pending (missing gh project scope)").
+| repo | open issues added |
+| --- | --- |
+| `slopstopper/recursive-spine` | 7 |
+| `slopstopper/plumb-line` | 32 |
+| `effythealien/Veska_Index_App` | 45 |
+| `slopstopper/tokenomics` | 0 — no open issues, so nothing to add |
 
-**To unblock:** run `gh auth refresh -s project,read:project` interactively,
-then:
+Honest denominator: tokenomics contributes zero items because it has zero
+open issues, not because it was skipped. Membership is a point-in-time
+snapshot; see "Auto-add" below for why it does not stay current by itself.
 
-```sh
-gh project create --owner effythealien --title "Spine"
-gh project list --owner effythealien --format json --jq '.projects[] | select(.title=="Spine") | .number'
-```
+**Board visibility: private, and it must stay private.** The board
+aggregates issues from private repos (`Veska_Index_App`, and this repo
+until its #10 flip). A public board would expose their issue titles.
+Anyone making this board public must first confirm every member repo is
+public.
 
-Record the returned number here as `SPINE_BOARD_NUMBER`, then add each
-repo's open issues:
+## Private-repo caveat (recorded per owner decision, issue #10) — RESOLVED
 
-```sh
-for url in $(gh issue list --repo effythealien/<repo> --json url --jq '.[].url'); do
-  gh project item-add <SPINE_BOARD_NUMBER> --owner effythealien --url "$url"
-done
-```
-for `recursive-spine`, `plumb-line`, `tokenomics`, `Veska_Index_App`.
+Previously recorded as an open question: whether a private repo's issues
+could be added to a Projects v2 board on this account's plan tier. **They
+can.** All 84 items, including those from the private `Veska_Index_App`
+and this private repo, were added without error on 2026-07-08. The
+question is settled; the answer is recorded rather than the question
+quietly deleted.
 
-`SPINE_BOARD_NUMBER`: **not assigned** — board does not exist yet.
+## Views and auto-add — still to do, by hand
 
-## Private-repo caveat (recorded per owner decision, issue #10)
+Views (by repo, by lane, by deferral age) and the board's **auto-add
+workflows** (Project → Settings → Workflows → "Auto-add to project", one
+per repo) are UI-only configuration on Projects v2 and cannot be created
+via the `gh` CLI or the public GraphQL API.
 
-This repo is private by owner decision (issue #10). Whether a private
-repo's issues can be added to a user-owned Projects v2 board depends on the
-GitHub plan tier for the account — this was not reachable to test in this
-session because board creation itself failed on the missing scope above.
-Whoever runs the unblock steps should check this explicitly: if
-`gh project item-add` errors on private-repo issue URLs, record that error
-here rather than silently omitting items.
-
-## Views
-
-Not configured. Views (by repo, by lane, by deferral age) are UI-only
-configuration on the Projects v2 board itself and cannot be created via
-`gh` CLI. Same for the board's auto-add workflow (workflows → auto-add per
-repo) — also UI-only. Both remain to be done by hand once the board exists.
+**Consequence, stated plainly:** until auto-add is switched on in the UI,
+the board does **not** pick up newly-filed issues. Its membership is the
+2026-07-08 snapshot above and will silently go stale. The digest skill's
+repo-set fallback (this dialect note) is unaffected and remains correct.
+This is tracked as issue #35.
 
 ## pollinate: hives (this installation)
 
