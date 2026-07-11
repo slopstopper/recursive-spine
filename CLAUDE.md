@@ -39,7 +39,8 @@ Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dial
 
 `.github/workflows/validate.yml` holds the repo's mechanical truth
 claims: manifest parses, skill frontmatter present, no overstated
-maturity in the README, pollen records carry the schema.
+maturity in the README, pollen records carry the schema, constraints
+copies match their pinned canonical source.
 
 ## Moments map
 

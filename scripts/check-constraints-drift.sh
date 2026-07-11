@@ -42,18 +42,26 @@ while IFS= read -r file; do
       echo "DRIFT-GATE NOTE: $file:$ln — unparseable constraints-copy mention (documentation? a real marker must be: constraints-copy: <path> @ <hex sha>)"
       continue
     fi
-    # The copied block must begin within the next few lines of the marker
-    # (conventional layout allows one blank line); otherwise we would risk
-    # silently scanning past unrelated content to a later, unrelated block.
+    # The begin marker must appear within the 3 lines after the marker
+    # (allowing up to two intervening lines, e.g. a blank line); otherwise
+    # we would risk silently scanning past unrelated content to a later,
+    # unrelated block.
     begin_offset=$(sed -n "$((ln + 1)),$((ln + 3))p" "$file" | grep -n -m1 -e '<!-- constraints:begin -->' | cut -d: -f1)
     if [ -z "$begin_offset" ]; then
       echo "DRIFT-GATE FAIL: $file:$ln — no constraints block immediately after marker"
       echo 1 >> "$fail_file"
       continue
     fi
-    canonical=$(git show "${sha}:${src}" 2>/dev/null | first_block)
-    if [ -z "$canonical" ]; then
+    show_out=$(git show "${sha}:${src}" 2>/dev/null)
+    show_rc=$?
+    if [ "$show_rc" -ne 0 ]; then
       echo "DRIFT-GATE FAIL: $file:$ln — cannot read $src @ $sha (bad sha, bad path, or shallow clone; CI needs fetch-depth: 0)"
+      echo 1 >> "$fail_file"
+      continue
+    fi
+    canonical=$(printf '%s' "$show_out" | first_block)
+    if [ -z "$canonical" ]; then
+      echo "DRIFT-GATE FAIL: $file:$ln — $src @ $sha has no constraints block (empty or missing begin/end markers)"
       echo 1 >> "$fail_file"
       continue
     fi
