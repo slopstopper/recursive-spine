@@ -99,4 +99,12 @@ Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dial
   the work (session economics, lanes).
 - recursive-spine — where tracked state lives.
 
-MIT.
+## Licence
+
+Credit-first: all prose — skills, docs, principles, pollen, frames —
+is **CC BY 4.0**: take it anywhere, adapt it, use it commercially; the
+one-line credit travels with every copy. Scripts and CI are
+Apache-2.0. The
+scope map and the requested attribution format live in
+[LICENSE](LICENSE). Using the plugin as a plugin requires nothing —
+these terms bind republishing, not use.
