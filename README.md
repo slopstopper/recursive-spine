@@ -18,6 +18,10 @@ deferrals and stalled work (`recursive-spine-digest`). The fourth vertebra
 is pollination: `recursive-spine-pollinate` captures elements that proved
 themselves in one project and pulls them into others.
 
+The second vertebra is the scaffold: `recursive-spine-scaffold` stamps
+the rest — rules codex, ADR directory, CI gate skeleton, session-memory
+convention — from frames, the builder's interview, and proven pollen.
+
 **Status, with an honest denominator: two of four vertebrae shipped.**
 
 - **Vertebra 1 — tracking: shipped.** The five principles
@@ -63,7 +67,7 @@ plugin marketplace. From inside Claude Code:
 ```
 
 The first command registers the repo as a marketplace; the second installs
-the five skills. Updates come through `/plugin`. Start with the
+the six skills. Updates come through `/plugin`. Start with the
 `recursive-spine-method` skill; run `recursive-spine-bootstrap` when you're
 ready to stamp a repo.
 
