@@ -35,6 +35,8 @@ never invented demos.
 4. **Handover files its debts before it closes.** A finished unit's
    known-incomplete edges become issues before the unit's issue closes.
    A closing comment that names a debt without a filed issue is a violation.
+   Where the pollination module is installed, closing asks the sibling
+   question too: any pollen to capture?
 
 5. **Branches and PRs cite the record.** Branch names carry the issue number
    (`<prefix>/<issue>-<slug>`), PRs close it (`Closes #N`), and "what is in
@@ -56,6 +58,17 @@ The bootstrap stamps the mandatory module and offers the rest; repos choose.
   never shipped defaults.
 - **Dialect note** — a short in-repo doc naming the repo's local vocabulary
   and how it maps to these principles.
+- **Pollination module** — a `pollen` label in the hive repo plus a
+  `pollen/` registry: elements that proved themselves in one project,
+  captured as records and pulled into others by the
+  `recursive-spine-pollinate` skill. The graduation ladder: *seedling*
+  (captured, never transplanted — the digest ages these) → *transplanted*
+  (took root in ≥1 other project) → *graduated* (≥2 transplants, promoted
+  to a real skill in whichever kin repo owns the concern). Hives are the
+  builder's own answer, one per visibility scope; private-proof pollen
+  never enters a hive whose readers cannot see its source. Capture points:
+  in-flow on noticing, at handover (see principle 4's sibling question),
+  and retrospective sweep.
 
 ## Boundaries
 

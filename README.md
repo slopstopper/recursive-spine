@@ -7,13 +7,15 @@ never in prose ledger files that merge as text and lose rows. This plugin
 teaches the convention (`recursive-spine-method`), stamps it onto repos
 (`recursive-spine-bootstrap`), converts existing prose ledgers to it
 (`recursive-spine-migrate`), and sweeps every conforming repo for aging
-deferrals and stalled work (`recursive-spine-digest`).
+deferrals and stalled work (`recursive-spine-digest`). A fifth skill,
+`recursive-spine-pollinate`, captures elements that proved themselves in
+one project and pulls them into others.
 
 **Status: partial.** Extracted from live practice in two repos (plumb-line,
 Veska Index). This is a practice report, not a benchmark. Currently shipped:
-the principles (reference/principles.md) and all four skills —
+the principles (reference/principles.md) and all five skills —
 recursive-spine-method, recursive-spine-bootstrap, recursive-spine-migrate,
-recursive-spine-digest. Still planned (tracked in this repo's own issues
+recursive-spine-digest, recursive-spine-pollinate. Still planned (tracked in this repo's own issues
 — that's the point): the Spine cross-project board (pending `gh project`
 scope, #14), scheduled digest activation (deferred to the Veska cutover
 plan), and the public visibility flip (#10).
@@ -43,7 +45,7 @@ plugin marketplace. From inside Claude Code:
 ```
 
 The first command registers the repo as a marketplace; the second installs
-the four skills. Updates come through `/plugin`. Start with the
+the five skills. Updates come through `/plugin`. Start with the
 `recursive-spine-method` skill; run `recursive-spine-bootstrap` when you're
 ready to stamp a repo.
 

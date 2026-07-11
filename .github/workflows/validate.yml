@@ -23,3 +23,16 @@ jobs:
       - name: No overstated maturity in README
         run: |
           ! grep -inE 'battle-tested|production-ready' README.md
+      - name: Pollen records carry the required front-matter
+        run: |
+          shopt -s nullglob
+          fail=0
+          for f in pollen/*.md; do
+            [ "$(basename "$f")" = "README.md" ] && continue
+            for key in id form source captured stage transplants; do
+              head -20 "$f" | grep -q "^${key}:" || { echo "missing ${key}: $f"; fail=1; }
+            done
+            head -20 "$f" | grep -qE '^form: (snippet|pattern|skill-candidate|config)$' || { echo "bad form enum: $f"; fail=1; }
+            head -20 "$f" | grep -qE '^stage: (seedling|transplanted|graduated)$' || { echo "bad stage enum: $f"; fail=1; }
+          done
+          exit $fail

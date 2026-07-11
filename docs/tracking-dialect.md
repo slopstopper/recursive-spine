@@ -77,3 +77,27 @@ the board does **not** pick up newly-filed issues. Its membership is the
 2026-07-08 snapshot above and will silently go stale. The digest skill's
 repo-set fallback (this dialect note) is unaffected and remains correct.
 This is tracked as issue #35.
+
+## pollinate: hives (this installation)
+
+Recorded per the pollinate skill's interview (recursion: this repo
+configures itself first).
+
+- **Public hive:** `slopstopper/recursive-spine` (this repo, `pollen/`) —
+  pollen whose proof is public (plumb-line, tokenomics, this repo).
+  Must stay self-contained: no references readers can't resolve. This
+  hive is scoped to the slopstopper ecosystem's repos, not to this
+  repo's own GitHub setting: proofs from recursive-spine, plumb-line, or
+  tokenomics route here even while this repo's own visibility flip is
+  pending ([#10](https://github.com/slopstopper/recursive-spine/issues/10)) —
+  "public" names the scope, not this repo's current GitHub setting.
+- **Private hive:** not yet created — tracked as
+  [#40](https://github.com/slopstopper/recursive-spine/issues/40). Until
+  it exists, capture of personal/private-scope pollen (the #40 hive's
+  scope) degrades loudly: draft locally, do not file into this repo.
+  This loud-degrade rule does not apply to slopstopper-scope proofs,
+  which route to the public hive per above regardless of #10's status.
+
+Routing rule: pollen inherits the visibility scope of its proof
+(slopstopper-scope → public hive; personal-scope → private hive #40).
+Declassification into the public hive is a deliberate, scrubbed act.
