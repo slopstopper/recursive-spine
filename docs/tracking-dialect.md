@@ -147,3 +147,24 @@ Recorded per the scaffold skill's interview, run against this repo
 - **Kin offers:** plumb-line guard wiring and tokenomics playbook
   pointer — both already answered in "Kin offers, as answered" above;
   not re-asked.
+
+## connective tissue (this installation)
+
+Recorded per the connective-tissue vertebra (#33), run against this repo
+(recursion: the module's first target is the repo that ships it).
+
+- **Constraints file:** accepted — `docs/constraints.md`, every line
+  from the record (principles, dialect note, CI gates, surfacing
+  pollen); nothing invented.
+- **Drift gate:** wired — `scripts/check-constraints-drift.sh` runs in
+  `.github/workflows/validate.yml` (checkout at `fetch-depth: 0`).
+  Sha-pinned: merged docs stay green when the canonical file evolves;
+  stale pins in open-issue docs are the digest's concern.
+- **Handover:** `recursive-spine-handover` ships with this vertebra; its
+  first live record is #33's own closing comment, posted when the
+  vertebra's PR merges — the module's first act is recording its own
+  completion.
+- **Kin seam (settled at design time):** split ownership. Spine
+  handover = closing record; tokenomics handoff = dispatch contract.
+  The handover template offers the handoff-spec pointer as data (see
+  "Kin offers, as answered" above); no dependency.
