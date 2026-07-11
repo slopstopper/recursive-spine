@@ -6,14 +6,18 @@ recursive-spine is a Claude Code plugin: seven skills that grow a
 project a backbone. Work state lives in GitHub issues and milestones —
 queryable, conflict-free — instead of prose status files that merge as
 text and silently lose rows. Around that core: scaffolded house
-conventions, drift-gated constraints, closing records on every unit of
-work, and a registry that carries proven patterns between projects.
+conventions, drift-gated constraints, and a closing record posted on
+every unit of work.
 
-The name is literal. **Spine:** the plugin grows the backbone vertebra
-by vertebra — tracking, scaffold, connective tissue, pollination.
-**Recursive:** every vertebra was built under the convention it
-enforces, and the system feeds what its own use proves back into
-itself — self-applied became self-improving.
+The part you won't find elsewhere is **cross-project propagation**.
+When something proves itself in one project — a CI gate, a convention,
+a pattern — it usually dies there. Here it gets captured as **pollen**:
+a structure-faithful record of the proven thing, with its provenance,
+in a registry other projects pull from. Transplants are recorded back
+on the record, and pollen climbs a graduation ladder (seedling →
+transplanted → graduated) measured by real reuse, not by ambition.
+Nothing invented ships: every record abstracts something that actually
+worked somewhere, and says where.
 
 ## Install
 
@@ -36,29 +40,22 @@ directory (`skills/` + `.claude-plugin/plugin.json`), or add it under
 
 ## The anatomy
 
-**Status, with an honest denominator: four of four vertebrae shipped.**
+Four vertebrae, each a working module:
 
-- **Vertebra 1 — tracking:** work state lives in GitHub issues and
-  milestones, never in prose ledgers. The five principles
+- **Tracking** — work state lives in GitHub issues and milestones,
+  never in prose ledgers. The five principles
   ([reference/principles.md](reference/principles.md)) and the method,
-  bootstrap, migrate, and digest skills. A practice report, not a
-  benchmark.
-- **Vertebra 2 — scaffold:** stamps the rest of a repo's spine from
-  frames + the builder's interview + proven pollen — rules codex with a
-  moments map, ADR directory, CI gate skeleton, session-memory
-  convention, constraints file.
-- **Vertebra 3 — connective tissue:** `docs/constraints.md` as the one
-  canonical source of global constraints, a sha-pinned drift gate in CI
+  bootstrap, migrate, and digest skills.
+- **Scaffold** — stamps the rest of a repo's spine from frames + the
+  builder's interview + proven pollen: rules codex with a moments map,
+  ADR directory, CI gate skeleton, session-memory convention,
+  constraints file. Every part optional; declines recorded.
+- **Connective tissue** — `docs/constraints.md` as the one canonical
+  source of global constraints, a sha-pinned drift gate in CI
   (hand-copies were a measured drift vector), and the closing record
   posted on each issue when a unit of work ends.
-- **Vertebra 4 — pollination:** captures elements that proved
-  themselves in one project and pulls them into others — the `pollen/`
-  registry and the graduation ladder (seedling → transplanted →
-  graduated).
-
-Build order was deliberately non-sequential (4 → 2 → 3: pollination
-first, so it could capture learnings from building the other two). The
-numbering is the spine's anatomy, not its history.
+- **Pollination** — the propagation layer described above: the
+  `pollen/` registry, capture and pull, the graduation ladder.
 
 Seven skills, each surfacing at its moment:
 
@@ -81,9 +78,12 @@ written.
 This repo's issues and milestones existed before its first commit. Its
 labels were stamped by its own bootstrap skill. Its codex and ADR
 directory were stamped by its own scaffold skill. Its deferrals age on
-its own digest, and its constraints drift-gate runs on its own docs. If
-the convention ever feels too heavy here, that is a bug in the
-convention — filed as an issue, of course.
+its own digest, and its constraints drift-gate runs on its own docs.
+Even the build order followed the system's logic rather than the
+spine's numbering: pollination was built first, so it could capture
+what building the other vertebrae proved. If the convention ever feels
+too heavy here, that is a bug in the convention — filed as an issue,
+of course.
 
 ## The five principles
 
