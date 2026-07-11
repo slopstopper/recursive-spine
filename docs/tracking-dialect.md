@@ -10,7 +10,13 @@ All four modules stamped — this repo dogfoods everything the skill offers:
 - **Deferral (mandatory):** label `deferred`, no alias.
 - **Gap:** label `gap`.
 - **Debt:** label `inherited-debt`.
-- **Lane:** labels `lane:fable`, `lane:mid`, `lane:small`.
+- **Lane:** labels `lane:flagship`, `lane:mid`, `lane:small`. (Renamed
+  2026-07-11 from `lane:fable` per owner decision: lane names stay
+  model-agnostic so routing survives model changes — matching the
+  tokenomics portable method, whose top tier is already named "Flagship"
+  and whose CI bans model names in lane vocabulary. Labels renamed in
+  place on this repo and `effythealien/Veska_Index_App`, so existing
+  issues carried over automatically.)
 
 ## Dialect
 
