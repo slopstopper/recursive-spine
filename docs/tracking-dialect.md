@@ -23,15 +23,31 @@ All four modules stamped — this repo dogfoods everything the skill offers:
 Unit of work = **issue**. No local alias — this repo uses the convention's
 vocabulary as-is (no repo-specific renaming of "issue", "milestone", etc.).
 
-## Offers declined
+## Kin offers, as answered
 
 - **plumb-line wiring** (epistemic enforcement offer): declined for this
   repo. recursive-spine owns *where tracked state lives*; plumb-line owns
   *whether claims are honest* — kept as separate, un-wired concerns per
   the boundaries section of `reference/principles.md`.
-- **tokenomics wiring** (lane-semantics pointer offer): declined for this
-  repo, same reasoning — lane labels are stamped (module choice above) but
-  not wired to a tokenomics playbook doc.
+- **tokenomics wiring** (lane-semantics pointer offer): **accepted
+  2026-07-11**, flipped from the original decline (#44) once the backlog
+  was actually routed under the method (rationale comment on #20). Lane
+  semantics for the `lane:*` labels above are defined by the tokenomics
+  method: the routing test ("if this is done slightly wrong, is it
+  expensive?") and the lane definitions in
+  [tokenomics' `reference/portable-method.md`](https://github.com/slopstopper/tokenomics/blob/main/reference/portable-method.md).
+
+  **Independence contract:** the pointer is semantics documentation, not
+  a dependency. recursive-spine functions fully without tokenomics
+  installed — no skill reads the tokenomics repo, and the lane labels
+  remain plain labels for anyone who ignores the pointer.
+
+  **Pollination seam:** in tokenomics' cycle terms, a pollen record is a
+  candidate compression artifact, and a graduated skill is a macro-cycle
+  exit artifact. Vocabulary seams stay explicit: spine **handover**
+  (principle 4 — filing debts before a unit closes) is not tokenomics
+  **handoff** (its session-boundary artifact); the two words are kept
+  unmerged on purpose.
 
 ## Spine board
 
