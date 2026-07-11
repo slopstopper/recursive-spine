@@ -27,7 +27,11 @@ fail_file=$(mktemp)
 trap 'rm -f "$fail_file"' EXIT
 
 while IFS= read -r file; do
-  while IFS=: read -r ln _; do
+  while IFS=: read -r ln rest; do
+    if [ "$ln" = "UNCLOSED" ]; then
+      echo "DRIFT-GATE NOTE: $file — unclosed code fence opened at line ${rest}; markers after it were not scanned"
+      continue
+    fi
     line=$(sed -n "${ln}p" "$file")
     src=$(printf '%s\n' "$line" | sed -nE 's/.*constraints-copy: *([^ ]+) @ ([0-9a-f]{7,40}) .*/\1/p')
     sha=$(printf '%s\n' "$line" | sed -nE 's/.*constraints-copy: *([^ ]+) @ ([0-9a-f]{7,40}) .*/\2/p')
@@ -60,10 +64,52 @@ while IFS= read -r file; do
       echo 1 >> "$fail_file"
     fi
   # Fenced examples are documentation by construction: a well-formed
-  # constraints-copy marker inside a ``` or ~~~ fence is a worked example
-  # of the format, not a real provenance claim, so it is excluded from
-  # collection entirely (fences toggle state; both fence styles count).
-  done < <(awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f && /constraints-copy:/{print NR": "$0}' "$file")
+  # constraints-copy marker inside a fence is a worked example of the
+  # format, not a real provenance claim, so it is excluded from collection
+  # entirely. Fence state is tracked CommonMark-lite: an opening fence is
+  # any line (after leading whitespace) of 3+ identical backticks or
+  # tildes; a fence only CLOSES on a line of the SAME character with a
+  # run length >= the opening run (a shorter or differently-charactered
+  # fence-looking line inside is just content — this stops a stray fence
+  # from silently swallowing every later marker in the file). If EOF is
+  # reached still inside a fence, emit an UNCLOSED sentinel so the shell
+  # loop can note it loudly instead of silently dropping later markers.
+  done < <(awk '
+    function fence_char(line,    c) {
+      sub(/^[ \t]*/, "", line)
+      if (line == "") return ""
+      c = substr(line, 1, 1)
+      if (c != "`" && c != "~") return ""
+      return c
+    }
+    function fence_len(line,    i, c, n) {
+      sub(/^[ \t]*/, "", line)
+      c = substr(line, 1, 1)
+      n = 0
+      for (i = 1; i <= length(line); i++) {
+        if (substr(line, i, 1) == c) n++
+        else break
+      }
+      return n
+    }
+    {
+      if (!inFence) {
+        c = fence_char($0)
+        if (c != "") {
+          n = fence_len($0)
+          if (n >= 3) { inFence = 1; fenceChar = c; fenceLen = n; openLine = NR; next }
+        }
+        if ($0 ~ /constraints-copy:/) print NR":"$0
+      } else {
+        c = fence_char($0)
+        if (c != "") {
+          n = fence_len($0)
+          if (c == fenceChar && n >= fenceLen) inFence = 0
+        }
+      }
+    }
+    END { if (inFence) print "UNCLOSED:" openLine }
+  ' "$file")
 done < <(git grep -l -e 'constraints-copy:' -- ':!scripts/' ':!reference/templates/' 2>/dev/null)
 
 if [ -s "$fail_file" ]; then

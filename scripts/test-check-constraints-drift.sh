@@ -108,5 +108,45 @@ EOF
 git add docs/example-doc.md
 out=$("$CHECKER" 2>&1) || { echo "FAIL: fenced example must not fail the gate"; exit 1; }
 printf '%s\n' "$out" | grep -q 'DRIFT-GATE FAIL' && { echo "FAIL: fenced example must print no DRIFT-GATE FAIL"; exit 1; }
+git rm -qf docs/example-doc.md
 
-echo "all 7 tests passed"
+echo "test 8: mixed fences don't swallow a later real drift"
+cat > docs/mixed-fence.md <<EOF
+# doc with a tilde fence containing a backtick fence as content
+
+~~~
+this tilde fence contains a backtick fence as plain content:
+\`\`\`
+not a real close, just content inside the tilde fence
+\`\`\`
+still inside the tilde fence
+~~~
+
+now the tilde fence is closed; this marker is real and drifted:
+<!-- constraints-copy: docs/constraints.md @ $sha -->
+<!-- constraints:begin -->
+- rule one drifted for real
+<!-- constraints:end -->
+EOF
+git add docs/mixed-fence.md
+out=$("$CHECKER" 2>&1) && { echo "FAIL: real drift after mixed fences should fail"; exit 1; }
+printf '%s\n' "$out" | grep -q 'DRIFT-GATE FAIL.*docs/mixed-fence.md' || { echo "FAIL: mixed-fence drift must be reported"; exit 1; }
+git rm -qf docs/mixed-fence.md
+
+echo "test 9: unclosed fence prints a loud note but still passes"
+cat > docs/unclosed-fence.md <<EOF
+# doc with a fence that never closes
+
+\`\`\`
+this fence never closes, and this marker below must not be scanned:
+<!-- constraints-copy: docs/constraints.md @ $sha -->
+<!-- constraints:begin -->
+- rule one
+<!-- constraints:end -->
+EOF
+git add docs/unclosed-fence.md
+out=$("$CHECKER" 2>&1) || { echo "FAIL: unclosed fence alone must not fail the gate"; exit 1; }
+printf '%s\n' "$out" | grep -q 'DRIFT-GATE NOTE.*unclosed code fence' || { echo "FAIL: unclosed fence must print an UNCLOSED note"; exit 1; }
+git rm -qf docs/unclosed-fence.md
+
+echo "all 9 tests passed"
