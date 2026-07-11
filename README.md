@@ -22,10 +22,10 @@ The second vertebra is the scaffold: `recursive-spine-scaffold` stamps
 the rest — rules codex, ADR directory, CI gate skeleton, session-memory
 convention — from frames, the builder's interview, and proven pollen.
 
-**Status, with an honest denominator: two of four vertebrae shipped.**
+**Status, with an honest denominator: three of four vertebrae shipped.**
 
 - **Vertebra 1 — tracking: shipped.** The five principles
-  (reference/principles.md) and four of the five skills, extracted from
+  (reference/principles.md) and four of the six skills, extracted from
   live practice in two repos (plumb-line, Veska Index). A practice report,
   not a benchmark.
 - **Vertebra 4 — pollination: shipped** (built out of order, deliberately:

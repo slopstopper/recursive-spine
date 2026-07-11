@@ -92,8 +92,8 @@ Both are offers; both answers land in the dialect note.
 
 End with: parts stamped (files written), parts declined or already
 present (and why), pollen offered vs. accepted (transplants recorded),
-kin offers and answers, and the repo's next natural moment: "when
-something here proves itself, recursive-spine-pollinate captures it."
+kin offers and answers, and the repo's next natural moments: "when
+something here proves itself, recursive-spine-pollinate captures it; recursive-spine-digest sweeps this repo on its cadence."
 Honest denominator throughout — skipped means listed.
 
 ## Never
