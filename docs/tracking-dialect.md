@@ -123,3 +123,27 @@ configures itself first).
 Routing rule: pollen inherits the visibility scope of its proof
 (slopstopper-scope → public hive; personal-scope → private hive #40).
 Declassification into the public hive is a deliberate, scrubbed act.
+
+## scaffold (this installation)
+
+Recorded per the scaffold skill's interview, run against this repo
+(recursion: the module's first target is the repo that ships it).
+
+- **Rules codex:** accepted — minimal, from the record: `CLAUDE.md`
+  stamped with mission, house rules already stated on the record,
+  tracking section (bootstrap's, unchanged), CI pointer, and the moments
+  map. Session-memory section omitted (that part declined).
+- **ADR directory:** accepted — `docs/adr/`, ADR-0001 backfilled from
+  the real sibling-skill decision (#32).
+- **CI gates:** already present — `.github/workflows/validate.yml` is
+  this repo's gate set and the source proof of the `truth-gate-ci`
+  pollen. Nothing stamped.
+- **Session memory:** declined — repo-level session memory is not in use
+  here; the builder's memory convention lives at the environment level
+  (see the `layered-session-memory` pollen record).
+- **Pollen pulls:** none recorded — this repo is the source of both seed
+  records; "already present" is the truthful answer. First real
+  transplants remain #42.
+- **Kin offers:** plumb-line guard wiring and tokenomics playbook
+  pointer — both already answered in "Kin offers, as answered" above;
+  not re-asked.

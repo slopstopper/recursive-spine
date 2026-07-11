@@ -31,8 +31,10 @@ convention — from frames, the builder's interview, and proven pollen.
 - **Vertebra 4 — pollination: shipped** (built out of order, deliberately:
   it captures learnings from building the other two). The pollinate skill,
   the `pollen/` registry, and the graduation ladder.
-- **Vertebra 2 — scaffold: planned**, tracked as #32 — bootstrap stamps a
-  full project spine, not just tracking.
+- **Vertebra 2 — scaffold: shipped.** `recursive-spine-scaffold` stamps
+  rules codex, ADRs, CI gates, and session memory from frames + the
+  builder's interview + proven pollen. Recursion test run against this
+  repo (see `docs/tracking-dialect.md`, "scaffold").
 - **Vertebra 3 — connective tissue: planned**, tracked as #33 — generated
   spec/plan/handover docs, constraints from one canonical source.
 
