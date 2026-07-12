@@ -43,3 +43,11 @@ reason. Nudges from swept repos still go out.
 candidate: "milestone M is stalled" with no possible question attached.
 Expect: any candidate that cannot be phrased ending in a question to the
 owner is dropped, whatever its rank.
+
+## S8 — attention ping accompanies the channel send
+fixture: 3 nudges selected; empty ledger.
+Expect: delivery includes both the channel message AND a one-line
+attention ping (count + top nudge headline; under 200 chars, no
+markdown).
+Empty-week variant: sweep with nothing qualifying — Expect NO ping; the
+heartbeat stays visible in the thread and ledger only.

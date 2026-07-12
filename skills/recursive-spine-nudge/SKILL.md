@@ -73,6 +73,17 @@ repo failed. If the primary channel send fails, post the nudges as a
 comment on the tracking issue prefixed `nudge-delivery-failed:` — the
 heartbeat must stay observable when the channel isn't.
 
+Delivery is two-part. A channel send made as the owner's own identity
+notifies no one — Slack never alerts you to your own posts — so the
+channel message is the record half and an **attention ping** is the push
+half: one line, under 200 characters, no markdown, leading with count and
+top nudge headline (e.g. "spine: 3 nudges — top: plumb-line v0.8.0 next;
+see Slack"). The ping mechanism is whatever the invoking runner provides
+(push notification, routine completion notice) — never hardcode one. If
+the runner has no ping mechanism, say so in the delivery footer rather
+than failing. Empty weeks send no ping: the heartbeat stays visible in
+the thread and ledger, but an empty week is not worth an interruption.
+
 ## Ledger append (always, even on empty weeks)
 
 Append to `nudges/ledger.md`: run timestamp, swept N/M, one line per nudge
