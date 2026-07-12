@@ -78,7 +78,7 @@ notifies no one — Slack never alerts you to your own posts — so the
 channel message is the record half and an **attention ping** is the push
 half: one line, under 200 characters, no markdown, leading with count and
 top nudge headline (e.g. "spine: 3 nudges — top: plumb-line v0.8.0 next;
-see Slack"). The ping mechanism is whatever the invoking runner provides
+see the delivery channel"). The ping mechanism is whatever the invoking runner provides
 (push notification, routine completion notice) — never hardcode one. If
 the runner has no ping mechanism, say so in the delivery footer rather
 than failing. Empty weeks send no ping: the heartbeat stays visible in

@@ -136,3 +136,16 @@ failed-repo footer. Run by hand this version; CI wiring is #68's job.
 Hooks (#71 — nothing in this loop may depend on a hook having fired), push
 distribution to other repos (#38), pollen-matching sophistication beyond
 cited plausibility, board auto-add (#35), CI-run behavioral evals (#68).
+
+## Amendments
+
+- 2026-07-12, live-run finding: delivery is two-part — the channel message
+  is the record half; a one-line attention ping via the runner's push
+  mechanism is the push half (no ping on empty weeks). Reason: the Slack
+  connector posts as the owner's own identity, which never notifies. See
+  SKILL.md Delivery and scenario S8.
+- 2026-07-12, implementation deviation: the shipped ledger line is
+  `date | repo#issue | trigger | outcome: …` (no text-sent field — the
+  channel thread is the text's durable record) and re-nudge/decline
+  suppression keys on repo#issue alone, stricter than the spec's
+  issue+trigger key. The shipped format is canonical.
