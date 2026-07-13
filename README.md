@@ -2,7 +2,7 @@
 
 A portable project spine, recursively self-applied.
 
-recursive-spine is a Claude Code plugin: seven skills that grow a
+recursive-spine is a Claude Code plugin: eight skills that grow a
 project a backbone. Work state lives in GitHub issues and milestones —
 queryable, conflict-free — instead of prose status files that merge as
 text and silently lose rows. Around that core: scaffolded house
@@ -36,7 +36,7 @@ plugin marketplace. From inside Claude Code:
 ```
 
 The first command registers the repo as a marketplace; the second
-installs the seven skills. Updates come through `/plugin`. Start with
+installs the eight skills. Updates come through `/plugin`. Start with
 the `recursive-spine-method` skill; run `recursive-spine-bootstrap`
 when you're ready to stamp a repo.
 
@@ -63,7 +63,7 @@ Four vertebrae, each a working module:
 - **Pollination** — the propagation layer described above: the
   `pollen/` registry, capture and pull, the graduation ladder.
 
-Seven skills, each surfacing at its moment:
+Eight skills, each surfacing at its moment:
 
 - Learning the convention → `recursive-spine-method`
 - Stamping tracking onto a repo → `recursive-spine-bootstrap`
@@ -72,6 +72,7 @@ Seven skills, each surfacing at its moment:
 - Closing a unit of work → `recursive-spine-handover`
 - Something just proved itself → `recursive-spine-pollinate`
 - "Where does work stand?" → `recursive-spine-digest`
+- The system starts the conversation → `recursive-spine-nudge`
 
 Remaining and deferred work is tracked in this repo's own issues —
 that's the point. `gh issue list --label deferred` is the honest record
