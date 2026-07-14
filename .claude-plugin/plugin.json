@@ -4,10 +4,7 @@
   "version": "0.8.0",
   "author": { "name": "Aoife Okonedo Martin" },
   "homepage": "https://github.com/slopstopper/recursive-spine",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/slopstopper/recursive-spine.git"
-  },
+  "repository": "https://github.com/slopstopper/recursive-spine",
   "license": "CC-BY-4.0 AND Apache-2.0",
   "keywords": [
     "tracking",
