@@ -81,8 +81,11 @@ owner-picked over a ninth skill or per-skill copies):
 
 ## Files touched
 
-- `docs/…method doc` (the repo's method/principles surface): the
-  principle + four moments + opportunistic-migration rule
+- `reference/principles.md`: the depth principle (moment-triggered, never
+  speculative) + the four moments + opportunistic-migration rule, under
+  its own heading beside the five principles
+- `skills/recursive-spine-method/SKILL.md`: one short pointer to the
+  depth principle (the method skill teaches; principles.md is the source)
 - `skills/recursive-spine-handover/SKILL.md`: debt-attachment step
 - `skills/recursive-spine-digest/SKILL.md`: roll-up/leak reporting
 - `skills/recursive-spine-nudge/SKILL.md`: sequence-head query + ranking
