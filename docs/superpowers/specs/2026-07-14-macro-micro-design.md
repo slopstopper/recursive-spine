@@ -72,8 +72,10 @@ owner-picked over a ninth skill or per-skill copies):
   detach; reorder.
 - List + order + progress: GraphQL `subIssues(first: 50)` with
   `totalCount` and closed-count; `parent` for upward lookup.
-- Cross-repo rule: a sub-issue may live in a different repo (debt lineage
-  needs this — debts sometimes belong elsewhere).
+- Cross-repo rule: a sub-issue may live in a different repo, even a
+  different owner's, given access to both (verified live 2026-07-14);
+  caveats are permissions and visibility — a private child under a
+  public parent leaks its existence via the parent's sub-issue count.
 - Degrade loudly: if sub-issue APIs are unavailable (older GHES,
   permissions), say so and fall back to today's prose behavior. Depth is
   an upgrade, never a dependency — no skill may fail because a tree
@@ -111,6 +113,12 @@ only span same-owner repos and the hive deliberately spans two owners
 (slopstopper, effythealien): a native-only lineage would be silently
 partial. #67 designs around that gap deliberately; recorded there
 2026-07-14.
+
+Correction 2026-07-14: the cross-owner limitation cited above was
+disproven by a live probe — cross-owner attachment works given access.
+The deferral stands on its remaining grounds (#67's lifecycle mechanics
+are undesigned, and the visibility caveat still applies to private-proof
+pollen), recorded on #67.
 
 ## Out of scope
 

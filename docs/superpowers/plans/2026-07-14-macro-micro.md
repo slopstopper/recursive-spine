@@ -15,7 +15,7 @@
 - Digest: roll up (`#249 Phase 1 — 3/6 children closed, head: #242`), healthy children folded, any child crossing an aging/stall threshold leaks as its own line.
 - Nudge: sequence head = first open child in sub-issue order whose earlier siblings are all closed; prose-parsing stays as fallback; query-derived candidates outrank prose-derived.
 - Degrade loudly: if sub-issue APIs are unavailable, say so and fall back to flat behavior — depth is an upgrade, never a dependency; no skill may fail because a tree couldn't be built.
-- Cross-repo rule stated wherever attach is taught: sub-issues span same-owner repos only.
+- Cross-repo rule stated wherever attach is taught: cross-repo and cross-owner attachment work given access to both repos; the caveats are permissions (degrade loudly) and visibility (a private child under a public parent leaks its existence via the count).
 - Pollen depth is out of scope (deferred to #67); so are #71, #82, #46, and any automation creating depth without a moment.
 - Version becomes exactly `0.9.0`.
 - Avoid the digest's `## The report` section text entirely (PR #83 rewrites it; this plan's digest change is a standalone section so either PR merges first without conflict).
@@ -66,12 +66,18 @@ The REST endpoint takes the child's internal ID, not its number:
       -X POST -F sub_issue_id="$CHILD_ID"
 
 `<owner>/<repo>` in both commands is the PARENT's repo; the child may
-live in a different repo **under the same owner only** — cross-owner
-attachment is unsupported by GitHub. When lineage must cross owners
-(the hives do), record it in prose where the moment's skill says to,
-and say plainly that the tree is partial.
+live in a different repo — even under a different owner — provided the
+actor has access to both (verified live 2026-07-14). Two caveats travel
+with cross-repo trees: **access** (an attach can fail on permissions —
+degrade loudly, record the lineage in prose, and say the tree is
+partial) and **visibility** (a private child under a public parent leaks
+its existence through the parent's sub-issue count; private-scope
+children belong under private-scope parents — see the two-hive rule).
 
-Detach: same endpoint with `-X DELETE`. Reorder:
+Detach uses the SINGULAR path — `gh api
+repos/<owner>/<repo>/issues/<parent-number>/sub_issue -X DELETE -F
+sub_issue_id=<child-id>` — unlike the plural attach/list path (GitHub
+API asymmetry, verified live). Reorder:
 `PATCH .../sub_issues/priority` with `sub_issue_id` and
 `after_id`/`before_id`.
 
@@ -162,9 +168,12 @@ The recognized moments, each owned by the skill already standing there:
 
 Migration is opportunistic: a prose sequence converts when a sweep or
 handover next touches it — never as a bulk backfill. Mechanics live in
-`reference/sub-issues.md`; sub-issues span same-owner repos only, and
-anything crossing owners stays prose and says so. Pollen depth is
-deliberately deferred to the pollen-lifecycle work (recorded there).
+`reference/sub-issues.md`; cross-repo and even cross-owner trees work
+given access, but a private child under a public parent leaks its
+existence through the count — private-scope children under
+private-scope parents, and anything unattachable stays prose and says
+so. Pollen depth is deliberately deferred to the pollen-lifecycle work
+(recorded there).
 ```
 
 - [ ] **Step 2: Add the method-skill pointer**
@@ -226,16 +235,17 @@ Then attach each filed debt as a **sub-issue of the closing unit** —
 mechanics in `${CLAUDE_PLUGIN_ROOT}/reference/sub-issues.md` (Attach) —
 so the lineage is a query, not comment archaeology. The closing comment
 still lists every debt by number: the comment is the human record, the
-attachment is the machine truth. A debt filed in a different owner's
-repo cannot attach (same-owner rule); list it in the comment with the
-marker `(cross-owner, unattached)`. If attachment fails, degrade loudly
-per the reference: the close proceeds, the comment says the tree is
-incomplete and why.
+attachment is the machine truth. A debt whose repo the actor cannot
+write to, or whose visibility must not leak into the parent's public
+count (private debt under a public unit), stays unattached; list it in
+the comment with the marker `(unattached: <permissions|visibility>)`.
+If attachment fails, degrade loudly per the reference: the close
+proceeds, the comment says the tree is incomplete and why.
 ```
 
 - [ ] **Step 2: Verify**
 
-Run: `grep -c "sub-issue of the closing unit" skills/recursive-spine-handover/SKILL.md && grep -c "cross-owner, unattached" skills/recursive-spine-handover/SKILL.md`
+Run: `grep -c "sub-issue of the closing unit" skills/recursive-spine-handover/SKILL.md && grep -c "unattached: <permissions|visibility>" skills/recursive-spine-handover/SKILL.md`
 Expected: `1`, `1`.
 
 - [ ] **Step 3: Commit**

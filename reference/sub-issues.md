@@ -14,12 +14,18 @@ The REST endpoint takes the child's internal ID, not its number:
       -X POST -F sub_issue_id="$CHILD_ID"
 
 `<owner>/<repo>` in both commands is the PARENT's repo; the child may
-live in a different repo **under the same owner only** — cross-owner
-attachment is unsupported by GitHub. When lineage must cross owners
-(the hives do), record it in prose where the moment's skill says to,
-and say plainly that the tree is partial.
+live in a different repo — even under a different owner — provided the
+actor has access to both (verified live 2026-07-14). Two caveats travel
+with cross-repo trees: **access** (an attach can fail on permissions —
+degrade loudly, record the lineage in prose, and say the tree is
+partial) and **visibility** (a private child under a public parent leaks
+its existence through the parent's sub-issue count; private-scope
+children belong under private-scope parents — see the two-hive rule).
 
-Detach: same endpoint with `-X DELETE`. Reorder:
+Detach uses the SINGULAR path — `gh api
+repos/<owner>/<repo>/issues/<parent-number>/sub_issue -X DELETE -F
+sub_issue_id=<child-id>` — unlike the plural attach/list path (GitHub
+API asymmetry, verified live). Reorder:
 `PATCH .../sub_issues/priority` with `sub_issue_id` and
 `after_id`/`before_id`.
 
