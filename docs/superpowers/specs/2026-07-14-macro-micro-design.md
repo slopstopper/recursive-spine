@@ -102,7 +102,18 @@ owner-picked over a ninth skill or per-skill copies):
   next touch, hand-run digest + nudge, confirm rollup line and head
   detection.
 
+## Recognized but deferred: pollen depth (#67)
+
+Owner-raised at scoping: depth also fits pollen — transplant lineage
+(transplants as sub-issues of the record's issue) and supersession chains
+(#67's deprecation/versioning). Deferred to #67 because GitHub sub-issues
+only span same-owner repos and the hive deliberately spans two owners
+(slopstopper, effythealien): a native-only lineage would be silently
+partial. #67 designs around that gap deliberately; recorded there
+2026-07-14.
+
 ## Out of scope
 
-Bulk migration of existing issues; #71 hooks; #82 portable delivery;
-#46; any automation that creates depth without a moment.
+Bulk migration of existing issues; pollen depth (#67, above); #71 hooks;
+#82 portable delivery; #46; any automation that creates depth without a
+moment.
