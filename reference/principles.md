@@ -47,6 +47,37 @@ never invented demos.
    (`<prefix>/<issue>-<slug>`), PRs close it (`Closes #N`), and "what is in
    flight" is a query (`gh issue list --assignee @me`), not a file.
 
+## Depth: macro and micro
+
+Issues gain depth through GitHub native sub-issues — same system, deeper
+resolution. **Depth is moment-triggered, never speculative:** an issue is
+macro the moment something real attaches beneath it; no moment, no tree.
+Flat issues remain the norm; a tree is evidence that a moment happened,
+not a planning aesthetic.
+
+The recognized moments, each owned by the skill already standing there:
+
+1. **Handover files debts** — debts attach as sub-issues of the closing
+   unit (recursive-spine-handover). "What did closing #N leave behind?"
+   is a query.
+2. **A plan lands** — the plan's tasks are filed as sub-issues of the
+   unit, in plan order. Unit progress is "3/6 children closed."
+3. **A sequence is recorded** — umbrella issues carrying prose ordering
+   become parents with ordered children; the head of the sequence is a
+   query (recursive-spine-nudge reads it).
+4. **A milestone item outgrows one unit** — the umbrella pattern:
+   milestone stays coarse, the umbrella carries mid-grain children.
+   Noticed by a human, never automatic.
+
+Migration is opportunistic: a prose sequence converts when a sweep or
+handover next touches it — never as a bulk backfill. Mechanics live in
+`reference/sub-issues.md`; cross-repo and even cross-owner trees work
+given access, but a private child under a public parent leaks its
+existence through the count — private-scope children under
+private-scope parents, and anything unattachable stays prose and says
+so. Pollen depth is deliberately deferred to the pollen-lifecycle work
+(recorded there).
+
 ## Modules
 
 The bootstrap stamps the mandatory module and offers the rest; repos choose.
