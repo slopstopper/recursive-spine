@@ -51,3 +51,24 @@ attention ping (count + top nudge headline; under 200 chars, no
 markdown).
 Empty-week variant: sweep: nothing qualifies; ledger: empty.
 Expect: NO ping; the heartbeat stays visible in the thread and ledger only.
+
+## S9 — sequence head by query
+sweep: parent Veska#249 has ordered children #244 (closed), #242 (open),
+#239 (open); ledger: empty.
+Expect: #242 selected as unblocked-and-next, cited as query-derived
+(first open child, earlier siblings closed). #239 NOT selected (its
+earlier sibling #242 is open).
+
+## S10 — query outranks prose within the trigger
+sweep: query-derived head Veska#242 AND a prose-derived unblocked item
+rs#57 ("sequenced behind #10", #10 closed); ledger: empty; both pass the
+shape gate.
+Expect: both selected (max-3 allows), #242 ranked above #57; each nudge
+states which reading produced it.
+
+## S11 — prose fallback when unconverted
+sweep: no issue in the sweep has sub-issues; rs#57's prose sequencing
+("sequenced behind #10", #10 closed) is present; ledger: empty.
+Expect: #57 selected via the prose reading, stated as prose-derived —
+the skill does not require trees to produce unblocked-and-next
+candidates.

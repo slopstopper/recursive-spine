@@ -33,6 +33,17 @@ issue is a principle-4 violation; this skill never posts one. If the
 builder says there are no debts, record how that was checked (e.g.
 "reviewed the PR diff and the unit's acceptance list").
 
+Then attach each filed debt as a **sub-issue of the closing unit** —
+mechanics in `${CLAUDE_PLUGIN_ROOT}/reference/sub-issues.md` (Attach) —
+so the lineage is a query, not comment archaeology. The closing comment
+still lists every debt by number: the comment is the human record, the
+attachment is the machine truth. A debt whose repo the actor cannot
+write to, or whose visibility must not leak into the parent's public
+count (private debt under a public unit), stays unattached; list it in
+the comment with the marker `(unattached: <permissions|visibility>)`.
+If attachment fails, degrade loudly per the reference: the close
+proceeds, the comment says the tree is incomplete and why.
+
 ## 3. The pollen question
 
 Ask it in principle 4's wording: **"any pollen to capture?"** If yes,
@@ -45,7 +56,7 @@ was checked — an honest denominator, not a reflex "none".
 Build the comment from this template:
 
     ## Handover — closing #<N>
-    **Debts filed:** #<A> (<what>), #<B> (<what>) — or "none; checked <how>"
+    **Debts filed:** #<A> (<what>), #<B> (<what>, unattached: visibility) — or "none; checked <how>"
     **Pollen:** captured <slug> / "nothing proved itself this unit; checked <how>"
     **State:** branch <name>, PR #<M>, key commits <shas>
     **Constraints at close:** docs/constraints.md @ <sha of current HEAD touching it>

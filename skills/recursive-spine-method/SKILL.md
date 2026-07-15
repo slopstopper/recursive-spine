@@ -7,6 +7,8 @@ description: Use when a builder wants to learn or be reminded of the recursive-s
 
 Read `${CLAUDE_PLUGIN_ROOT}/reference/principles.md` and teach from it.
 Do not paraphrase the principles loosely — state them exactly, then explain.
+Issues also carry macro/micro depth — moment-triggered sub-issue trees —
+per the depth section of the same principles doc.
 
 ## How to teach it
 
