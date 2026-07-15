@@ -56,7 +56,7 @@ was checked — an honest denominator, not a reflex "none".
 Build the comment from this template:
 
     ## Handover — closing #<N>
-    **Debts filed:** #<A> (<what>), #<B> (<what>) — or "none; checked <how>"
+    **Debts filed:** #<A> (<what>), #<B> (<what>, unattached: visibility) — or "none; checked <how>"
     **Pollen:** captured <slug> / "nothing proved itself this unit; checked <how>"
     **State:** branch <name>, PR #<M>, key commits <shas>
     **Constraints at close:** docs/constraints.md @ <sha of current HEAD touching it>

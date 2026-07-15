@@ -20,7 +20,7 @@ with cross-repo trees: **access** (an attach can fail on permissions —
 degrade loudly, record the lineage in prose, and say the tree is
 partial) and **visibility** (a private child under a public parent leaks
 its existence through the parent's sub-issue count; private-scope
-children belong under private-scope parents — see the two-hive rule).
+children belong under private-scope parents — see the two-hive model (skills/recursive-spine-pollinate/SKILL.md)).
 
 Detach uses the SINGULAR path — `gh api
 repos/<owner>/<repo>/issues/<parent-number>/sub_issue -X DELETE -F

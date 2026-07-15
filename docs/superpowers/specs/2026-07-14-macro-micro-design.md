@@ -97,8 +97,11 @@ owner-picked over a ninth skill or per-skill copies):
 
 ## Testing
 
-- Nudge golden scenarios extended: sequence-head query (S9),
-  leak-by-age visibility (S10), prose-fallback when unconverted (S11).
+- Nudge golden scenarios extended: sequence-head query (S9), query
+  outranks prose (S10), prose-fallback when unconverted (S11).
+  (Amendment 2026-07-15: S10 was re-pointed at ranking — leak-by-age is
+  digest behavior, and the digest has no evals directory yet; a leak
+  scenario lands when digest evals exist, plausibly with #81's rewrite.)
 - Worked examples in digest and handover prose.
 - Live verification: convert one real umbrella (Veska #249-style) at its
   next touch, hand-run digest + nudge, confirm rollup line and head
