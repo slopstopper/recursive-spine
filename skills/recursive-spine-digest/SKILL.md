@@ -58,6 +58,23 @@ material, never CI failures. If the scripts are absent, say so:
 "installation predates the health scripts" is a line in the report, not
 a silent skip.
 
+## Depth (macro/micro parents)
+
+When a swept issue has sub-issues (`parent`/`subIssues` — mechanics in
+`${CLAUDE_PLUGIN_ROOT}/reference/sub-issues.md`, Read a tree), **roll it
+up and leak by age**:
+
+- A parent reports as one line with progress and head:
+  `#249 Phase 1 — 3/6 children closed, head: #242`.
+- Healthy children stay folded — they do not appear as separate lines.
+- Any child that individually crosses an aging or stall threshold
+  **leaks**: it surfaces as its own indented line directly under its
+  parent's, so folding never hides rot.
+- A child issue encountered in the sweep folds under its parent rather
+  than appearing twice.
+- If the tree cannot be read, degrade loudly per the reference: report
+  the issues flat and say why.
+
 ## The report
 
 One section per repo, then a cross-repo "oldest five deferrals anywhere"
