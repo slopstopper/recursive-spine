@@ -25,9 +25,17 @@ public repo.
    (aging deferrals, stalled milestones, in-flight by lane,
    assigned-but-untouched, honest denominators).
 2. **Dependency reading** (new sensing) — per repo, find items that became
-   unblocked: issues whose recorded sequencing ("sequenced after…",
-   "blocked by…", milestone ordering, lane position) names predecessors
-   that are now all closed. Cite the predecessor state in the nudge.
+   unblocked, by two readings:
+   - **Query (preferred):** for issues with sub-issues (mechanics in
+     `${CLAUDE_PLUGIN_ROOT}/reference/sub-issues.md`, Read a tree), the
+     sequence head is the first open child in sub-issue order whose
+     earlier siblings are all closed. Verifiable structure.
+   - **Prose (fallback):** issues whose recorded sequencing ("sequenced
+     after…", "blocked by…", milestone ordering, lane position) names
+     predecessors that are now all closed — for sequences not yet
+     converted to sub-issues.
+   Cite the predecessor state in the nudge, and say which reading
+   produced the candidate.
 3. **Pollen reading** (new sensing) — pollen records that plausibly relate
    to an open deferral. Every pair must cite *why* (shared mechanism,
    named skill, same moment). No citation, no candidate.
@@ -58,7 +66,9 @@ Drop any candidate that cannot honestly take this shape.
 
 ## Ranking
 
-1. Unblocked-and-next (concrete, actionable now)
+1. Unblocked-and-next (concrete, actionable now; within this trigger,
+   query-derived heads outrank prose-derived ones — verifiable beats
+   inferred)
 2. Aging deferrals (oldest first)
 3. Stalled milestones
 4. Pollen↔deferral connections (fuzziest; earns rank as it proves precision)
