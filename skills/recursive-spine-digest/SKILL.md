@@ -84,7 +84,7 @@ only the framing is specified here.
 **Open with "The week at a glance":** two to four declarative sentences,
 in this order — deltas first (newly aging since the last digest, resolved
 since, crossed a threshold), then the single most attention-worthy item
-if any, then the failed-repo denominator if any repo failed. A quiet week
+if any, then end with the swept/failed denominator — name the failures if any. A quiet week
 says so plainly ("Quiet week; nothing newly aging.").
 
 **Delta rule:** before writing, read the previous digest comment on the
@@ -109,8 +109,7 @@ not nudging.
 
 **Worked example — delta week:**
 
-> **The week at a glance:** #38 crossed the 7-day deferral mark this
-> week, and #57 resolved since the last digest. One thing needs eyes:
+> **The week at a glance:** #38 aged past a week as a deferral, and #57 resolved since the last digest. One thing needs eyes:
 > Veska_Index_App's Phase-1 milestone has been silent 21 days. Swept 4/4.
 >
 > ### plumb-line — healthy
