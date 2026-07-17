@@ -55,3 +55,11 @@ hand-running the digest against real repo state once before ship.
 
 Nudge skill (unchanged), macro/micro sub-issues (#72), portable delivery
 (#82), any change to sweep logic, thresholds, or ledger.
+
+## Amendments
+
+- 2026-07-17: v0.9.0 (macro/micro depth, #84) merged before this spec's
+  implementation, so it shipped as **v0.9.1**, not the v0.8.1 named
+  above. The report section also gained one sentence composing with the
+  Depth section (children roll up, never duplicated in raw lists) per
+  the coordination note on PR #83.

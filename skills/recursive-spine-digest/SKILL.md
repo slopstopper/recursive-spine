@@ -75,12 +75,56 @@ up and leak by age**:
 - If the tree cannot be read, degrade loudly per the reference: report
   the issues flat and say why.
 
-## The report
+## The report — briefing voice
 
-One section per repo, then a cross-repo "oldest five deferrals anywhere"
-table. End with the honest denominator: repos swept / repos failed (auth,
-missing label, API error) — a failed repo is a line in the report, never a
-silent omission. Note that 21/14-day thresholds are defaults, not doctrine.
+The report reads like a briefing a colleague wrote: plain language first,
+evidence after. The data, formats, and honest denominators are unchanged —
+only the framing is specified here.
+
+**Open with "The week at a glance":** two to four declarative sentences,
+in this order — deltas first (newly aging since the last digest, resolved
+since, crossed a threshold), then the single most attention-worthy item
+if any, then end with the swept/failed denominator — name the failures if any. A quiet week
+says so plainly ("Quiet week; nothing newly aging.").
+
+**Delta rule:** before writing, read the previous digest comment on the
+tracking issue (one read, no other state). If none exists or it cannot be
+read as a digest, open with "No previous digest to compare" — never fake
+a delta.
+
+**Every repo section leads with a status** from exactly this vocabulary —
+`healthy`, `aging`, `needs eyes`, `sweep failed` — in the heading, plus
+one sentence saying why. A reader who reads only the leads has an
+accurate picture. The full tables follow each lead as evidence, format
+unchanged. Then the cross-repo "oldest five deferrals anywhere" table,
+and the closing honest denominator: repos swept / repos failed (auth,
+missing label, API error) — a failed repo is a line in the report, never
+a silent omission. Note that 21/14-day thresholds are defaults, not
+doctrine. A child issue rolled up under its parent per the Depth section appears
+only there — never duplicated as a standalone line in the raw lists.
+
+**The digest never asks.** Question-shaped sentences are the nudge
+skill's monopoly; every briefing sentence is declarative. Informing is
+not nudging.
+
+**Worked example — delta week:**
+
+> **The week at a glance:** #38 aged past a week as a deferral, and #57 resolved since the last digest. One thing needs eyes:
+> Veska_Index_App's Phase-1 milestone has been silent 21 days. Swept 4/4.
+>
+> ### plumb-line — healthy
+> Nothing aging; v0.8.0 has fresh activity.
+> *(full deferral/milestone tables follow)*
+>
+> ### Veska_Index_App — needs eyes
+> Milestone Phase-1 stalled 21d; #242 assigned but untouched 14d.
+> *(tables follow)*
+
+**Worked example — first run:**
+
+> **The week at a glance:** No previous digest to compare. The oldest
+> deferral anywhere is rs#21 (5d); nothing has crossed a stall threshold.
+> Swept 4/4.
 
 ## Delivery
 
