@@ -193,7 +193,7 @@ Do not proceed until the owner has approved the README PR. This changes public r
 - [ ] **Step 2: Set the description**
 
 ```bash
-gh repo edit slopstopper/recursive-spine --description "A project backbone for Claude Code that grows from its own use. Work lives in GitHub issues, not prose; what proves itself in one project pollinates to the next. A loop you stay in."
+gh repo edit slopstopper/recursive-spine --description "A project backbone for Claude Code that grows from its own use. Your project's state lives where it stays true — GitHub issues, not prose that goes stale — and the system stays in a loop with you, sensing what's next and keeping what proves out."
 ```
 
 - [ ] **Step 3: Verify**
