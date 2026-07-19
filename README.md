@@ -77,7 +77,7 @@ Four parts, each a working module:
   interview + proven pollen: rules codex, ADR directory, CI skeleton,
   session-memory convention, constraints file. Every part optional;
   declines recorded.
-- **Connective tissue** — one canonical `docs/constraints.md`, a
+- **Constraints & records** — one canonical `docs/constraints.md`, a
   sha-pinned drift gate in CI, and the closing record posted on each issue
   when a unit of work ends.
 - **Pollination** — the propagation layer: the `pollen/` registry, capture
