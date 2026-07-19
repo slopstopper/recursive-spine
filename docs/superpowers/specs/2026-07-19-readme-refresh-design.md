@@ -67,10 +67,11 @@ Current: "A portable project spine for Claude Code: state lives in issues,
 conventions get stamped, constraints can't drift, and proven patterns
 pollinate between projects. Recursively self-applied."
 
-New (proposed): "A portable project spine for Claude Code — work state
-lives in GitHub issues, not prose files. It tracks, senses what's aging or
-unblocked, and nudges you; what proves out pollinates to other projects.
-A loop you stay in." (≤ the 350-char GitHub limit; topics unchanged.)
+New (chosen — "grows from its own use" direction, mechanics implied not
+listed): "A project backbone for Claude Code that grows from its own use.
+Work lives in GitHub issues, not prose; what proves itself in one project
+pollinates to the next. A loop you stay in." (≤ the 350-char GitHub limit;
+topics unchanged.)
 
 Applied with `gh repo edit` after the README PR is approved.
 
