@@ -5,8 +5,9 @@
 Most of what a project knows about itself lives in prose files that go
 stale the week they're written. recursive-spine puts that state where it
 stays true — in GitHub issues and milestones — then stays in a loop with
-you: sensing where work stands, surfacing what's next, and keeping what
-proves out. A backbone you build on that grows as you use it.
+you: sensing where work stands, surfacing what's next, and carrying what
+proves out to your other projects instead of letting it die where it was
+born. A backbone you build on that grows as you use it.
 
 ## What it is
 
@@ -20,11 +21,21 @@ help you keep it. In plain terms, it:
 - **starts the conversation** — nudges you about what's ready to pick up
   next; every nudge ends in a question, never in work done behind your
   back;
-- **carries what proves out to other projects** — a pattern, a CI gate, a
-  convention that worked once becomes reusable instead of dying where it
-  was born;
 - **scaffolds house conventions and gates drift** — a rules codex, an ADR
   trail, a constraints file that CI won't let rot.
+
+## What proves out travels
+
+Prove something out in one project and it usually dies there. A CI gate
+you finally got right, a convention that stuck, a pattern worth keeping —
+all trapped in the repo that grew it. recursive-spine captures it as
+**pollen**: a
+faithful record of the proven thing, with its provenance, in a registry
+your other projects pull from. Transplants get recorded back onto the
+record, and pollen climbs a ladder — seedling → transplanted → graduated —
+measured by real reuse, not ambition. Nothing invented ever ships: every
+record abstracts something that actually worked, and says where. This is
+the part you won't find in other tracking conventions.
 
 ## Install
 
@@ -80,10 +91,9 @@ Four parts, each a working module:
 - **Constraints & records** — one canonical `docs/constraints.md`, a
   sha-pinned drift gate in CI, and the closing record posted on each issue
   when a unit of work ends.
-- **Pollination** — the propagation layer: the `pollen/` registry, capture
-  and pull, and a graduation ladder (seedling → transplanted → graduated)
-  measured by real reuse, not ambition. Nothing invented ships — every
-  record abstracts something that actually worked, and says where.
+- **Pollination** — the propagation layer behind "What proves out
+  travels" above: the `pollen/` registry, capture and pull, and the
+  graduation ladder.
 
 Eight skills, each surfacing at its moment:
 
