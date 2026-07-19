@@ -1,29 +1,30 @@
 # recursive-spine
 
-A portable project spine, recursively self-applied.
+*A project backbone for Claude Code that grows from its own use.*
 
-recursive-spine is a Claude Code plugin: eight skills that grow a
-project a backbone. Work state lives in GitHub issues and milestones —
-queryable, conflict-free — instead of prose status files that merge as
-text and silently lose rows. Around that core: scaffolded house
-conventions, drift-gated constraints, and a closing record posted on
-every unit of work.
+Most of what a project knows about itself lives in prose files that go
+stale the week they're written. recursive-spine puts that state where it
+stays true — in GitHub issues and milestones — then stays in a loop with
+you: sensing where work stands, surfacing what's next, and keeping what
+proves out. A backbone you build on that grows as you use it.
 
-The name is literal. **Spine:** the plugin grows the backbone vertebra
-by vertebra — tracking, scaffold, connective tissue, pollination.
-**Recursive:** every vertebra was built under the convention it
-enforces, and the system feeds what its own use proves back into
-itself — self-applied became self-improving.
+## What it is
 
-The part you won't find elsewhere is **cross-project propagation**.
-When something proves itself in one project — a CI gate, a convention,
-a pattern — it usually dies there. Here it gets captured as **pollen**:
-a structure-faithful record of the proven thing, with its provenance,
-in a registry other projects pull from. Transplants are recorded back
-on the record, and pollen climbs a graduation ladder (seedling →
-transplanted → graduated) measured by real reuse, not by ambition.
-Nothing invented ships: every record abstracts something that actually
-worked somewhere, and says where.
+A Claude Code plugin — eight skills that give a project a backbone and
+help you keep it. In plain terms, it:
+
+- **tracks your work as GitHub issues and milestones** — queryable, with
+  none of the merge conflicts or silent row-loss a prose ledger hits;
+- **tells you where things stand** — a weekly sweep reports what's aging,
+  stalled, or newly unblocked, in plain language;
+- **starts the conversation** — nudges you about what's ready to pick up
+  next; every nudge ends in a question, never in work done behind your
+  back;
+- **carries what proves out to other projects** — a pattern, a CI gate, a
+  convention that worked once becomes reusable instead of dying where it
+  was born;
+- **scaffolds house conventions and gates drift** — a rules codex, an ADR
+  trail, a constraints file that CI won't let rot.
 
 ## Install
 
@@ -44,24 +45,45 @@ when you're ready to stamp a repo.
 directory (`skills/` + `.claude-plugin/plugin.json`), or add it under
 `plugins` in your `.claude/settings.json`.
 
-## The anatomy
+## The recursive part
 
-Four vertebrae, each a working module:
+The name is literal on both sides. **Spine:** the backbone a project
+stands on. **Recursive:** a loop you stay in, with the system in it too.
 
-- **Tracking** — work state lives in GitHub issues and milestones,
-  never in prose ledgers. The five principles
-  ([reference/principles.md](reference/principles.md)) and the method,
-  bootstrap, migrate, and digest skills.
-- **Scaffold** — stamps the rest of a repo's spine from frames + the
-  builder's interview + proven pollen: rules codex with a moments map,
-  ADR directory, CI gate skeleton, session-memory convention,
-  constraints file. Every part optional; declines recorded.
-- **Connective tissue** — `docs/constraints.md` as the one canonical
-  source of global constraints, a sha-pinned drift gate in CI
-  (hand-copies were a measured drift vector), and the closing record
-  posted on each issue when a unit of work ends.
-- **Pollination** — the propagation layer described above: the
-  `pollen/` registry, capture and pull, the graduation ladder.
+The loop runs like this. Work lives as issues; the system sweeps them and
+senses what's drifting; it nudges you about what's unblocked and next; you
+decide and build; it records what closed and captures what proved out —
+and that record is what the next sweep reads. Nothing runs away from you:
+every cycle passes back through your judgment. The system keeps
+referencing its own state and growing from its own use, in your service.
+
+It runs this loop on itself, which is the honest test. This repo's issues
+and milestones existed before its first commit; its labels were stamped by
+its own bootstrap skill, its conventions by its own scaffold, its
+deferrals age on its own digest, its constraints gate on its own docs.
+Self-applied became self-improving — what building it proved fed back in
+as the next thing built. If the convention ever feels too heavy here,
+that's a bug in the convention, filed as an issue.
+
+## What's in it
+
+Four parts, each a working module:
+
+- **Tracking** — work state in issues and milestones, never prose. Issues
+  also carry depth: macro/micro sub-issue trees, created only at a real
+  moment — a plan lands, a handover files its debts, a sequence is
+  recorded — never as busywork.
+- **Scaffold** — stamps the rest of a repo's spine from frames + your
+  interview + proven pollen: rules codex, ADR directory, CI skeleton,
+  session-memory convention, constraints file. Every part optional;
+  declines recorded.
+- **Connective tissue** — one canonical `docs/constraints.md`, a
+  sha-pinned drift gate in CI, and the closing record posted on each issue
+  when a unit of work ends.
+- **Pollination** — the propagation layer: the `pollen/` registry, capture
+  and pull, and a graduation ladder (seedling → transplanted → graduated)
+  measured by real reuse, not ambition. Nothing invented ships — every
+  record abstracts something that actually worked, and says where.
 
 Eight skills, each surfacing at its moment:
 
@@ -74,39 +96,21 @@ Eight skills, each surfacing at its moment:
 - "Where does work stand?" → `recursive-spine-digest`
 - The system starts the conversation → `recursive-spine-nudge`
 
-Remaining and deferred work is tracked in this repo's own issues —
-that's the point. `gh issue list --label deferred` is the honest record
-of what's not done; this file enumerates none of it, because a README
-paragraph is a prose ledger in miniature and goes stale the week it's
-written.
+## Principles
 
-## The recursion
+See [reference/principles.md](reference/principles.md). In one line each:
+state lives where it's queryable; issues are units, milestones are
+narratives; deferral requires a record; handover files its debts before it
+closes; branches and PRs cite the record. Issues also carry **depth** —
+macro/micro sub-issue trees, created only at a real moment, never
+speculatively.
 
-This repo's issues and milestones existed before its first commit. Its
-labels were stamped by its own bootstrap skill. Its codex and ADR
-directory were stamped by its own scaffold skill. Its deferrals age on
-its own digest, and its constraints drift-gate runs on its own docs.
-Even the build order followed the system's logic rather than the
-spine's numbering: pollination was built first, so it could capture
-what building the other vertebrae proved. If the convention ever feels
-too heavy here, that is a bug in the convention — filed as an issue,
-of course.
-
-## The five principles
-
-See [reference/principles.md](reference/principles.md). In one line
-each: state lives where it's queryable; issues are units, milestones
-are narratives; deferral requires a record; handover files its debts
-before it closes; branches and PRs cite the record.
-
-## Tracking (recursive-spine convention)
-
-Work state lives in GitHub issues and milestones, not in prose files.
-- What's in flight: `gh issue list --assignee @me`
-- Deferred work: `gh issue list --label deferred`
-- Branches: `<prefix>/<issue>-<slug>`; PRs say `Closes #N`.
-- Deferral requires a filed issue. Handover files its debts before closing.
-Dialect and modules for this repo: [docs/tracking-dialect.md](docs/tracking-dialect.md)
+In practice: what's in flight is `gh issue list --assignee @me`; deferred
+work is `gh issue list --label deferred`; branches are
+`<prefix>/<issue>-<slug>` and PRs say `Closes #N`. This file never
+enumerates the deferred work itself — it would go stale the week it was
+written, which is the whole point. Dialect and modules for this repo:
+[docs/tracking-dialect.md](docs/tracking-dialect.md)
 
 ## Kin
 
