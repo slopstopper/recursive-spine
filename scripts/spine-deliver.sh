@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # Deliver a digest/nudge body: tracking-issue comment (+@mention) and optional Slack webhook.
 set -uo pipefail
-ISSUE="${SPINE_TRACKING_ISSUE:?SPINE_TRACKING_ISSUE (owner/repo#N) required}"
+if [ -z "${SPINE_TRACKING_ISSUE:-}" ]; then
+  echo "SPINE_TRACKING_ISSUE (owner/repo#N) required" >&2
+  exit 3
+fi
+ISSUE="$SPINE_TRACKING_ISSUE"
 MENTION="${SPINE_MENTION:-}"
 BODY="$(cat)"
 [ -z "$BODY" ] && { echo "empty body; nothing to deliver" >&2; exit 3; }
