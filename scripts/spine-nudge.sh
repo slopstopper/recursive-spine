@@ -3,7 +3,7 @@
 # Degrades loudly: any failure prints a note and exits 0 so the digest still delivers.
 set -uo pipefail
 KEY="${ANTHROPIC_API_KEY:-}"
-RUNBOOK="${SPINE_NUDGE_RUNBOOK:?SPINE_NUDGE_RUNBOOK path required}"
+RUNBOOK="${SPINE_NUDGE_RUNBOOK:-}"
 DIGEST="$(cat)"
 
 if [ -z "$KEY" ]; then
@@ -11,7 +11,12 @@ if [ -z "$KEY" ]; then
   exit 0
 fi
 if [ ! -f "$RUNBOOK" ]; then
-  echo "_Nudge step unavailable: runbook not found at $RUNBOOK._"; exit 0
+  if [ -z "$RUNBOOK" ]; then
+    echo "_Nudge step unavailable: runbook not found (SPINE_NUDGE_RUNBOOK unset or missing)._"
+  else
+    echo "_Nudge step unavailable: runbook not found at $RUNBOOK._"
+  fi
+  exit 0
 fi
 
 system="$(cat "$RUNBOOK")"
