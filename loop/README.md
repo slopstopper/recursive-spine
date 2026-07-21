@@ -26,10 +26,9 @@ issue and (optionally) Slack. Capabilities tier up by the secrets you set:
               tracking-issue: "you/repo-a#1"
               mention: "@you"
               ledger: "you/repo:.spine/nudge-ledger.md"
-            env:
-              SPINE_SWEEP_TOKEN: ${{ secrets.SPINE_SWEEP_TOKEN }}
-              ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+              sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}
+              anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+              slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 - **ledger**: `owner/repo:path` of a markdown file used to suppress nudges
   already raised in a prior week. Leave empty to skip suppression.
