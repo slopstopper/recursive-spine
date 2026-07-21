@@ -1,0 +1,66 @@
+name: "recursive-spine loop"
+description: "Weekly deterministic digest + optional LLM nudges, delivered to a tracking issue."
+inputs:
+  repos:
+    description: "Space-separated owner/repo list to sweep. Defaults to the workflow's own repo."
+    required: false
+    default: ${{ github.repository }}
+  tracking-issue:
+    description: "owner/repo#N to post the digest/nudges to."
+    required: true
+  mention:
+    description: "@handle to notify in the comment."
+    required: false
+    default: ""
+  deferral-label:
+    required: false
+    default: "deferred"
+  stall-days:
+    required: false
+    default: "21"
+  nudge-runbook:
+    description: "Path to the nudge skill file for the Tier-2 step."
+    required: false
+    default: "${{ github.action_path }}/../skills/recursive-spine-nudge/SKILL.md"
+  ledger:
+    description: "owner/repo:path of the nudge ledger for week-to-week suppression; empty to skip"
+    required: false
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - name: Digest (Tier 0/1)
+      id: digest
+      shell: bash
+      env:
+        GH_TOKEN: ${{ env.SPINE_SWEEP_TOKEN != '' && env.SPINE_SWEEP_TOKEN || github.token }}
+        SPINE_REPOS: ${{ inputs.repos }}
+        SPINE_DEFERRAL_LABEL: ${{ inputs.deferral-label }}
+        SPINE_STALL_DAYS: ${{ inputs.stall-days }}
+      run: |
+        set -euo pipefail
+        "${{ github.action_path }}/../scripts/spine-digest.sh" > "$RUNNER_TEMP/digest.md" || true
+        echo "path=$RUNNER_TEMP/digest.md" >> "$GITHUB_OUTPUT"
+    - name: Nudges (Tier 2, optional)
+      id: nudge
+      shell: bash
+      env:
+        GH_TOKEN: ${{ env.SPINE_SWEEP_TOKEN != '' && env.SPINE_SWEEP_TOKEN || github.token }}
+        ANTHROPIC_API_KEY: ${{ env.ANTHROPIC_API_KEY }}
+        SPINE_NUDGE_RUNBOOK: ${{ inputs.nudge-runbook }}
+        SPINE_LEDGER: ${{ inputs.ledger }}
+      run: |
+        set -euo pipefail
+        "${{ github.action_path }}/../scripts/spine-nudge.sh" \
+          < "$RUNNER_TEMP/digest.md" > "$RUNNER_TEMP/nudges.md" || true
+    - name: Deliver
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        SPINE_TRACKING_ISSUE: ${{ inputs.tracking-issue }}
+        SPINE_MENTION: ${{ inputs.mention }}
+        SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+      run: |
+        set -euo pipefail
+        { cat "$RUNNER_TEMP/digest.md"; echo; echo "---"; echo; cat "$RUNNER_TEMP/nudges.md" 2>/dev/null || true; } \
+          | "${{ github.action_path }}/../scripts/spine-deliver.sh"
