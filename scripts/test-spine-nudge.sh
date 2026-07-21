@@ -62,31 +62,27 @@ else
 fi
 
 # ledger delimiter stripping: confirm with SPINE_LEDGER set (full ledger read+append path stubbed via gh).
+# The read must be a SINGLE `gh api repos/.../contents/PATH` call (no --jq) returning full JSON
+# with both .content and .sha, parsed locally with jq. A second call with the same shape (no -X)
+# would indicate the old two-fetch behavior and should fail the "single fetch" assertion below.
 mkdir -p "$TMP/withledger"
 cp "$TMP/curl-ledger" "$TMP/withledger/curl"
-cat > "$TMP/withledger/gh" <<'STUB'
+GH_CALL_LOG="$TMP/withledger/gh-calls.log"
+cat > "$TMP/withledger/gh" <<STUB
 #!/usr/bin/env bash
-# Stub gh: handle `gh api repos/OWNER/REPO/contents/PATH [--jq .content|.sha] [-X PUT ...]`
-args=("$@")
+# Stub gh: handle \`gh api repos/OWNER/REPO/contents/PATH\` (single-fetch, no --jq) and
+# \`gh api repos/OWNER/REPO/contents/PATH -X PUT ...\`.
+echo "\$*" >> "$GH_CALL_LOG"
 is_put=0
-for a in "$@"; do
-  if [ "$a" = "-X" ]; then is_put=1; fi
+for a in "\$@"; do
+  if [ "\$a" = "-X" ]; then is_put=1; fi
 done
-if [ "$is_put" -eq 1 ]; then
+if [ "\$is_put" -eq 1 ]; then
   exit 0
 fi
-for a in "$@"; do
-  case "$a" in
-    --jq)
-      ;;
-  esac
-done
-if printf '%s\n' "$@" | grep -q '\.sha'; then
-  echo "deadbeef"
-elif printf '%s\n' "$@" | grep -q '\.content'; then
-  printf '%s' "# ledger
-" | base64
-fi
+content="\$(printf '%s' '# ledger
+' | base64)"
+printf '{"content":"%s","sha":"deadbeef"}\n' "\$content"
 STUB
 chmod +x "$TMP/withledger/gh"
 OUT="$(printf '# Spine digest\n## acme/one\n' | PATH="$TMP/withledger:$PATH" ANTHROPIC_API_KEY=x \
@@ -98,6 +94,13 @@ if [ "$rc" -eq 0 ] && grep -q "acme/one#5" <<<"$OUT" && ! grep -q "===LEDGER==="
   echo "PASS: ledger delimiter and lines after it never reach stdout"
 else
   echo "FAIL: ledger delimiter and lines after it never reach stdout (rc=$rc, out='$OUT')"; FAIL=1
+fi
+
+read_calls="$(grep -vc -- '-X' "$GH_CALL_LOG" 2>/dev/null || echo 0)"
+if [ "$read_calls" -eq 1 ]; then
+  echo "PASS: ledger read is a single gh api call (efficiency)"
+else
+  echo "FAIL: ledger read is a single gh api call (efficiency) (saw $read_calls read calls)"; FAIL=1
 fi
 
 # Ledger unreachable: gh fails -> loud note, still exit 0, still selects nudges.
@@ -116,6 +119,77 @@ if [ "$rc" -eq 0 ] && grep -qi "Ledger unreachable" <<<"$OUT" && grep -q "acme/o
   echo "PASS: unreachable ledger degrades loudly, still exits 0, still selects nudges"
 else
   echo "FAIL: unreachable ledger degrades loudly, still exits 0, still selects nudges (rc=$rc, out='$OUT')"; FAIL=1
+fi
+
+# Stub curl that returns zero nudges ('none') plus an empty ===LEDGER=== section.
+cat > "$TMP/curl-none" <<'STUB'
+#!/usr/bin/env bash
+echo '{"content":[{"type":"text","text":"none\n===LEDGER===\n"}]}'
+STUB
+chmod +x "$TMP/curl-none"
+
+# Zero nudges with SPINE_LEDGER set: the ledger PUT must still happen, with a
+# "## run <date> — sent 0 nudges" header. Stub gh to capture the PUT body.
+mkdir -p "$TMP/zeronudges"
+cp "$TMP/curl-none" "$TMP/zeronudges/curl"
+PUT_BODY_FILE="$TMP/zeronudges/put-body.txt"
+cat > "$TMP/zeronudges/gh" <<STUB
+#!/usr/bin/env bash
+is_put=0
+content_arg=""
+prev=""
+for a in "\$@"; do
+  if [ "\$a" = "-X" ]; then is_put=1; fi
+  if [ "\$prev" = "-f" ] && [[ "\$a" == content=* ]]; then
+    content_arg="\${a#content=}"
+  fi
+  prev="\$a"
+done
+if [ "\$is_put" -eq 1 ]; then
+  printf '%s' "\$content_arg" | base64 -d > "$PUT_BODY_FILE"
+  exit 0
+fi
+content="\$(printf '%s' '# ledger
+' | base64)"
+printf '{"content":"%s","sha":"deadbeef"}\n' "\$content"
+STUB
+chmod +x "$TMP/zeronudges/gh"
+OUT="$(printf '# Spine digest\n## acme/one\n' | PATH="$TMP/zeronudges:$PATH" ANTHROPIC_API_KEY=x \
+       SPINE_NUDGE_RUNBOOK="$TMP/runbook.md" SPINE_LEDGER="effythealien/private-hive:nudges/ledger.md" \
+       GH_TOKEN=x bash "$HERE/spine-nudge.sh" 2>/dev/null)"
+rc=$?
+if [ "$rc" -eq 0 ] && [ -f "$PUT_BODY_FILE" ] && grep -q "sent 0 nudges" "$PUT_BODY_FILE"; then
+  echo "PASS: zero nudges still appends ledger PUT with 'sent 0 nudges' header"
+else
+  echo "FAIL: zero nudges still appends ledger PUT with 'sent 0 nudges' header (rc=$rc, out='$OUT')"; FAIL=1
+fi
+
+# Ledger read succeeds (content+sha present) but the PUT call fails:
+# script must print the "_Ledger append failed_" note AND still exit 0.
+mkdir -p "$TMP/putfails"
+cp "$TMP/curl-ledger" "$TMP/putfails/curl"
+cat > "$TMP/putfails/gh" <<'STUB'
+#!/usr/bin/env bash
+is_put=0
+for a in "$@"; do
+  if [ "$a" = "-X" ]; then is_put=1; fi
+done
+if [ "$is_put" -eq 1 ]; then
+  exit 1
+fi
+content="$(printf '%s' '# ledger
+' | base64)"
+printf '{"content":"%s","sha":"deadbeef"}\n' "$content"
+STUB
+chmod +x "$TMP/putfails/gh"
+OUT="$(printf '# Spine digest\n## acme/one\n' | PATH="$TMP/putfails:$PATH" ANTHROPIC_API_KEY=x \
+       SPINE_NUDGE_RUNBOOK="$TMP/runbook.md" SPINE_LEDGER="effythealien/private-hive:nudges/ledger.md" \
+       GH_TOKEN=x bash "$HERE/spine-nudge.sh" 2>/dev/null)"
+rc=$?
+if [ "$rc" -eq 0 ] && grep -qi "Ledger append failed" <<<"$OUT" && grep -q "acme/one#5" <<<"$OUT"; then
+  echo "PASS: ledger read succeeds but PUT fails -> append-failed note, exit 0"
+else
+  echo "FAIL: ledger read succeeds but PUT fails -> append-failed note, exit 0 (rc=$rc, out='$OUT')"; FAIL=1
 fi
 
 exit "$FAIL"

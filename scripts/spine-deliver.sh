@@ -11,6 +11,10 @@ BODY="$(cat)"
 [ -z "$BODY" ] && { echo "empty body; nothing to deliver" >&2; exit 3; }
 
 repo="${ISSUE%%#*}"; num="${ISSUE##*#}"
+if [ "$num" = "$repo" ]; then
+  echo "SPINE_TRACKING_ISSUE malformed (expected owner/repo#N)" >&2
+  exit 3
+fi
 full_body="${MENTION:+$MENTION }$BODY"
 
 url="$(printf '%s' "$full_body" | gh issue comment "$num" -R "$repo" --body-file - 2>/dev/null)" \

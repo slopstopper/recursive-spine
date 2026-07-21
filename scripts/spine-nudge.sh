@@ -31,10 +31,14 @@ ledger_note=""
 if [ -n "$LEDGER" ]; then
   ledger_repo="${LEDGER%%:*}"
   ledger_path="${LEDGER#*:}"
-  ledger_raw="$(gh api "repos/$ledger_repo/contents/$ledger_path" --jq .content 2>/dev/null)"
-  if [ -n "$ledger_raw" ]; then
-    ledger_content="$(printf '%s' "$ledger_raw" | base64 -d 2>/dev/null)"
-    ledger_sha="$(gh api "repos/$ledger_repo/contents/$ledger_path" --jq .sha 2>/dev/null)"
+  ledger_json="$(gh api "repos/$ledger_repo/contents/$ledger_path" 2>/dev/null)"
+  if [ -n "$ledger_json" ]; then
+    ledger_raw="$(printf '%s' "$ledger_json" | jq -r .content 2>/dev/null)"
+    ledger_sha="$(printf '%s' "$ledger_json" | jq -r .sha 2>/dev/null)"
+    if [ -n "$ledger_raw" ] && [ "$ledger_raw" != "null" ]; then
+      ledger_content="$(printf '%s' "$ledger_raw" | base64 -d 2>/dev/null)"
+    fi
+    [ "$ledger_sha" = "null" ] && ledger_sha=""
   fi
   if [ -z "$ledger_content" ] || [ -z "$ledger_sha" ]; then
     ledger_content=""

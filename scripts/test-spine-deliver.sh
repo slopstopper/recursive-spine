@@ -42,6 +42,16 @@ else
   FAILED="1"
 fi
 
+printf 'hi' | PATH="$TMP:$PATH" SPINE_TRACKING_ISSUE="acme/one" \
+       GH_TOKEN=x bash "$HERE/spine-deliver.sh" >/dev/null 2>&1
+rc=$?
+if [ "$rc" -eq 3 ]; then
+  echo "PASS: malformed SPINE_TRACKING_ISSUE (no #N) exits 3"
+else
+  echo "FAIL: malformed SPINE_TRACKING_ISSUE (no #N) exits $rc (expected 3)"
+  FAILED="1"
+fi
+
 if [ -n "$FAILED" ]; then
   exit 1
 fi
