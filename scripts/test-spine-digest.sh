@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
-# Offline test for spine-digest.sh: stubs `gh` on PATH and asserts structure.
+# Offline test for spine-digest.sh: stubs `gh` on PATH and asserts structure,
+# the failure path, exit codes, and aging-deferral sort order.
 set -uo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
-TMP="$(mktemp -d)"
-trap 'rm -rf "$TMP"' EXIT
 
-# Stub gh: return fixed JSON per subcommand so the sweep is deterministic.
-cat > "$TMP/gh" <<'STUB'
+overall_fail=0
+
+# ---------------------------------------------------------------------------
+# Scenario 1: all repos sweep successfully (baseline structure check).
+# ---------------------------------------------------------------------------
+run_scenario_all_succeed() {
+  local tmp out fail=0
+  tmp="$(mktemp -d)"
+
+  cat > "$tmp/gh" <<'STUB'
 #!/usr/bin/env bash
 case "$*" in
   *"issue list"*"--label deferred"*) echo '[{"number":7,"title":"old thing","createdAt":"2026-06-01T00:00:00Z"}]' ;;
@@ -15,15 +22,129 @@ case "$*" in
   *)                                  echo '[]' ;;
 esac
 STUB
-chmod +x "$TMP/gh"
+  chmod +x "$tmp/gh"
 
-OUT="$(PATH="$TMP:$PATH" SPINE_REPOS="acme/one acme/two" SPINE_DEFERRAL_LABEL=deferred \
-       SPINE_STALL_DAYS=21 GH_TOKEN=x bash "$HERE/spine-digest.sh" 2>/dev/null)"
+  out="$(PATH="$tmp:$PATH" SPINE_REPOS="acme/one acme/two" SPINE_DEFERRAL_LABEL=deferred \
+         SPINE_STALL_DAYS=21 GH_TOKEN=x bash "$HERE/spine-digest.sh" 2>/dev/null)"
 
-fail=0
-grep -q "^# Spine digest — " <<<"$OUT" || { echo "FAIL: no title heading"; fail=1; }
-grep -q "acme/one" <<<"$OUT"          || { echo "FAIL: repo one missing"; fail=1; }
-grep -q "acme/two" <<<"$OUT"          || { echo "FAIL: repo two missing"; fail=1; }
-grep -q "#7"       <<<"$OUT"          || { echo "FAIL: aging deferral #7 missing"; fail=1; }
-grep -Eq "swept 2/2" <<<"$OUT"        || { echo "FAIL: denominator wrong"; fail=1; }
-[ "$fail" = 0 ] && echo "PASS: spine-digest structure" || exit 1
+  grep -q "^# Spine digest — " <<<"$out" || { echo "FAIL[all-succeed]: no title heading"; fail=1; }
+  grep -q "acme/one" <<<"$out"          || { echo "FAIL[all-succeed]: repo one missing"; fail=1; }
+  grep -q "acme/two" <<<"$out"          || { echo "FAIL[all-succeed]: repo two missing"; fail=1; }
+  grep -q "#7"       <<<"$out"          || { echo "FAIL[all-succeed]: aging deferral #7 missing"; fail=1; }
+  grep -Eq "swept 2/2" <<<"$out"        || { echo "FAIL[all-succeed]: denominator wrong"; fail=1; }
+
+  rm -rf "$tmp"
+  [ "$fail" = 0 ] && echo "PASS: spine-digest structure (all succeed)" || return 1
+}
+
+# ---------------------------------------------------------------------------
+# Scenario 2: one repo unreachable -> FAILED line, partial denominator,
+# exit code 0 (since at least one repo still swept).
+# ---------------------------------------------------------------------------
+run_scenario_partial_failure() {
+  local tmp out rc fail=0
+  tmp="$(mktemp -d)"
+
+  cat > "$tmp/gh" <<'STUB'
+#!/usr/bin/env bash
+case "$*" in
+  *"api repos/acme/bad"*)             exit 1 ;;
+  *"api repos/acme/ok"*)              echo '"acme/ok"' ;;
+  *"issue list"*"--label deferred"*)  echo '[]' ;;
+  *"api"*"/milestones"*)              echo '[]' ;;
+  *)                                   echo '[]' ;;
+esac
+STUB
+  chmod +x "$tmp/gh"
+
+  out="$(PATH="$tmp:$PATH" SPINE_REPOS="acme/ok acme/bad" SPINE_DEFERRAL_LABEL=deferred \
+         SPINE_STALL_DAYS=21 GH_TOKEN=x bash "$HERE/spine-digest.sh" 2>/dev/null)"
+  rc=$?
+
+  grep -q "FAILED: acme/bad" <<<"$out" || { echo "FAIL[partial-failure]: no FAILED line for acme/bad"; fail=1; }
+  grep -Eq "swept 1/2" <<<"$out"       || { echo "FAIL[partial-failure]: denominator not 1/2"; fail=1; }
+  [ "$rc" -eq 0 ]                      || { echo "FAIL[partial-failure]: exit code $rc, expected 0"; fail=1; }
+
+  rm -rf "$tmp"
+  [ "$fail" = 0 ] && echo "PASS: partial failure path (FAILED line, swept 1/2, exit 0)" || return 1
+}
+
+# ---------------------------------------------------------------------------
+# Scenario 3: every repo unreachable -> swept 0/N, exit code 2.
+# ---------------------------------------------------------------------------
+run_scenario_all_fail() {
+  local tmp out rc fail=0
+  tmp="$(mktemp -d)"
+
+  cat > "$tmp/gh" <<'STUB'
+#!/usr/bin/env bash
+case "$*" in
+  *"api repos/"*) exit 1 ;;
+  *)               echo '[]' ;;
+esac
+STUB
+  chmod +x "$tmp/gh"
+
+  out="$(PATH="$tmp:$PATH" SPINE_REPOS="acme/one acme/two" SPINE_DEFERRAL_LABEL=deferred \
+         SPINE_STALL_DAYS=21 GH_TOKEN=x bash "$HERE/spine-digest.sh" 2>/dev/null)"
+  rc=$?
+
+  grep -Eq "swept 0/2" <<<"$out" || { echo "FAIL[all-fail]: denominator not 0/2"; fail=1; }
+  [ "$rc" -eq 2 ]                || { echo "FAIL[all-fail]: exit code $rc, expected 2"; fail=1; }
+
+  rm -rf "$tmp"
+  [ "$fail" = 0 ] && echo "PASS: all-fail path (swept 0/2, exit 2)" || return 1
+}
+
+# ---------------------------------------------------------------------------
+# Scenario 4: aging deferrals are sorted oldest-first.
+# #2 is older (createdAt 2026-01-01), #1 is newer (createdAt 2026-06-01).
+# #2's row must appear before #1's row.
+# ---------------------------------------------------------------------------
+run_scenario_sort_order() {
+  local tmp out fail=0
+  tmp="$(mktemp -d)"
+
+  cat > "$tmp/gh" <<'STUB'
+#!/usr/bin/env bash
+case "$*" in
+  *"api repos/acme/one"*)             echo '"acme/one"' ;;
+  *"issue list"*"--label deferred"*)  echo '[{"number":1,"title":"newer","createdAt":"2026-06-01T00:00:00Z"},{"number":2,"title":"older","createdAt":"2026-01-01T00:00:00Z"}]' ;;
+  *"api"*"/milestones"*)              echo '[]' ;;
+  *)                                   echo '[]' ;;
+esac
+STUB
+  chmod +x "$tmp/gh"
+
+  out="$(PATH="$tmp:$PATH" SPINE_REPOS="acme/one" SPINE_DEFERRAL_LABEL=deferred \
+         SPINE_STALL_DAYS=21 GH_TOKEN=x bash "$HERE/spine-digest.sh" 2>/dev/null)"
+
+  local line2 line1
+  line2="$(grep -n "#2" <<<"$out" | head -1 | cut -d: -f1)"
+  line1="$(grep -n "#1" <<<"$out" | head -1 | cut -d: -f1)"
+
+  if [ -z "$line2" ] || [ -z "$line1" ]; then
+    echo "FAIL[sort-order]: expected both #1 and #2 rows in output"
+    fail=1
+  elif [ "$line2" -ge "$line1" ]; then
+    echo "FAIL[sort-order]: #2 (older) did not appear before #1 (newer)"
+    fail=1
+  fi
+
+  rm -rf "$tmp"
+  [ "$fail" = 0 ] && echo "PASS: aging deferrals sorted oldest-first" || return 1
+}
+
+overall_fail=0
+run_scenario_all_succeed    || overall_fail=1
+run_scenario_partial_failure || overall_fail=1
+run_scenario_all_fail       || overall_fail=1
+run_scenario_sort_order     || overall_fail=1
+
+if [ "$overall_fail" = 0 ]; then
+  echo "PASS: all spine-digest scenarios"
+  exit 0
+else
+  echo "FAIL: one or more spine-digest scenarios failed (see above)"
+  exit 1
+fi
