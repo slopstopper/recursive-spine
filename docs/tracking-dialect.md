@@ -155,6 +155,30 @@ Recorded per the scaffold skill's interview, run against this repo
   pointer — both already answered in "Kin offers, as answered" above;
   not re-asked.
 
+## loop (this installation)
+
+Recorded per the portable GitHub-Action loop (#93), run against this repo
+(recursion: the module dogfoods itself via `.github/workflows/spine-loop.yml`,
+calling the composite action at `./loop`).
+
+- **Swept repos (the family):** `slopstopper/recursive-spine`,
+  `slopstopper/plumb-line`, `slopstopper/tokenomics`,
+  `effythealien/Veska_Index_App`.
+- **Tracking issue:** `slopstopper/recursive-spine#20` — the digest comment
+  target.
+- **Notify:** `@effythealien`.
+- **Ledger:** `effythealien/private-hive:nudges/ledger.md` — nudge records
+  append here, same split as the pollinate private hive above.
+- **Schedule:** Saturday 08:00 UTC (`cron: "0 8 * * 6"`), plus
+  `workflow_dispatch` for manual runs.
+- **Token requirement:** the family sweep needs the `SPINE_SWEEP_TOKEN` PAT
+  because it spans two owners (`slopstopper` and `effythealien`) — a
+  same-owner `GITHUB_TOKEN` cannot read across both.
+- **Stopgap replaced:** this workflow replaces the personal `launchd`
+  stopgap (`com.slopstopper.spine-loop.plist`) once the owner adds the repo
+  secrets and verifies a live run; retirement of the launchd job is owner-
+  gated and tracked separately, not assumed done by this record.
+
 ## connective tissue (this installation)
 
 Recorded per the connective-tissue vertebra (#33), run against this repo
