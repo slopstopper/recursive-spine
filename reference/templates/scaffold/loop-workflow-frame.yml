@@ -1,0 +1,19 @@
+# Stamped by recursive-spine-scaffold (the "loop" part). Edit the with: values.
+name: spine-loop
+on:
+  schedule:
+    - cron: "0 8 * * 6"   # Saturday 08:00 UTC — adjust to taste
+  workflow_dispatch: {}
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slopstopper/recursive-spine/loop@v1
+        with:
+          repos: "<OWNER/REPO ...>"          # default: this repo only
+          tracking-issue: "<OWNER/REPO#N>"
+          mention: "<@handle>"
+          ledger: "<OWNER/REPO:.spine/nudge-ledger.md>"   # optional, for suppression
+          sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}    # Tier 1 (cross-repo)
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}  # Tier 2 (nudges)
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}  # Tier 3 (Slack)
