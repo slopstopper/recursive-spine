@@ -1,0 +1,19 @@
+name: spine-loop
+on:
+  schedule:
+    - cron: "0 8 * * 6"   # Saturday 08:00 UTC
+  workflow_dispatch: {}
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./loop
+        with:
+          repos: "slopstopper/recursive-spine slopstopper/plumb-line slopstopper/tokenomics effythealien/Veska_Index_App"
+          tracking-issue: "slopstopper/recursive-spine#20"
+          mention: "@effythealien"
+          ledger: "effythealien/private-hive:nudges/ledger.md"
+          sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

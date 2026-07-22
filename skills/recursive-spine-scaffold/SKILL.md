@@ -1,6 +1,6 @@
 ---
 name: recursive-spine-scaffold
-description: Use when a repo has (or is getting) the tracking stamp and needs the rest of its spine — interviews for and stamps up to five parts, each optional: a rules codex with a moments map, an ADR directory, a CI gate skeleton, a session-memory convention, and a constraints file with its sha-pinned drift gate. Frames + the builder's answers + proven pollen from their hives; nothing invented ships. Offers recursive-spine-bootstrap first when tracking is missing; records every answer, including declines, in the dialect note.
+description: Use when a repo has (or is getting) the tracking stamp and needs the rest of its spine — interviews for and stamps up to six parts, each optional: a rules codex with a moments map, an ADR directory, a CI gate skeleton, a session-memory convention, a constraints file with its sha-pinned drift gate, and the loop workflow. Frames + the builder's answers + proven pollen from their hives; nothing invented ships. Offers recursive-spine-bootstrap first when tracking is missing; records every answer, including declines, in the dialect note.
 ---
 
 # recursive-spine: scaffold
@@ -26,7 +26,7 @@ is not stamped.
   declined, proceed pollen-less and say so loudly in the report — never
   substitute a default hive.
 
-## 2. The five parts (interview one at a time, all optional)
+## 2. The six parts (interview one at a time, all optional)
 
 Each part runs the same cycle:
 **offer → interview → pollen check → stamp (diff first) → record.**
@@ -72,6 +72,15 @@ answer before moving on:
    drift, and stale pins are the digest's concern, not CI's. No CI
    workflow accepted or present → stamp the file, state loudly that the
    gate awaits a workflow.
+6. **The loop** — "the weekly digest+nudge should run itself, not wait for
+   you to remember." Frame: `loop-workflow-frame.yml`. Interview: which
+   repos to sweep (default this repo), which tracking issue receives the
+   digest, and the @handle to notify. Stamps `.github/workflows/spine-loop.yml`
+   referencing the published `slopstopper/recursive-spine/loop@v1` Action —
+   the logic lives in the versioned Action, the stamped file is thin.
+   Secrets (`SPINE_SWEEP_TOKEN`, `ANTHROPIC_API_KEY`, `SLACK_WEBHOOK_URL`)
+   are the owner's to add; tiers degrade loudly without them. Record the
+   choice (and any decline) in the dialect note.
 
 ## 3. Pollen consumption
 
