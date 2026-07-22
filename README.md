@@ -78,7 +78,7 @@ that's a bug in the convention, filed as an issue.
 
 ## What's in it
 
-Four parts, each a working module:
+Five parts, each a working module:
 
 - **Tracking** — work state in issues and milestones, never prose. Issues
   also carry depth: macro/micro sub-issue trees, created only at a real
@@ -94,6 +94,13 @@ Four parts, each a working module:
 - **Pollination** — the propagation layer behind "What proves out
   travels" above: the `pollen/` registry, capture and pull, and the
   graduation ladder.
+- **The loop** — a scheduled GitHub Action that runs the digest and nudges
+  weekly and delivers to your tracking issue, @mentioning you. It tiers up
+  by what you configure: the digest needs nothing but the built-in token;
+  sweeping several repos takes a token; LLM-written nudges take an
+  Anthropic key; a Slack push takes a webhook. The scaffold stamps it, and
+  nothing runs until you turn it on — the weekly sweep and nudges above are
+  this part, once enabled.
 
 Eight skills, each surfacing at its moment:
 
