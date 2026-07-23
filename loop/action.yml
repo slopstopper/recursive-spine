@@ -21,7 +21,7 @@ inputs:
   nudge-runbook:
     description: "Path to the nudge skill file for the Tier-2 step."
     required: false
-    default: "${{ github.action_path }}/../skills/recursive-spine-nudge/SKILL.md"
+    default: ""
   ledger:
     description: "owner/repo:path of the nudge ledger for week-to-week suppression; empty to skip"
     required: false
@@ -59,7 +59,7 @@ runs:
       env:
         GH_TOKEN: ${{ inputs.sweep-token != '' && inputs.sweep-token || github.token }}
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
-        SPINE_NUDGE_RUNBOOK: ${{ inputs.nudge-runbook }}
+        SPINE_NUDGE_RUNBOOK: ${{ inputs.nudge-runbook != '' && inputs.nudge-runbook || format('{0}/../skills/recursive-spine-nudge/SKILL.md', github.action_path) }}
         SPINE_LEDGER: ${{ inputs.ledger }}
       run: |
         set -euo pipefail
