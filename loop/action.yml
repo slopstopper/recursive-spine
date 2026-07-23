@@ -68,7 +68,7 @@ runs:
     - name: Deliver
       shell: bash
       env:
-        GH_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ inputs.sweep-token != '' && inputs.sweep-token || github.token }}
         SPINE_TRACKING_ISSUE: ${{ inputs.tracking-issue }}
         SPINE_MENTION: ${{ inputs.mention }}
         SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}

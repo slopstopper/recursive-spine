@@ -11,7 +11,7 @@ jobs:
       - uses: ./loop
         with:
           repos: "slopstopper/recursive-spine slopstopper/plumb-line slopstopper/tokenomics effythealien/Veska_Index_App"
-          tracking-issue: "slopstopper/recursive-spine#20"
+          tracking-issue: "effythealien/private-hive#2"
           mention: "@effythealien"
           ledger: "effythealien/private-hive:nudges/ledger.md"
           sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}
