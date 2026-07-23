@@ -62,7 +62,7 @@ ${ledger_content}"
 fi
 
 req="$(jq -Rn --arg s "$system" --arg u "$user" \
-  '{model:"claude-sonnet-5",max_tokens:4096,system:$s,messages:[{role:"user",content:$u}]}')"
+  '{model:"claude-sonnet-5",max_tokens:4096,thinking:{type:"enabled",budget_tokens:1024},system:$s,messages:[{role:"user",content:$u}]}')"
 
 resp="$(curl -sf https://api.anthropic.com/v1/messages \
           -H "x-api-key: ${KEY}" -H "anthropic-version: 2023-06-01" \
