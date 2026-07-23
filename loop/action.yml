@@ -65,6 +65,15 @@ runs:
         set -euo pipefail
         "${{ github.action_path }}/../scripts/spine-nudge.sh" \
           < "$RUNNER_TEMP/digest.md" > "$RUNNER_TEMP/nudges.md" || true
+    - name: Visibility guard (fail-closed)
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.sweep-token != '' && inputs.sweep-token || github.token }}
+        SPINE_REPOS: ${{ inputs.repos }}
+        SPINE_TRACKING_ISSUE: ${{ inputs.tracking-issue }}
+        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
+      run: |
+        "${{ github.action_path }}/../scripts/spine-visibility-guard.sh"
     - name: Deliver
       shell: bash
       env:
