@@ -3,8 +3,8 @@ id: pollen-moment-based-skill-surfacing
 form: pattern
 source: slopstopper/recursive-spine#32
 captured: 2026-07-11
-stage: seedling
-transplants: []
+stage: transplanted
+transplants: [slopstopper/tokenomics]
 ---
 
 # Moment-based skill surfacing
@@ -54,3 +54,20 @@ For any repo or plugin that ships skills:
   start, add a moments map section to it (mechanism 3 is design-stage in
   recursive-spine#32 at capture time; mechanisms 1–2 are proven in live
   use across its five shipped skills).
+
+## Transplants
+
+- **slopstopper/tokenomics** (2026-07-23, tokenomics PR
+  [#16](https://github.com/slopstopper/tokenomics/pull/16)): the W9
+  skills wiring binds surfacing to the v0.4 switchpoint taxonomy —
+  mode headings name their moments outright ("Mode A: Route + hand off
+  (the Dispatch switchpoint)", "Mode B: Session close (the Close
+  switchpoint)"), a Return subsection covers the early-return moment,
+  and the method skill's `description` names the four switchpoints.
+  Scope note, for honest lineage: tokenomics' descriptions were already
+  moment-tuned before this pollen was captured (2026-07-06 vs
+  2026-07-11), so mechanism 1's *prose* half is prior art there; what
+  transplanted is the named-moment binding — surfacing keyed to a
+  formal moment taxonomy. Mechanism 3 (a moments map in session-start
+  files) is pending in the receiving repo: its W10 SessionStart hook
+  and W11 recursive-spine interop are the natural carriers.
