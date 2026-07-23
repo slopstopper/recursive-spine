@@ -3,8 +3,8 @@ id: pollen-moment-triggered-depth
 form: pattern
 source: slopstopper/recursive-spine#72
 captured: 2026-07-15
-stage: seedling
-transplants: []
+stage: transplanted
+transplants: [slopstopper/tokenomics]
 ---
 
 # Moment-triggered depth
@@ -63,3 +63,17 @@ prose it replaced.
 5. Mind visibility: a private child under a public parent leaks its
    existence through the parent's child count — private-scope children
    belong under private-scope parents.
+
+## Transplants
+
+- **slopstopper/tokenomics** (2026-07-23, tokenomics PR
+  [#14](https://github.com/slopstopper/tokenomics/pull/14)): the v0.4
+  switchpoint taxonomy (Route, Dispatch, Return, Close) adapts the
+  moment-gating half of this pattern from hierarchy-creation to
+  rule-enforcement — the method's rules fire only at named trigger
+  points, each with a required crossing artifact, and anything that can
+  observe a switchpoint (builder, controller model, hook) enforces the
+  rule that belongs to it. The sub-issue mechanics were not carried;
+  the transplanted core is "name the moments your workflow already has
+  and let them gate the mechanism." Design record:
+  `docs/design/2026-07-23-switchpoints-design.md` in the receiving repo.
