@@ -16,8 +16,11 @@ set -uo pipefail
 REPOS="${SPINE_REPOS:?SPINE_REPOS (space-separated owner/repo) required}"
 ISSUE="${SPINE_TRACKING_ISSUE:?SPINE_TRACKING_ISSUE (owner/repo#N) required}"
 
-vis() { # echo public | private | unknown for a repo
-  gh repo view "$1" --json visibility --jq .visibility 2>/dev/null || echo unknown
+vis() { # echo public | private | unknown for a repo (gh returns UPPERCASE)
+  local v
+  v="$(gh repo view "$1" --json visibility --jq .visibility 2>/dev/null)" || { echo unknown; return; }
+  [ -z "$v" ] && { echo unknown; return; }
+  printf '%s' "$v" | tr 'A-Z' 'a-z'
 }
 
 # Is any swept repo non-public? (unknown counts as non-public — fail-safe)

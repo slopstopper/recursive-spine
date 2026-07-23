@@ -73,7 +73,7 @@ runs:
         SPINE_TRACKING_ISSUE: ${{ inputs.tracking-issue }}
         SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
       run: |
-        "${{ github.action_path }}/../scripts/spine-visibility-guard.sh"
+        bash "${{ github.action_path }}/../scripts/spine-visibility-guard.sh"
     - name: Deliver
       shell: bash
       env:
