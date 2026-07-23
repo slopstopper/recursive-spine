@@ -62,12 +62,15 @@ ${ledger_content}"
 fi
 
 req="$(jq -Rn --arg s "$system" --arg u "$user" \
-  '{model:"claude-sonnet-5",max_tokens:4096,thinking:{type:"enabled",budget_tokens:1024},system:$s,messages:[{role:"user",content:$u}]}')"
+  '{model:"claude-haiku-4-5-20251001",max_tokens:4096,system:$s,messages:[{role:"user",content:$u}]}')"
 
-resp="$(curl -sf https://api.anthropic.com/v1/messages \
+resp="$(curl -s https://api.anthropic.com/v1/messages \
           -H "x-api-key: ${KEY}" -H "anthropic-version: 2023-06-01" \
-          -H "content-type: application/json" -d "$req" 2>/dev/null)" \
-  || { echo "_Nudge step unavailable: Anthropic API call failed; digest delivered without nudges._"; exit 0; }
+          -H "content-type: application/json" -d "$req" 2>/dev/null)"
+if [ -z "$resp" ] || [ "$(echo "$resp" | jq -r '.type // empty' 2>/dev/null)" = "error" ]; then
+  echo "nudge-debug: api-error=$(echo "$resp" | jq -rc '.error // .' 2>/dev/null | head -c 300)" >&2
+  echo "_Nudge step unavailable: Anthropic API call failed; digest delivered without nudges._"; exit 0
+fi
 
 text="$(echo "$resp" | jq -r '.content[]? | select(.type=="text") | .text' 2>/dev/null)"
 if [ -z "$text" ]; then
