@@ -164,7 +164,7 @@ calling the composite action at `./loop`).
 - **Swept repos (the family):** `slopstopper/recursive-spine`,
   `slopstopper/plumb-line`, `slopstopper/tokenomics`,
   `effythealien/Veska_Index_App`.
-- **Tracking issue:** `slopstopper/recursive-spine#20` — the digest comment
+- **Tracking issue:** `effythealien/private-hive#2` (private) — the digest comment
   target.
 - **Notify:** `@effythealien`.
 - **Ledger:** `effythealien/private-hive:nudges/ledger.md` — nudge records
