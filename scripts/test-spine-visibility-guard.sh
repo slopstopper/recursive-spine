@@ -17,7 +17,7 @@ case "\$1 \$2" in
 STUB
   for kv in $map; do
     local repo="${kv%%=*}" v="${kv#*=}"
-    printf '    if [ "$repo" = "%s" ]; then echo "%s"; exit 0; fi\n' "$repo" "$v" >> "$dir/gh"
+    printf '    if [ "$repo" = "%s" ]; then echo "%s"; exit 0; fi\n' "$repo" "$(echo "$v" | tr a-z A-Z)" >> "$dir/gh"
   done
   cat >> "$dir/gh" <<'STUB'
     exit 1   # unknown repo -> gh fails (guard treats as unknown)
