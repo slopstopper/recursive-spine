@@ -68,13 +68,11 @@ resp="$(curl -s https://api.anthropic.com/v1/messages \
           -H "x-api-key: ${KEY}" -H "anthropic-version: 2023-06-01" \
           -H "content-type: application/json" -d "$req" 2>/dev/null)"
 if [ -z "$resp" ] || [ "$(echo "$resp" | jq -r '.type // empty' 2>/dev/null)" = "error" ]; then
-  echo "nudge-debug: api-error=$(echo "$resp" | jq -rc '.error // .' 2>/dev/null | head -c 300)" >&2
   echo "_Nudge step unavailable: Anthropic API call failed; digest delivered without nudges._"; exit 0
 fi
 
 text="$(echo "$resp" | jq -r '.content[]? | select(.type=="text") | .text' 2>/dev/null)"
 if [ -z "$text" ]; then
-  echo "nudge-debug: stop_reason=$(echo "$resp" | jq -rc '.stop_reason // "?"') types=$(echo "$resp" | jq -rc '[.content[]?.type]' 2>/dev/null) error=$(echo "$resp" | jq -rc '.error // empty' 2>/dev/null) model=$(echo "$resp" | jq -rc '.model // "?"')" >&2
   echo "_Nudge step returned no content._"; exit 0
 fi
 
