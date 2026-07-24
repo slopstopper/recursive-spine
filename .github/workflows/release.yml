@@ -1,0 +1,68 @@
+name: release
+# Auto-release on a version bump: when .claude-plugin/plugin.json changes on
+# main and its version has no tag yet, gate on the full suite, then create the
+# tag + GitHub release (auto notes) and advance loop@v1. The slopstopper site
+# pulls these releases via the API. Never tag by hand — see docs/RELEASING.md.
+on:
+  push:
+    branches: [main]
+    paths: [".claude-plugin/plugin.json"]
+
+permissions:
+  contents: write   # create tags + releases, and move the loop@v1 major tag
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          fetch-depth: 0
+
+      - name: Read version + idempotency guard
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VER="$(bash scripts/check-release-version.sh)"   # prints X.Y.Z or fails loud
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          if gh release view "v$VER" >/dev/null 2>&1 \
+             || gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/v${VER}" >/dev/null 2>&1; then
+            echo "already=1" >> "$GITHUB_OUTPUT"
+            echo "v$VER already released — nothing to do."
+          else
+            echo "already=0" >> "$GITHUB_OUTPUT"
+            echo "Releasing v$VER."
+          fi
+
+      - name: Gate — full suite (a release must not pass a narrower gate than a PR)
+        if: steps.guard.outputs.already == '0'
+        run: |
+          jq -e '.name == "recursive-spine" and (.description | length > 0)' .claude-plugin/plugin.json
+          python3 -m json.tool .claude-plugin/marketplace.json > /dev/null
+          fail=0
+          for t in scripts/test-*.sh; do
+            echo "== $t"; bash "$t" || fail=1
+          done
+          exit $fail
+
+      - name: Tag + GitHub release (auto notes)
+        if: steps.guard.outputs.already == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VER: ${{ steps.guard.outputs.version }}
+        run: |
+          gh release create "v$VER" \
+            --target "$GITHUB_SHA" \
+            --generate-notes \
+            --title "recursive-spine v$VER"
+
+      - name: Advance loop@v1 to this release
+        if: steps.guard.outputs.already == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/git/refs/tags/v1" -X PATCH \
+            -f sha="$GITHUB_SHA" -F force=true \
+          || gh api "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f ref="refs/tags/v1" -f sha="$GITHUB_SHA"
