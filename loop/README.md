@@ -3,12 +3,16 @@
 Weekly deterministic digest + optional LLM nudges, posted to your tracking
 issue and (optionally) Slack. Capabilities tier up by the secrets you set:
 
+You always get notified without any secrets: the digest/nudges are commented on
+your tracking issue and **@mention you**. Slack (Tier 3) is a bonus — see
+[docs/SLACK.md](../docs/SLACK.md) if you want it.
+
 | Tier | Secret | You get |
 | --- | --- | --- |
 | 0 | none | Digest of this repo, commented on your tracking issue, @mentioning you |
 | 1 | `SPINE_SWEEP_TOKEN` (PAT/App token) | Sweep several repos |
 | 2 | `ANTHROPIC_API_KEY` | LLM nudges (<=3, question-shaped) |
-| 3 | `SLACK_WEBHOOK_URL` | Also push to Slack |
+| 3 | `SLACK_WEBHOOK_URL` | *(optional)* Also push to a Slack channel — setup: [docs/SLACK.md](../docs/SLACK.md) |
 
 ## Caller workflow
 
@@ -28,7 +32,7 @@ issue and (optionally) Slack. Capabilities tier up by the secrets you set:
               ledger: "you/repo:.spine/nudge-ledger.md"
               sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}
               anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
-              slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+              slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}  # optional; see docs/SLACK.md
 
 - **ledger**: `owner/repo:path` of a markdown file used to suppress nudges
   already raised in a prior week. Leave empty to skip suppression.
