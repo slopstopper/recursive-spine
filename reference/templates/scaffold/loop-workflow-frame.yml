@@ -16,4 +16,4 @@ jobs:
           ledger: "<OWNER/REPO:.spine/nudge-ledger.md>"   # optional, for suppression
           sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}    # Tier 1 (cross-repo)
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}  # Tier 2 (nudges)
-          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}  # Tier 3 (Slack)
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}  # Tier 3 (Slack) — optional; setup in docs/SLACK.md
