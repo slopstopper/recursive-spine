@@ -74,30 +74,43 @@ now, the `why` is what tells the next reader whether to re-anchor the assertion
 or conclude the rule was deliberately dropped. Without it the cheapest fix is
 always "delete the failing assertion", and the gate erodes to nothing.
 
+**Anchor selection rule** (amended 2026-07-31 — see below). For a rule stated
+within one sentence, anchor on the **complete rule phrase including its
+ordering word**. Reserve `precedes` for structural ordering, where the two
+anchors genuinely live in different sections.
+
 ```json
 {
   "skill": "recursive-spine-handover",
   "assertions": [
-    { "id": "approval-precedes-post",
-      "kind": "precedes",
-      "anchor": "get approval",
-      "before": "gh issue comment",
-      "why": "diff-first; the skill must never post unreviewed to a public tracker" },
+    { "id": "approval-before-posting",
+      "kind": "contains",
+      "anchor": "get approval **before** posting",
+      "why": "diff-first; the ordering word IS the rule — never post unreviewed" },
 
     { "id": "record-is-comment-never-file",
       "kind": "contains",
       "anchor": "never a file",
       "why": "principle 1 — a docs/handovers/ directory would be a prose ledger" },
 
-    { "id": "debts-precede-close",
+    { "id": "debts-section-precedes-post-section",
       "kind": "precedes",
-      "anchor": "becomes an issue",
-      "before": "closing comment is posted",
-      "why": "principle 4 — the ordering IS the principle" }
+      "anchor": "## 2. debts, before the close",
+      "before": "## 4. assemble, preview, post",
+      "why": "structural: debts are collected before the posting step" }
   ],
   "scenarios": [ ... ]
 }
 ```
+
+> **Amendment, 2026-07-31.** This example originally read
+> `{"kind":"precedes", "anchor":"get approval", "before":"gh issue comment"}`.
+> Prototyping the runner against the real `handover/SKILL.md` showed that
+> assertion **silently passing** a rewrite of `get approval **before** posting`
+> into `post, then get approval` — the two fragments kept their text order while
+> the meaning inverted. The corrected anchor reports `UNRESOLVED` on the same
+> doctored file. The runner needed no change; the lesson is about anchor
+> choice, and it is recorded here rather than quietly patched.
 
 ## Scenarios and the call log
 
