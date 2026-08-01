@@ -242,4 +242,29 @@ OUT="$(run)"; RC=$?
   && echo "PASS: check mode prints covered/total and the uncovered list" \
   || { echo "FAIL: check mode denominator (rc=$RC)"; echo "$OUT"; FAIL=1; }
 
+# 24. the "last seen at commit" hint resolves despite case and regex metachars.
+# Anchors are authored lowercase while prose is not, and `git log -S` is
+# case-sensitive — a literal -S found nothing for almost every real anchor.
+GT="$TMP/gitfix"; rm -rf "$GT"; mkdir -p "$GT/skills/demo-skill" "$GT/evals"
+(
+  cd "$GT" && git init -q .
+  printf 'Rules\n\n- Never Write **The Thing** to a file.\n' > skills/demo-skill/SKILL.md
+  git -c user.email=t@t -c user.name=t add -A >/dev/null
+  git -c user.email=t@t -c user.name=t commit -qm "seed" >/dev/null
+  printf 'Rules\n\n(rule removed)\n' > skills/demo-skill/SKILL.md
+) >/dev/null 2>&1
+cat > "$GT/evals/demo.json" <<'JSON'
+{ "skill": "demo-skill",
+  "assertions": [
+    { "id": "never-write-the-thing", "kind": "contains",
+      "anchor": "never write **the thing** to a file",
+      "why": "guards the rule" } ] }
+JSON
+OUT="$( cd "$GT" && bash "$HERE/spine-eval.sh" 2>&1 )"; RC=$?
+{ [ "$RC" != 0 ] \
+  && printf '%s' "$OUT" | grep -q 'UNRESOLVED' \
+  && printf '%s' "$OUT" | grep -Eq 'last seen at commit [0-9a-f]{7}'; } \
+  && echo "PASS: last-seen hint resolves across case and regex metachars" \
+  || { echo "FAIL: last-seen hint did not resolve (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
 [ "$FAIL" = 0 ] && echo "PASS: all spine-eval scenarios" || exit 1

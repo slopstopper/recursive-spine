@@ -232,27 +232,29 @@ Third-party actions pinned by sha, per family convention.
 
 ## Reporting
 
+Real output, captured from the shipped runner after deleting one rule
+(`- Never write the handover to a file in the repo.`) from the skill:
+
 ```
-spine-eval — 2/8 skills covered
+recursive-spine-digest        5 assertions
+  ✓ self-in-sweep
+  … (passing assertions elided here for length; the runner prints them all)
 
-recursive-spine-handover        4 assertions
-  ✓ approval-precedes-post
-  ✓ record-is-comment-never-file
-  ✓ debts-precede-close
-  ⚠ UNRESOLVED  no-orphan-debt
-      anchor:  "never posts one"
+recursive-spine-handover        16 assertions
+  ⚠ UNRESOLVED  never-handover-to-a-file
+      anchor:  "never write the handover to a file in the repo"
       not found in skills/recursive-spine-handover/SKILL.md
-      why:     principle 4 — a comment naming an unfiled debt is a violation
-      last seen at commit b7af64b
+      why:     drop this and docs/handovers/ reappears — a prose ledger
+               competing with the issue tracker for the truth about what closed
+      last seen at commit 3522737
+      This is not a test failure. The prose this assertion guards
+      was edited or removed. Either re-anchor it to the rule's new
+      wording, or — if the rule was dropped on purpose — delete the
+      assertion in the same commit and say why in the message.
 
-      This is not a test failure. The prose this assertion guards was
-      edited or removed. Either re-anchor it to the rule's new wording,
-      or — if the rule was dropped on purpose — delete the assertion in
-      the same commit and say why in the message.
-
-recursive-spine-digest          6 assertions   all pass
-
-uncovered: bootstrap, method, migrate, nudge, pollinate, scaffold
+spine-eval — 21 assertions, 0 failed, 1 unresolved
+spine-eval coverage — 2/8 skills covered
+uncovered: recursive-spine-bootstrap recursive-spine-method recursive-spine-migrate recursive-spine-nudge recursive-spine-pollinate recursive-spine-scaffold
 ```
 
 Three deliberate properties:

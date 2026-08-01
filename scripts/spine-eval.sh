@@ -38,15 +38,19 @@ flatten()   { tr '\n' ' ' < "$1" | tr -s ' ' | tr '[:upper:]' '[:lower:]'; }
 norm()      { printf '%s' "$1" | tr '\n' ' ' | tr -s ' ' | tr '[:upper:]' '[:lower:]'; }
 pos()       { awk -v s="$1" -v n="$2" 'BEGIN{print index(s,n)}'; }
 
-# `git log -S` matches a literal string within one line, so an anchor that
-# spans a hard wrap finds nothing. Say that, rather than emitting a dangling
-# "last seen at commit " that reads like a broken script.
+# Anchors are authored in normalized (lowercase) form, but the prose they point
+# at is not — and `git log -S` is case-sensitive, so a literal -S on the anchor
+# finds nothing for almost every real rule. Search case-insensitively with -G,
+# regex-escaping the anchor first (anchors routinely contain `**`, `(`, `.`).
+# Still one-line-only: an anchor spanning a hard wrap cannot match either way.
 last_seen() {
-  local sha; sha="$(git log -S"$1" --format=%h -1 -- "$2" 2>/dev/null | head -1)"
+  local pat sha
+  pat="$(printf '%s' "$1" | sed 's/[][\.^$*+?(){}|\\\/]/\\&/g')"
+  sha="$(git log -i -G"$pat" --format=%h -1 -- "$2" 2>/dev/null | head -1)"
   if [ -n "$sha" ]; then
     echo "      last seen at commit $sha"
   else
-    echo "      last seen at commit (not found by git log -S — the anchor may span a line break)"
+    echo "      last seen at commit (not found — the anchor may span a line break)"
   fi
 }
 
