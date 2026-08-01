@@ -1,0 +1,29 @@
+{
+  "skill": "recursive-spine-digest",
+  "assertions": [
+    { "id": "self-in-sweep",
+      "kind": "contains",
+      "anchor": "always in the sweep",
+      "why": "a digest that exempts its own repo is lying about its coverage" },
+
+    { "id": "absent-scripts-declared",
+      "kind": "contains",
+      "anchor": "installation predates the health scripts",
+      "why": "missing health scripts are a reported line, never a silent skip" },
+
+    { "id": "unfiled-debts-not-auto-filed",
+      "kind": "contains",
+      "anchor": "do not auto-file",
+      "why": "the digest flags for human eyes; filing is the builder's act" },
+
+    { "id": "healthy-children-folded",
+      "kind": "contains",
+      "anchor": "healthy children stay folded",
+      "why": "leak-by-age rollup — the shape #87's scenario will exercise" },
+
+    { "id": "honest-denominators",
+      "kind": "contains",
+      "anchor": "honest denominators",
+      "why": "the promise the digest's whole credibility rests on" }
+  ]
+}

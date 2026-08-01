@@ -1,0 +1,45 @@
+{
+  "skill": "recursive-spine-handover",
+  "assertions": [
+    { "id": "approval-before-posting",
+      "kind": "contains",
+      "anchor": "get approval **before** posting",
+      "why": "diff-first; the ordering word IS the rule — never post unreviewed" },
+
+    { "id": "debts-before-closing-comment",
+      "kind": "contains",
+      "anchor": "**before** the closing comment is posted",
+      "why": "principle 4 — the ordering word IS the rule" },
+
+    { "id": "debts-section-precedes-post-section",
+      "kind": "precedes",
+      "anchor": "## 2. debts, before the close",
+      "before": "## 4. assemble, preview, post",
+      "why": "structural: debts are collected before the posting step" },
+
+    { "id": "record-is-comment-never-file",
+      "kind": "contains",
+      "anchor": "never a file",
+      "why": "principle 1 — a docs/handovers/ directory would be a prose ledger" },
+
+    { "id": "no-orphan-debt",
+      "kind": "contains",
+      "anchor": "never posts one",
+      "why": "a closing comment naming an unfiled debt is a principle-4 violation" },
+
+    { "id": "pollen-question-asked",
+      "kind": "contains",
+      "anchor": "any pollen to capture",
+      "why": "principle 4's sibling question, asked in its exact wording" },
+
+    { "id": "has-never-section",
+      "kind": "contains",
+      "anchor": "## never",
+      "why": "the skill's hard prohibitions must remain a named section" },
+
+    { "id": "degrade-paths-loud",
+      "kind": "contains",
+      "anchor": "degrade paths (loud, never silent)",
+      "why": "degradation must stay loud by name, not silent" }
+  ]
+}
