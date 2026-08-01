@@ -39,6 +39,34 @@ if [ "${#EVALS[@]}" = 0 ]; then
   exit 1
 fi
 
+if [ "$MODE" = "coverage" ]; then
+  SKILLS=(skills/*/)
+  covered=0; uncovered=""
+  for d in "${SKILLS[@]}"; do
+    name="$(basename "$d")"
+    hit=0
+    for f in "${EVALS[@]}"; do
+      s="$(jq -r '.skill // empty' "$f")"
+      n="$(jq -r '.assertions | length' "$f")"
+      if [ "$s" = "$name" ] && [ "${n:-0}" -gt 0 ]; then hit=1; fi
+    done
+    if [ "$hit" = 1 ]; then
+      covered=$((covered + 1))
+    else
+      uncovered="$uncovered $name"
+    fi
+  done
+  # Always printed, including on success: a green 2/8 must never be mistaken
+  # for "everything is guarded".
+  echo "spine-eval coverage — $covered/${#SKILLS[@]} skills covered"
+  [ -n "$uncovered" ] && echo "uncovered:$uncovered"
+  if [ "$covered" -lt "$MIN_COVERED" ]; then
+    echo "spine-eval: coverage regressed — $covered covered, minimum is $MIN_COVERED" >&2
+    exit 1
+  fi
+  exit 0
+fi
+
 FAILS=0; UNRES=0; TOTAL=0
 
 for f in "${EVALS[@]}"; do

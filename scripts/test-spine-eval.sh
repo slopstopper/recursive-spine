@@ -128,4 +128,38 @@ OUT="$(run)"; RC=$?
   && echo "PASS: malformed JSON fails loudly" \
   || { echo "FAIL: malformed JSON (rc=$RC)"; echo "$OUT"; FAIL=1; }
 
+# 12. coverage counts covered/total and names the uncovered
+rm -rf "$TMP/skills" "$TMP/evals"
+mkdir -p "$TMP/skills/demo-skill" "$TMP/skills/other-skill" "$TMP/evals"
+printf 'get approval before posting (gh issue comment)\n' > "$TMP/skills/demo-skill/SKILL.md"
+printf 'unrelated prose\n' > "$TMP/skills/other-skill/SKILL.md"
+ordering_evals
+OUT="$(run --coverage)"; RC=$?
+{ [ "$RC" = 0 ] \
+  && printf '%s' "$OUT" | grep -q '1/2' \
+  && printf '%s' "$OUT" | grep -q 'other-skill'; } \
+  && echo "PASS: coverage reports 1/2 and names the uncovered" \
+  || { echo "FAIL: coverage report (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 13. ratchet fails when coverage is below the minimum
+OUT="$(run --coverage --min-covered 2)"; RC=$?
+[ "$RC" != 0 ] \
+  && echo "PASS: ratchet fails below minimum" \
+  || { echo "FAIL: ratchet did not fire"; echo "$OUT"; FAIL=1; }
+
+# 14. ratchet passes when coverage meets the minimum
+OUT="$(run --coverage --min-covered 1)"; RC=$?
+[ "$RC" = 0 ] \
+  && echo "PASS: ratchet passes at minimum" \
+  || { echo "FAIL: ratchet false alarm"; echo "$OUT"; FAIL=1; }
+
+# 15. an eval file with zero assertions does not count as coverage
+evals <<'JSON'
+{ "skill": "demo-skill", "assertions": [] }
+JSON
+OUT="$(run --coverage)"
+printf '%s' "$OUT" | grep -q '0/2' \
+  && echo "PASS: empty assertion list is not coverage" \
+  || { echo "FAIL: empty assertion list counted"; echo "$OUT"; FAIL=1; }
+
 [ "$FAIL" = 0 ] && echo "PASS: all spine-eval scenarios" || exit 1
