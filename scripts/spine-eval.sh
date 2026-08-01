@@ -24,9 +24,11 @@ while [ $# -gt 0 ]; do
 done
 
 # Hard-wrapped prose: collapse to one lowercase line before matching, or every
-# rule that spans a line break reports UNRESOLVED forever.
+# rule that spans a line break reports UNRESOLVED forever. Needles (anchor,
+# before) go through the same pipeline via norm(), so a phrase copy-pasted
+# out of hard-wrapped Markdown still matches the flattened haystack.
 flatten()   { tr '\n' ' ' < "$1" | tr -s ' ' | tr '[:upper:]' '[:lower:]'; }
-lower()     { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+norm()      { printf '%s' "$1" | tr '\n' ' ' | tr -s ' ' | tr '[:upper:]' '[:lower:]'; }
 pos()       { awk -v s="$1" -v n="$2" 'BEGIN{print index(s,n)}'; }
 last_seen() { git log -S"$1" --format=%h -1 -- "$2" 2>/dev/null | head -1; }
 
@@ -40,6 +42,10 @@ fi
 FAILS=0; UNRES=0; TOTAL=0
 
 for f in "${EVALS[@]}"; do
+  if ! jq -e . "$f" >/dev/null 2>&1; then
+    echo "✗ MALFORMED JSON  $f (invalid JSON, could not be parsed)"
+    FAILS=$((FAILS + 1)); continue
+  fi
   skill="$(jq -r '.skill // empty' "$f")"
   md="skills/$skill/SKILL.md"
   if [ ! -f "$md" ]; then
@@ -62,7 +68,7 @@ for f in "${EVALS[@]}"; do
     TOTAL=$((TOTAL + 1))
     i=$((i + 1))
 
-    a="$(pos "$flat" "$(lower "$anchor")")"
+    a="$(pos "$flat" "$(norm "$anchor")")"
     if [ "$a" = 0 ]; then
       echo "  ⚠ UNRESOLVED  $id"
       echo "      anchor:  \"$anchor\""
@@ -80,7 +86,7 @@ for f in "${EVALS[@]}"; do
       contains)
         echo "  ✓ $id" ;;
       precedes)
-        b="$(pos "$flat" "$(lower "$before")")"
+        b="$(pos "$flat" "$(norm "$before")")"
         if [ "$b" = 0 ]; then
           echo "  ⚠ UNRESOLVED  $id"
           echo "      anchor:  \"$before\"  (the 'before' side)"

@@ -112,4 +112,20 @@ OUT="$(run)"; RC=$?
 [ "$RC" != 0 ] && echo "PASS: empty evals/ is an error" \
   || { echo "FAIL: empty evals/ passed silently"; echo "$OUT"; FAIL=1; }
 
+# 10. unknown argument exits 2, not just non-zero
+OUT="$(run --bogus-flag)"; RC=$?
+[ "$RC" = 2 ] \
+  && echo "PASS: unknown argument exits 2" \
+  || { echo "FAIL: unknown argument (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 11. malformed JSON eval file fails loudly with a clear message
+rm -rf "$TMP/skills" "$TMP/evals"
+mkdir -p "$TMP/skills/demo-skill" "$TMP/evals"
+printf 'x\n' > "$TMP/skills/demo-skill/SKILL.md"
+printf '{ this is not valid json' > "$TMP/evals/demo.json"
+OUT="$(run)"; RC=$?
+{ [ "$RC" != 0 ] && printf '%s' "$OUT" | grep -qi 'malformed'; } \
+  && echo "PASS: malformed JSON fails loudly" \
+  || { echo "FAIL: malformed JSON (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
 [ "$FAIL" = 0 ] && echo "PASS: all spine-eval scenarios" || exit 1
