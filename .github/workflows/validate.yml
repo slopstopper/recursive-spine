@@ -40,3 +40,7 @@ jobs:
           exit $fail
       - name: Constraints copies match their pinned canonical source
         run: scripts/check-constraints-drift.sh
+      - name: Skill assertions hold
+        run: scripts/spine-eval.sh
+      - name: Eval coverage has not regressed
+        run: scripts/spine-eval.sh --coverage --min-covered 2
