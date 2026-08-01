@@ -1,0 +1,85 @@
+{
+  "skill": "recursive-spine-handover",
+  "assertions": [
+    { "id": "approval-before-posting",
+      "kind": "contains",
+      "anchor": "get approval **before** posting",
+      "why": "diff-first; the ordering word IS the rule — never post unreviewed" },
+
+    { "id": "debts-before-closing-comment",
+      "kind": "contains",
+      "anchor": "**before** the closing comment is posted",
+      "why": "principle 4 — the ordering word IS the rule" },
+
+    { "id": "debts-section-precedes-post-section",
+      "kind": "precedes",
+      "anchor": "## 2. debts, before the close",
+      "before": "## 4. assemble, preview, post",
+      "why": "structural: debts are collected before the posting step" },
+
+    { "id": "record-is-comment-never-file",
+      "kind": "contains",
+      "anchor": "never a file",
+      "why": "principle 1 — a docs/handovers/ directory would be a prose ledger" },
+
+    { "id": "no-orphan-debt",
+      "kind": "contains",
+      "anchor": "names a debt without a filed issue is a principle-4 violation",
+      "why": "without the full clause, a rewrite can keep a stray 'never posts one' while deleting the rule that an unfiled debt blocks the close — the exact erosion principle 4 exists to stop" },
+
+    { "id": "pollen-question-asked",
+      "kind": "contains",
+      "anchor": "any pollen to capture",
+      "why": "principle 4's sibling question, asked in its exact wording" },
+
+    { "id": "has-never-section",
+      "kind": "contains",
+      "anchor": "## never",
+      "why": "the skill's hard prohibitions must remain a named section" },
+
+    { "id": "never-unfiled-debt-in-comment",
+      "kind": "contains",
+      "anchor": "never post a closing comment naming an unfiled debt",
+      "why": "drop this and the closing record can name work nobody can find later; the debt lives in prose instead of the issue tracker, which is principle 1 and principle 4 failing together" },
+
+    { "id": "never-handover-to-a-file",
+      "kind": "contains",
+      "anchor": "never write the handover to a file in the repo",
+      "why": "drop this and docs/handovers/ reappears — a prose ledger competing with the issue tracker for the truth about what closed" },
+
+    { "id": "never-skip-pollen-question",
+      "kind": "contains",
+      "anchor": "never skip the pollen question",
+      "why": "drop this and cross-project transfer stops happening silently: nothing else in the convention forces the question, so proven work dies in the repo that proved it" },
+
+    { "id": "never-require-kin",
+      "kind": "contains",
+      "anchor": "never require tokenomics or plumb-line for any function",
+      "why": "drop this and the skill becomes unusable in any repo without the sibling plugins installed — the convention stops being adoptable a piece at a time" },
+
+    { "id": "never-close-issue-unattended",
+      "kind": "contains",
+      "anchor": "never close the issue itself unless asked",
+      "why": "drop this and the skill starts closing units on the builder's behalf; the close is a judgement call about whether the work is done, not a side effect of writing the record" },
+
+    { "id": "degrade-paths-loud",
+      "kind": "contains",
+      "anchor": "degrade paths (loud, never silent)",
+      "why": "degradation must stay loud by name, not silent" },
+
+    { "id": "degrade-no-gh-not-pretended",
+      "kind": "contains",
+      "anchor": "do not pretend it was posted",
+      "why": "drop this and a missing gh auth yields a record the builder believes is on the issue but that exists only in a terminal scrollback — a silently lost close" },
+
+    { "id": "degrade-no-dialect-note-defaults",
+      "kind": "contains",
+      "anchor": "use the convention's defaults",
+      "why": "drop this and a repo with no dialect note either halts the close or invents labels; the named fallback is what keeps the skill working on an unstamped repo" },
+
+    { "id": "degrade-late-record-beats-none",
+      "kind": "contains",
+      "anchor": "late record beats no record",
+      "why": "drop this and an already-closed issue makes the skill abandon the record entirely — the one case where the handover is most likely to be lost is the one it would skip" }
+  ]
+}
