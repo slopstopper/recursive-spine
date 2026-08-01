@@ -39,7 +39,7 @@ every one of these is already load-bearing in `validate.yml` or is git itself.
 ```
 scripts/spine-eval.sh              # NEW  the static tier runner (gates)
 scripts/test-spine-eval.sh         # NEW  its own offline test suite
-evals/handover.json                # NEW  5 assertions, all anchors pre-verified
+evals/handover.json                # NEW  16 assertions, all anchors pre-verified
 evals/digest.json                  # NEW  5 assertions, all anchors pre-verified
 .github/workflows/validate.yml     # MOD  two new steps
 ```
@@ -323,7 +323,8 @@ chmod +x scripts/spine-eval.sh scripts/test-spine-eval.sh
 bash scripts/test-spine-eval.sh
 ```
 
-Expected: nine `PASS:` lines then `PASS: all spine-eval scenarios`, exit 0.
+Expected: ten `PASS:` lines then `PASS: all spine-eval scenarios`, exit 0 — case 6
+contributes two (present and absent). The finished suite emits twenty-three.
 
 - [ ] **Step 5: Commit**
 
@@ -437,7 +438,8 @@ fi
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `bash scripts/test-spine-eval.sh`
-Expected: thirteen `PASS:` lines then `PASS: all spine-eval scenarios`, exit 0.
+Expected: fourteen `PASS:` lines then `PASS: all spine-eval scenarios`, exit 0.
+Later review work took the suite to twenty-three cases.
 
 - [ ] **Step 5: Commit**
 
@@ -563,8 +565,11 @@ additionally proven to catch a semantic inversion that a fragment-based
 scripts/spine-eval.sh
 ```
 
-Expected: two skill blocks, thirteen `✓` lines, and
-`spine-eval — 13 assertions, 0 failed, 0 unresolved`. Exit 0.
+Expected: two skill blocks, twenty-one `✓` lines, and
+`spine-eval — 21 assertions, 0 failed, 0 unresolved`, followed by the coverage
+line. Exit 0. (The pilot shipped 13; review added eight handover assertions
+anchoring the individual Never bullets and degrade paths, which the original
+set guarded only by section heading.)
 
 - [ ] **Step 4: Verify the gate actually catches an inverted rule**
 
@@ -667,7 +672,7 @@ scripts/spine-eval.sh && scripts/spine-eval.sh --coverage --min-covered 2
 echo "exit=$?"
 ```
 
-Expected: `exit=0`, ten `✓` lines, and the `2/8` coverage line.
+Expected: `exit=0`, twenty-one `✓` lines, and the `2/8` coverage line.
 
 - [ ] **Step 3: Run the full local gate as CI would**
 
@@ -775,7 +780,7 @@ content; every command states its expected output.
 `covered`, `uncovered`. Test helpers `seed`, `evals`, `run`, `ordering_evals`,
 `contains_evals` are defined in Task 1 Step 1 and reused unchanged in Task 2.
 Task 2's new cases are appended before the tally line, so `FAIL` accumulates
-across all thirteen.
+across all twenty-three.
 
 **Known deviation from the spec, deliberate:** the spec's `evals/bin/` layout is
 replaced by `scripts/`, because the real repo has seven `scripts/<name>.sh` +

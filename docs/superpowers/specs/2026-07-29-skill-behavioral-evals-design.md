@@ -3,6 +3,7 @@
 **Date:** 2026-07-29
 **Scope:** recursive-spine #68; unblocks #87 · milestone *The spine watches itself*
 **Lane:** flagship · **First cut:** two-skill pilot (handover, digest)
+**Status:** static tier only — the behavioral tier is a separate plan
 
 ## Intent
 

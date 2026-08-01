@@ -157,9 +157,89 @@ OUT="$(run --coverage --min-covered 1)"; RC=$?
 evals <<'JSON'
 { "skill": "demo-skill", "assertions": [] }
 JSON
-OUT="$(run --coverage)"
-printf '%s' "$OUT" | grep -q '0/2' \
+OUT="$(run --coverage)"; RC=$?
+{ [ "$RC" = 0 ] && printf '%s' "$OUT" | grep -q '0/2'; } \
   && echo "PASS: empty assertion list is not coverage" \
-  || { echo "FAIL: empty assertion list counted"; echo "$OUT"; FAIL=1; }
+  || { echo "FAIL: empty assertion list counted (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 16. the 'before' side of a precedes assertion can go missing too — that is
+#     UNRESOLVED (the harness lost its grip), never FAIL (the skill misbehaved)
+seed 'Show the comment and get approval before publishing it by hand.'
+ordering_evals
+OUT="$(run)"; RC=$?
+{ [ "$RC" != 0 ] \
+  && printf '%s' "$OUT" | grep -q 'UNRESOLVED' \
+  && printf '%s' "$OUT" | grep -q "the 'before' side" \
+  && ! printf '%s' "$OUT" | grep -q '✗ FAIL'; } \
+  && echo "PASS: missing 'before' side is UNRESOLVED, not FAIL" \
+  || { echo "FAIL: missing 'before' side mis-reported (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 17. an unknown assertion kind is a FAIL, not a silent skip
+seed 'The record is a comment on the closing issue — never a file.'
+evals <<'JSON'
+{ "skill": "demo-skill",
+  "assertions": [
+    { "id": "bogus-kind", "kind": "forbids",
+      "anchor": "never a file", "why": "kinds are contains and precedes only" } ] }
+JSON
+OUT="$(run)"; RC=$?
+{ [ "$RC" != 0 ] \
+  && printf '%s' "$OUT" | grep -q 'FAIL' \
+  && printf '%s' "$OUT" | grep -qi 'unknown assertion kind'; } \
+  && echo "PASS: unknown assertion kind fails" \
+  || { echo "FAIL: unknown assertion kind (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 18. the re-anchoring guidance prints on UNRESOLVED — the anti-erosion nudge
+#     that tells a reader to re-anchor rather than delete the assertion
+seed 'The record is a comment on the closing issue.'
+contains_evals
+OUT="$(run)"
+printf '%s' "$OUT" | grep -q 're-anchor it to the rule' \
+  && echo "PASS: re-anchoring guidance printed on UNRESOLVED" \
+  || { echo "FAIL: re-anchoring guidance missing"; echo "$OUT"; FAIL=1; }
+
+# 19. a non-numeric --min-covered is CLI misuse, not a silently disabled ratchet
+OUT="$(run --coverage --min-covered abc)"; RC=$?
+{ [ "$RC" = 2 ] && printf '%s' "$OUT" | grep -qi 'non-negative integer'; } \
+  && echo "PASS: non-numeric --min-covered exits 2" \
+  || { echo "FAIL: non-numeric --min-covered (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 20. a structurally wrong eval file (valid JSON, wrong shape) fails loudly
+seed 'The record is a comment on the closing issue — never a file.'
+evals <<'JSON'
+[]
+JSON
+OUT="$(run)"; RC=$?
+{ [ "$RC" != 0 ] \
+  && printf '%s' "$OUT" | grep -qi 'invalid eval file' \
+  && printf '%s' "$OUT" | grep -q 'demo.json'; } \
+  && echo "PASS: top-level array is an invalid eval file" \
+  || { echo "FAIL: top-level array not caught (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 21. a JSON null is invalid shape, not "malformed JSON"
+seed 'The record is a comment on the closing issue — never a file.'
+evals <<'JSON'
+null
+JSON
+OUT="$(run)"; RC=$?
+{ [ "$RC" != 0 ] \
+  && printf '%s' "$OUT" | grep -qi 'invalid eval file' \
+  && ! printf '%s' "$OUT" | grep -qi 'malformed'; } \
+  && echo "PASS: JSON null is invalid shape, not malformed" \
+  || { echo "FAIL: JSON null mislabelled (rc=$RC)"; echo "$OUT"; FAIL=1; }
+
+# 22. check mode prints the honest denominator too, not only --coverage
+rm -rf "$TMP/skills" "$TMP/evals"
+mkdir -p "$TMP/skills/demo-skill" "$TMP/skills/other-skill" "$TMP/evals"
+printf 'Show the comment and get approval before posting (gh issue comment).\n' \
+  > "$TMP/skills/demo-skill/SKILL.md"
+printf 'unrelated prose\n' > "$TMP/skills/other-skill/SKILL.md"
+ordering_evals
+OUT="$(run)"; RC=$?
+{ [ "$RC" = 0 ] \
+  && printf '%s' "$OUT" | grep -q '1/2' \
+  && printf '%s' "$OUT" | grep -q 'other-skill'; } \
+  && echo "PASS: check mode prints covered/total and the uncovered list" \
+  || { echo "FAIL: check mode denominator (rc=$RC)"; echo "$OUT"; FAIL=1; }
 
 [ "$FAIL" = 0 ] && echo "PASS: all spine-eval scenarios" || exit 1

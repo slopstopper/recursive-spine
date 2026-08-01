@@ -17,7 +17,14 @@ MODE="check"; MIN_COVERED=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --coverage)    MODE="coverage" ;;
-    --min-covered) shift; MIN_COVERED="${1:-0}" ;;
+    --min-covered) shift; MIN_COVERED="${1:-0}"
+      # A non-numeric value silently disables the ratchet under `[ -lt ]`
+      # (errors to stderr, evaluates false). Refuse it as CLI misuse instead.
+      case "$MIN_COVERED" in
+        ''|*[!0-9]*)
+          echo "spine-eval: --min-covered needs a non-negative integer, got '$MIN_COVERED'" >&2
+          exit 2 ;;
+      esac ;;
     *) echo "spine-eval: unknown argument '$1'" >&2; exit 2 ;;
   esac
   shift
@@ -30,7 +37,51 @@ done
 flatten()   { tr '\n' ' ' < "$1" | tr -s ' ' | tr '[:upper:]' '[:lower:]'; }
 norm()      { printf '%s' "$1" | tr '\n' ' ' | tr -s ' ' | tr '[:upper:]' '[:lower:]'; }
 pos()       { awk -v s="$1" -v n="$2" 'BEGIN{print index(s,n)}'; }
-last_seen() { git log -S"$1" --format=%h -1 -- "$2" 2>/dev/null | head -1; }
+
+# `git log -S` matches a literal string within one line, so an anchor that
+# spans a hard wrap finds nothing. Say that, rather than emitting a dangling
+# "last seen at commit " that reads like a broken script.
+last_seen() {
+  local sha; sha="$(git log -S"$1" --format=%h -1 -- "$2" 2>/dev/null | head -1)"
+  if [ -n "$sha" ]; then
+    echo "      last seen at commit $sha"
+  else
+    echo "      last seen at commit (not found by git log -S — the anchor may span a line break)"
+  fi
+}
+
+# Coverage counting, shared by both modes: check mode prints the same honest
+# denominator so a local green run cannot be mistaken for "everything is
+# guarded". Sets COVERED, SKILL_TOTAL, UNCOVERED.
+COVERED=0; SKILL_TOTAL=0; UNCOVERED=""
+compute_coverage() {
+  local skills=(skills/*/) d name hit f s n
+  SKILL_TOTAL="${#skills[@]}"
+  COVERED=0; UNCOVERED=""
+  [ "$SKILL_TOTAL" = 0 ] && return 0
+  for d in "${skills[@]}"; do
+    name="$(basename "$d")"
+    hit=0
+    for f in "${EVALS[@]}"; do
+      s="$(jq -r '.skill // empty' "$f" 2>/dev/null)"
+      n="$(jq -r 'if (.assertions | type) == "array" then (.assertions | length) else 0 end' "$f" 2>/dev/null)"
+      if [ "$s" = "$name" ] && [ "${n:-0}" -gt 0 ]; then hit=1; fi
+    done
+    if [ "$hit" = 1 ]; then
+      COVERED=$((COVERED + 1))
+    else
+      UNCOVERED="$UNCOVERED $name"
+    fi
+  done
+}
+
+# Always printed, including on success: a green 2/8 must never be mistaken
+# for "everything is guarded".
+print_coverage() {
+  echo "spine-eval coverage — $COVERED/$SKILL_TOTAL skills covered"
+  [ -n "$UNCOVERED" ] && echo "uncovered:$UNCOVERED"
+  return 0
+}
 
 shopt -s nullglob
 EVALS=(evals/*.json)
@@ -40,28 +91,10 @@ if [ "${#EVALS[@]}" = 0 ]; then
 fi
 
 if [ "$MODE" = "coverage" ]; then
-  SKILLS=(skills/*/)
-  covered=0; uncovered=""
-  for d in "${SKILLS[@]}"; do
-    name="$(basename "$d")"
-    hit=0
-    for f in "${EVALS[@]}"; do
-      s="$(jq -r '.skill // empty' "$f")"
-      n="$(jq -r '.assertions | length' "$f")"
-      if [ "$s" = "$name" ] && [ "${n:-0}" -gt 0 ]; then hit=1; fi
-    done
-    if [ "$hit" = 1 ]; then
-      covered=$((covered + 1))
-    else
-      uncovered="$uncovered $name"
-    fi
-  done
-  # Always printed, including on success: a green 2/8 must never be mistaken
-  # for "everything is guarded".
-  echo "spine-eval coverage — $covered/${#SKILLS[@]} skills covered"
-  [ -n "$uncovered" ] && echo "uncovered:$uncovered"
-  if [ "$covered" -lt "$MIN_COVERED" ]; then
-    echo "spine-eval: coverage regressed — $covered covered, minimum is $MIN_COVERED" >&2
+  compute_coverage
+  print_coverage
+  if [ "$COVERED" -lt "$MIN_COVERED" ]; then
+    echo "spine-eval: coverage regressed — $COVERED covered, minimum is $MIN_COVERED" >&2
     exit 1
   fi
   exit 0
@@ -70,8 +103,23 @@ fi
 FAILS=0; UNRES=0; TOTAL=0
 
 for f in "${EVALS[@]}"; do
-  if ! jq -e . "$f" >/dev/null 2>&1; then
+  # Shape, not just parseability: `jq -e .` calls a valid `null` or `false`
+  # malformed, and lets a top-level `[]` through to leak a raw jq error and a
+  # blank-named MISSING SKILL. An eval file must be an object with a string
+  # `skill` and an `assertions` array.
+  if ! shape="$(jq -r '
+        if type != "object" then "not a JSON object (top level is \(type))"
+        elif (has("skill") | not) then "missing the \"skill\" key"
+        elif (.skill | type) != "string" then "\"skill\" is \(.skill | type), expected a string"
+        elif (.skill | length) == 0 then "\"skill\" is empty"
+        elif (has("assertions") | not) then "missing the \"assertions\" key"
+        elif (.assertions | type) != "array" then "\"assertions\" is \(.assertions | type), expected an array"
+        else "" end' "$f" 2>/dev/null)"; then
     echo "✗ MALFORMED JSON  $f (invalid JSON, could not be parsed)"
+    FAILS=$((FAILS + 1)); continue
+  fi
+  if [ -n "$shape" ]; then
+    echo "✗ INVALID EVAL FILE  $f ($shape)"
     FAILS=$((FAILS + 1)); continue
   fi
   skill="$(jq -r '.skill // empty' "$f")"
@@ -102,7 +150,7 @@ for f in "${EVALS[@]}"; do
       echo "      anchor:  \"$anchor\""
       echo "      not found in $md"
       echo "      why:     $why"
-      echo "      last seen at commit $(last_seen "$anchor" "$md" || true)"
+      last_seen "$anchor" "$md"
       echo "      This is not a test failure. The prose this assertion guards"
       echo "      was edited or removed. Either re-anchor it to the rule's new"
       echo "      wording, or — if the rule was dropped on purpose — delete the"
@@ -138,4 +186,8 @@ done
 
 echo ""
 echo "spine-eval — $TOTAL assertions, $FAILS failed, $UNRES unresolved"
+# The denominator prints here too, not only under --coverage: a developer
+# running the gate locally must see how much of skills/ is guarded at all.
+compute_coverage
+print_coverage
 { [ "$FAILS" = 0 ] && [ "$UNRES" = 0 ]; } || exit 1
