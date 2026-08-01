@@ -6,7 +6,10 @@
 
 **Architecture:** `scripts/spine-eval.sh` reads `evals/*.json`, normalizes each `skills/<skill>/SKILL.md` to a single lowercase whitespace-collapsed line, and evaluates two assertion kinds against it: `contains` (anchor text is present) and `precedes` (anchor A occurs before anchor B). An anchor that no longer resolves reports `UNRESOLVED` — distinct from `FAIL` — because it means the harness lost its grip on the skill, not that the skill misbehaves. A `--coverage --min-covered N` mode ratchets how many skills carry assertions.
 
-**Tech Stack:** bash (`set -uo pipefail`), `jq`, `awk index()`, `tr`. No new runtime dependency — both tools are already load-bearing in `validate.yml`.
+**Tech Stack:** bash (`set -uo pipefail`), `jq`, `awk index()`, `tr`, and `git`
+(for the `last seen at commit` hint on UNRESOLVED only — never affecting exit
+status, and degrading silently outside a repo). No new *installed* dependency:
+every one of these is already load-bearing in `validate.yml` or is git itself.
 
 **Spec:** `docs/superpowers/specs/2026-07-29-skill-behavioral-evals-design.md`
 **Issue:** #68 (unblocks #87). **Scope:** static tier only; the behavioral tier is a separate plan.
