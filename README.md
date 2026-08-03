@@ -56,6 +56,45 @@ when you're ready to stamp a repo.
 directory (`skills/` + `.claude-plugin/plugin.json`), or add it under
 `plugins` in your `.claude/settings.json`.
 
+### If the install fails with `Host key verification failed`
+
+```
+Failed to clone repository: ...
+No ED25519 host key is known for github.com and you have requested strict checking.
+Host key verification failed.
+```
+
+This is a local git/SSH condition, not a problem with the repository —
+the marketplace is public and clones over HTTPS with no credentials.
+Two things have to both be true for you to see it: your git is rewriting
+GitHub HTTPS URLs to SSH, and your `known_hosts` has no ED25519 entry for
+`github.com` (common on machines whose entry predates ED25519, since SSH
+now prefers it over the RSA key you already trust).
+
+Check for the rewrite:
+
+```sh
+git config --get-regexp 'url\..*\.insteadOf'
+```
+
+Then pick a fix. Trust GitHub's current host keys — verify the printed
+fingerprint against GitHub's published SSH key fingerprints
+(ED25519 is `SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU`) before
+you keep it:
+
+```sh
+ssh-keyscan -t ed25519 github.com | tee -a ~/.ssh/known_hosts | ssh-keygen -lf -
+```
+
+Or drop the rewrite so plugin installs use HTTPS as intended:
+
+```sh
+git config --global --unset url.git@github.com:.insteadOf
+```
+
+Either way, `ssh -T git@github.com` should greet you by username before
+you retry `/plugin marketplace add`.
+
 ## The recursive part
 
 The name is literal on both sides. **Spine:** the backbone a project
