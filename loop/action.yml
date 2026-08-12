@@ -18,6 +18,18 @@ inputs:
   stall-days:
     required: false
     default: "21"
+  board:
+    description: "owner/number of a Projects v2 board to keep current (e.g. acme/3); empty to skip. Needed because auto-add cannot cross an owner boundary and is capped per project — see #128."
+    required: false
+    default: ""
+  board-repos:
+    description: "Space-separated owner/repo list to sweep onto the board. Defaults to `repos`."
+    required: false
+    default: ""
+  board-dry-run:
+    description: "Set to 1 to report board drift without adding anything."
+    required: false
+    default: "0"
   nudge-runbook:
     description: "Path to the nudge skill file for the Tier-2 step."
     required: false
@@ -53,6 +65,23 @@ runs:
         set -euo pipefail
         "${{ github.action_path }}/../scripts/spine-digest.sh" > "$RUNNER_TEMP/digest.md" || true
         echo "path=$RUNNER_TEMP/digest.md" >> "$GITHUB_OUTPUT"
+    # Auto-add cannot cross an owner boundary and is capped per project, so a
+    # board covering more than one repo has no built-in way to stay current
+    # (#128). Membership drift is invisible by construction — a stale board
+    # looks exactly like a current one — so this sweeps it on the loop's
+    # cadence. Skipped entirely when no board is configured.
+    - name: Board sweep (optional)
+      if: ${{ inputs.board != '' }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.sweep-token != '' && inputs.sweep-token || github.token }}
+        SPINE_REPOS: ${{ inputs.board-repos != '' && inputs.board-repos || inputs.repos }}
+        SPINE_BOARD: ${{ inputs.board }}
+        SPINE_BOARD_DRY_RUN: ${{ inputs.board-dry-run }}
+      run: |
+        set -euo pipefail
+        "${{ github.action_path }}/../scripts/spine-board-sweep.sh" \
+          > "$RUNNER_TEMP/board.md" || true
     - name: Nudges (Tier 2, optional)
       id: nudge
       shell: bash
@@ -83,5 +112,7 @@ runs:
         SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
       run: |
         set -euo pipefail
-        { cat "$RUNNER_TEMP/digest.md"; echo; echo "---"; echo; cat "$RUNNER_TEMP/nudges.md" 2>/dev/null || true; } \
+        { cat "$RUNNER_TEMP/digest.md"
+          if [ -s "$RUNNER_TEMP/board.md" ]; then echo; echo "---"; echo; cat "$RUNNER_TEMP/board.md"; fi
+          echo; echo "---"; echo; cat "$RUNNER_TEMP/nudges.md" 2>/dev/null || true; } \
           | "${{ github.action_path }}/../scripts/spine-deliver.sh"
