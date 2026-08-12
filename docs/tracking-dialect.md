@@ -102,9 +102,36 @@ quietly deleted.
 
 ## Views and auto-add — not "still to do", but not achievable
 
-Views (by repo, by lane, by deferral age) and the board's **auto-add
-workflows** are UI-only configuration on Projects v2 and cannot be created
-via the `gh` CLI or the public GraphQL API.
+**What is API-creatable, and what is genuinely not** — enumerated from the
+live GraphQL schema, not assumed:
+
+| Thing | Mutation | Status |
+| --- | --- | --- |
+| Project | `createProjectV2` | API |
+| View | `createProjectV2View` / `updateProjectV2View` | API |
+| Field | `createProjectV2Field` / `updateProjectV2Field` | API |
+| Repo link | `linkProjectV2ToRepository` | API |
+| View **filter / grouping / sort** | — | **UI-only** |
+| **Auto-add workflow** | — | **UI-only** |
+
+`CreateProjectV2ViewInput` takes only `projectId`, `name`, `layout` and
+`configuration`, and `ProjectV2ViewConfigurationInput` contains only
+`visibleFieldIds` — so a view can be created and named through the API but
+not filtered, grouped or sorted. The sharpest evidence for the auto-add
+row: **`deleteProjectV2Workflow` exists and `createProjectV2Workflow` does
+not.** A workflow can be removed via the API and cannot be created.
+
+This section previously said views and auto-add alike "are UI-only
+configuration ... and cannot be created via the `gh` CLI or the public
+GraphQL API". That was overbroad in two directions, and worth correcting
+rather than softening: this very board was **created through the API**, and
+so were the five views on `slopstopper/projects/3`. A note claiming the
+thing it describes could not have been built that way had already been
+falsified by its own subject.
+
+The distinction is load-bearing, not pedantry. Under the overbroad version
+a bootstrap would tell a builder to hand-build views it could have stamped;
+only the filter strings actually need a human.
 
 **Corrected 2026-08-12 (#128).** This section previously read "still to do,
 by hand", which framed auto-add as configuration nobody had got around to.
@@ -126,8 +153,9 @@ issues with nothing reporting it. The digest skill's repo-set fallback
 
 The mechanism answer is the loop Action's `board` input
 (`scripts/spine-board-sweep.sh`), which sweeps membership on the loop's
-cadence. Issue #35 stays open for the **views**, which remain hand-built;
-the auto-add half of it is superseded by #128.
+cadence. Issue #35 stays open for the **view filters**, which are the only
+genuinely hand-built part — the view shells themselves can be stamped. The
+auto-add half of #35 is superseded by #128.
 
 ## pollinate: hives (this installation)
 

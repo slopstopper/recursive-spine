@@ -114,6 +114,17 @@ stamping.
   one only if the builder ranks *within* a milestone, and then in their
   words.
 
+  **Offer to stamp the view shells.** `createProjectV2View` takes a name and
+  a layout, so the views can be created for the builder; what it does *not*
+  take is a filter, grouping or sort (`ProjectV2ViewConfigurationInput`
+  carries only `visibleFieldIds`). So stamp named, laid-out shells and hand
+  over the filter strings to paste — that is the whole of the remaining
+  manual work. Say so plainly: an unfiltered view shows everything, so a
+  half-built board is worse than none if the builder stops there.
+
+  Auto-add workflows genuinely cannot be created: `deleteProjectV2Workflow`
+  exists and `createProjectV2Workflow` does not.
+
 ## 4. Report
 
 End with: modules stamped, labels created/updated (names), files written,
