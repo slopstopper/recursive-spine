@@ -40,6 +40,17 @@ jobs:
           exit $fail
       - name: Constraints copies match their pinned canonical source
         run: scripts/check-constraints-drift.sh
+      # These ran only in release.yml, so a script defect could merge and sit
+      # on main until release day. A test that does not run on the PR that
+      # breaks it is documentation, not enforcement.
+      - name: Script unit tests
+        run: |
+          fail=0
+          for t in scripts/test-*.sh; do
+            echo "--- $t"
+            bash "$t" || fail=1
+          done
+          exit $fail
       - name: Skill assertions hold
         run: scripts/spine-eval.sh
       - name: Eval coverage has not regressed
