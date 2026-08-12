@@ -1,6 +1,6 @@
 ---
 name: recursive-spine-bootstrap
-description: Use when installing the recursive-spine tracking convention onto a repo — interviews for modules and dialect, then stamps labels, issue/PR templates, a CLAUDE.md/AGENTS.md tracking section, and cross-project board membership. Idempotent; degrades loudly on missing gh scopes; offers (never forces) plumb-line and tokenomics wiring.
+description: Use when installing the recursive-spine tracking convention onto a repo — interviews for modules and dialect, then stamps labels, issue/PR templates, a CLAUDE.md/AGENTS.md tracking section, and Projects board membership. Idempotent; degrades loudly on missing gh scopes; offers (never forces) plumb-line and tokenomics wiring.
 ---
 
 # recursive-spine: bootstrap
@@ -30,8 +30,11 @@ stamping.
    words.
 2. Dialect: what does this repo call a unit of work? Any existing label
    conventions to respect?
-3. Board: add this repo to the user-level "Spine" Projects board? (Needs the
-   scope from preflight.)
+3. Board: give this repo **its own** Projects board? One board per repo is
+   the default, because it is the only shape auto-add can keep current
+   (step 3 states the limits). A shared cross-project board is still
+   available, but offer it as a thing that must be swept or hand-curated —
+   never as automatic. (Needs the scope from preflight.)
 4. If the plumb-line plugin is installed (check for a `plumb-line-bootstrap`
    skill): offer it for epistemic enforcement — separate concern, their
    choice. If a tokenomics playbook exists in the repo: offer to point the
@@ -65,12 +68,51 @@ stamping.
 - Board: read the board owner and `SPINE_BOARD_NUMBER` from the target repo's
   `docs/tracking-dialect.md` (or equivalent dialect note) if present. If this
   is the first repo being stamped and no dialect note yet records a board
-  owner, ask the user which account/org owns their cross-project board and
-  record the answer in the dialect note before proceeding. With owner and
-  number known, `gh project item-add <SPINE_BOARD_NUMBER> --owner
-  <BOARD_OWNER> --url <repo issue URL>` is per-item; for whole-repo
-  aggregation prefer the board's built-in auto-add workflow — open the board
-  settings URL for the user and confirm they enabled it for this repo.
+  owner, ask the user which account/org owns the board and record the answer
+  in the dialect note before proceeding. With owner and number known,
+  `gh project item-add <SPINE_BOARD_NUMBER> --owner <BOARD_OWNER> --url
+  <repo issue URL>` adds items; it works across owners.
+
+  **State these two limits before the builder chooses (#128).** Neither is
+  lifted by a paid plan, and both were confirmed in the UI:
+  1. **Auto-add cannot cross an owner boundary** — a user-owned project's
+     auto-add repository picker does not list organisation repos at all.
+     Manual `item-add` *does* cross owners, which is what makes this
+     convincing: the board fills up and looks aggregated right until you
+     try to automate it.
+  2. **The workflow count is capped per project**, observed as one on both
+     a free org and a paid personal account.
+
+  So: **a single-repo board can keep itself current via auto-add; a
+  multi-repo board cannot.** Offer the auto-add settings URL for the
+  single-repo case. For any board covering more than one repo — or a
+  user-owned board covering org repos — say plainly that membership will
+  silently go stale, and point at the loop Action's `board` input, which
+  sweeps it. Do not describe auto-add as the aggregation mechanism.
+
+  Verify membership by reading each **issue's** `projectItems`, never the
+  project's item list: the project-side read path lags writes (observed
+  reporting 29 items where the issue-side query saw all 41).
+
+- Board views: propose them from the modules just stamped — do not invent a
+  layout, and do not ship one the repo's own rules do not imply. A repo that
+  followed the interview already specifies its views:
+  - **Now** — current milestone, grouped by status.
+  - **Release plan** — grouped by milestone.
+  - **Unscheduled** — the repo's deliberately-unscheduled convention, if it
+    has one (e.g. a `track:*` label family). Where the repo's rule is
+    "exactly one of a milestone or an unscheduled label", this view and the
+    previous one are mutually exclusive by construction: anything in both,
+    or in neither, is a tracking bug the board surfaces.
+  - **Outbox** — the deferral label, sorted oldest-first. Where the repo has
+    a drain rule (e.g. "older than N days is scheduled or waived"), the sort
+    is what makes it unignorable.
+  - **Lane** views only if the lane module was taken.
+
+  Ship **no priority field** by default. Milestones already encode order; a
+  second ranking restates it and creates a way for the two to disagree. Add
+  one only if the builder ranks *within* a milestone, and then in their
+  words.
 
 ## 4. Report
 

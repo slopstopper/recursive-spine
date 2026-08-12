@@ -56,9 +56,15 @@ vocabulary as-is (no repo-specific renaming of "issue", "milestone", etc.).
 the three plugins moved into the org. Recorded here as data so the skills
 stay owner-neutral (text).
 
-**`SPINE_BOARD_NUMBER`: 2** — <https://github.com/orgs/slopstopper/projects/2>
-Created 2026-07-08 once the owner ran `gh auth refresh -s project,read:project,admin:org`
-interactively. Issue #14 (board pending) is closed.
+**`SPINE_BOARD_NUMBER`: 3** — <https://github.com/orgs/slopstopper/projects/3>
+("Spine — public", public).
+
+**Corrected 2026-08-12.** This recorded `2` until now, which was stale:
+project 2 ("Spine") is **closed**. A downstream stamp read this note,
+followed it to a closed board, and had to discover the live one by
+listing. Board 2 was created 2026-07-08 once the owner ran
+`gh auth refresh -s project,read:project,admin:org` interactively; issue
+#14 (board pending) closed then and stays closed.
 
 **Membership, as added:** 84 open issues, 84/84 `item-add` calls succeeded.
 
@@ -94,18 +100,34 @@ added without error on 2026-07-08. The
 question is settled; the answer is recorded rather than the question
 quietly deleted.
 
-## Views and auto-add — still to do, by hand
+## Views and auto-add — not "still to do", but not achievable
 
 Views (by repo, by lane, by deferral age) and the board's **auto-add
-workflows** (Project → Settings → Workflows → "Auto-add to project", one
-per repo) are UI-only configuration on Projects v2 and cannot be created
+workflows** are UI-only configuration on Projects v2 and cannot be created
 via the `gh` CLI or the public GraphQL API.
 
-**Consequence, stated plainly:** until auto-add is switched on in the UI,
-the board does **not** pick up newly-filed issues. Its membership is the
-2026-07-08 snapshot above and will silently go stale. The digest skill's
-repo-set fallback (this dialect note) is unaffected and remains correct.
-This is tracked as issue #35.
+**Corrected 2026-08-12 (#128).** This section previously read "still to do,
+by hand", which framed auto-add as configuration nobody had got around to.
+It is not. For a **multi-repo** board it cannot be switched on at all, on
+two limits confirmed in the UI and lifted by no plan tier:
+
+1. **Auto-add cannot cross an owner boundary** — a user-owned project's
+   repository picker does not list organisation repos. Manual `item-add`
+   *does* cross owners, which is what makes the illusion convincing: the
+   board fills up and looks aggregated right until you try to automate it.
+2. **The workflow count is capped per project** — observed as one on both
+   a free org and a paid personal account.
+
+**Consequence, stated plainly:** this board's membership is a snapshot and
+goes stale silently — a stale board looks exactly like a current one.
+Downstream, `slopstopper/plumb-line`'s board was found at 15 of 41 open
+issues with nothing reporting it. The digest skill's repo-set fallback
+(this dialect note) is unaffected and remains correct.
+
+The mechanism answer is the loop Action's `board` input
+(`scripts/spine-board-sweep.sh`), which sweeps membership on the loop's
+cadence. Issue #35 stays open for the **views**, which remain hand-built;
+the auto-add half of it is superseded by #128.
 
 ## pollinate: hives (this installation)
 
