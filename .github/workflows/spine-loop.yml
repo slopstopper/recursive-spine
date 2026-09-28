@@ -14,6 +14,14 @@ jobs:
           tracking-issue: "effythealien/private-hive#2"
           mention: "@effythealien"
           ledger: "effythealien/private-hive:nudges/ledger.md"
+          # The private aggregate board is the one auto-add cannot serve: it is
+          # user-owned, so its picker does not list slopstopper repos at all
+          # (#128). Per-repo boards can use their own single auto-add slot; this
+          # one has to be swept. Private target, so public repos carry no leak —
+          # and the sweep refuses the reverse direction regardless.
+          # Requires SPINE_SWEEP_TOKEN to carry `project` scope; without it the
+          # adds are reported as failures rather than silently skipped.
+          board: "effythealien/2"
           sweep-token: ${{ secrets.SPINE_SWEEP_TOKEN }}
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -36,3 +36,34 @@ your tracking issue and **@mention you**. Slack (Tier 3) is a bonus — see
 
 - **ledger**: `owner/repo:path` of a markdown file used to suppress nudges
   already raised in a prior week. Leave empty to skip suppression.
+
+## Board sweep (optional)
+
+Keeps a Projects v2 board's membership current. Set `board` to enable it;
+leave it empty and the step is skipped entirely.
+
+              board: "you/3"                    # owner/number
+              board-repos: "you/repo-a"         # optional; defaults to `repos`
+              board-dry-run: "0"                # "1" to report drift without adding
+
+**Why this is needed.** GitHub's built-in auto-add workflow cannot keep a
+multi-repo board current ([#128](https://github.com/slopstopper/recursive-spine/issues/128)):
+it does not list organisation repositories in a user-owned project's picker,
+and the workflow count is capped per project. So a board covering more than
+one repo, or a personal board covering org repos, has no built-in way to stay
+current — and the drift is invisible, because a stale board looks exactly like
+a current one. One board was found at 15 of 41 open issues with nothing
+reporting it.
+
+Notes:
+
+- **Membership is read from each issue's `projectItems`, not the project's
+  item list.** The project-side read path lags writes — observed reporting 29
+  items where the issue-side query saw 41 — so it cannot be trusted to decide
+  whether an add is needed.
+- **Fail-closed on visibility.** A private repo is never added to a public
+  board, since that would publish its issue titles; the refusal is reported
+  rather than silent.
+- **Idempotent.** A current board produces "nothing to add" and no writes.
+- Use `board-dry-run: "1"` to measure drift without changing anything — useful
+  for deciding whether a board is worth keeping.
