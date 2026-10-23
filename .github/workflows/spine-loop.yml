@@ -3,11 +3,20 @@ on:
   schedule:
     - cron: "0 8 * * 6"   # Saturday 08:00 UTC
   workflow_dispatch: {}
+# This job holds the highest-value secrets in the public repos (sweep PAT,
+# Anthropic key, Slack webhook), so the job's own GITHUB_TOKEN gets read-only.
+# Cross-repo reads and private-hive writes go through SPINE_SWEEP_TOKEN, not
+# this token. If sweep-token is ever left empty and the tracking issue moves
+# into this repo, the github.token fallback will also need `issues: write`.
+permissions:
+  contents: read
 jobs:
   loop:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          persist-credentials: false
       - uses: ./loop
         with:
           repos: "slopstopper/recursive-spine slopstopper/plumb-line slopstopper/tokenomics effythealien/Veska_Index_App"
